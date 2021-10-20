@@ -62,7 +62,7 @@ namespace UWG_CS3230_FurnitureRental
                 address1 = this.addr1TextBox.Text,
                 address2 = this.addr2TextBox.Text,
                 city = this.cityTextBox.Text,
-                state = this.stateComboBox.Text,
+                state = this.stateComboBox.SelectedValue.ToString(),
                 zip = this.zipTextBox.Text
             };
             return customerAddress;
@@ -76,7 +76,7 @@ namespace UWG_CS3230_FurnitureRental
                 lName = this.lNameTextBox.Text,
                 address = customerAddress,
                 birthday = this.bdayDatePicker.Date.DateTime,
-                gender = this.genderComboBox.Text,
+                gender = this.genderComboBox.SelectedValue.ToString(),
                 phoneNumber = this.phoneTextBox.Text,
                 registrationDate = DateTime.Now
             };

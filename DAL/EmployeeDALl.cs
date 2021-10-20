@@ -93,17 +93,17 @@ namespace UWG_CS3230_FurnitureRental.DAL
             using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
             {
                 connection.Open();
-                String query = "insert into member values(null, @fName, @lName, @gender, @bday, @registrationDate, @phone, @id";
+                String query = "insert into member values(null, @fName, @lName, @gender, @bday, @registrationDate, @phone, @id);";
 
                 using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.Add("@fName", MySqlDbType.VarChar).Value = customer.fName;
                 command.Parameters.Add("@lName", MySqlDbType.VarChar).Value = customer.lName;
                 command.Parameters.Add("@gender", MySqlDbType.VarChar).Value = customer.gender;
-                command.Parameters.Add("@bday", MySqlDbType.VarChar).Value = customer.birthday.Date;
-                command.Parameters.Add("@registrationDate", MySqlDbType.VarChar).Value = customer.registrationDate.Date;
+                command.Parameters.Add("@bday", MySqlDbType.Date).Value = customer.birthday.Date;
+                command.Parameters.Add("@registrationDate", MySqlDbType.Date).Value = customer.registrationDate.Date;
                 command.Parameters.Add("@phone", MySqlDbType.VarChar).Value = customer.phoneNumber;
-                command.Parameters.Add("@id", MySqlDbType.VarChar).Value = addressId;
-
+                command.Parameters.Add("@id", MySqlDbType.Int32).Value = addressId;
+                command.ExecuteNonQuery();
             }
         }
 
@@ -112,7 +112,7 @@ namespace UWG_CS3230_FurnitureRental.DAL
             using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
             {
                 connection.Open();
-                String query = "insert into address values(null, @addr1, @addr2, @city, @state, @zip";
+                String query = "insert into address values(null, @addr1, @addr2, @city, @state, @zip);";
 
                 using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.Add("@addr1", MySqlDbType.VarChar).Value = address.address1;
@@ -120,7 +120,7 @@ namespace UWG_CS3230_FurnitureRental.DAL
                 command.Parameters.Add("@city", MySqlDbType.VarChar).Value = address.city;
                 command.Parameters.Add("@state", MySqlDbType.VarChar).Value = address.state;
                 command.Parameters.Add("@zip", MySqlDbType.VarChar).Value = address.zip;
-
+                command.ExecuteNonQuery();
             }
         }
 
