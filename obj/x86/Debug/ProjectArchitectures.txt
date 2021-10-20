@@ -1,1 +1,1 @@
-C:\Users\benev\Desktop\CS\Fall 2021\Information Management\Project_Iteration2\UWG-CS3230-FurnitureRental.csproj;x86
+C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\UWG-CS3230-FurnitureRental.csproj;x86

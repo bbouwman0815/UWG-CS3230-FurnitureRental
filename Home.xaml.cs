@@ -34,5 +34,28 @@ namespace UWG_CS3230_FurnitureRental
             ContentDialog registerDialog = new RegisterCustomer();
             await registerDialog.ShowAsync();
         }
+
+        private void logoutButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            _ = this.setupLogoutDialogAsync();
+        }
+
+        private async System.Threading.Tasks.Task setupLogoutDialogAsync()
+        {
+            ContentDialog deleteFileDialog = new ContentDialog
+            {
+                Title = "Are you sure you wish to logout?",
+                PrimaryButtonText = "Logout",
+                CloseButtonText = "Cancel"
+            };
+            ContentDialogResult result = await deleteFileDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                Frame.Navigate(typeof(MainPage));
+            }
+            else
+            {
+            }
+        }
     }
 }

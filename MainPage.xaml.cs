@@ -15,6 +15,7 @@ namespace UWG_CS3230_FurnitureRental
         public MainPage()
         {
             this.InitializeComponent();
+            
         }
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
@@ -24,12 +25,17 @@ namespace UWG_CS3230_FurnitureRental
                 this.setLoggedEmployee();
                 Frame.Navigate(typeof(Home));
             }
+            else
+            {
+                this.notifyInvalidCredentialsAsync();
+                this.passwordTextBox.Password = "";
+            }
         }
 
         private void setLoggedEmployee()
         {
             String username = usernameTextBox.Text;
-            String password = passwordTextBox.Text;
+            String password = passwordTextBox.Password.ToString();
             EmployeeDAL dal = new EmployeeDAL();
             LoggedEmployee.CurrentLoggedEmployee = dal.GetEmployeeByLoginInformation(username, password);
         }
@@ -37,11 +43,23 @@ namespace UWG_CS3230_FurnitureRental
         private bool verifyLoginCredentials()
         {
             String username = usernameTextBox.Text;
-            String password = passwordTextBox.Text;
+            String password = passwordTextBox.Password.ToString();
             EmployeeDAL dal = new EmployeeDAL();
             bool isValid = dal.VerifyEmployeeLogin(username, password);
 
             return isValid;
+        }
+
+        private async System.Threading.Tasks.Task notifyInvalidCredentialsAsync()
+        {
+            ContentDialog noWifiDialog = new ContentDialog()
+            {
+                Title = "Invalid Username or Password",
+                Content = "Slow down, ol' timer.",
+                CloseButtonText = "Ok lol"
+            };
+
+            await noWifiDialog.ShowAsync();
         }
     }
 }
