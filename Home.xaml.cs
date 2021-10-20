@@ -19,12 +19,13 @@ namespace UWG_CS3230_FurnitureRental
 
         private void setupEmployeeHeader()
         {
-            String identification = LoggedEmployee.CurrentLoggedEmployee.Fname + " ";
+            String identification = "Employee Name: ";
+            identification += LoggedEmployee.CurrentLoggedEmployee.Fname + " ";
             identification += LoggedEmployee.CurrentLoggedEmployee.Lname;
             identification += Environment.NewLine;
-            identification += LoggedEmployee.CurrentLoggedEmployee.Id;
+            identification += "Employee Number: " + LoggedEmployee.CurrentLoggedEmployee.Id;
             identification += Environment.NewLine;
-            identification += LoggedEmployee.CurrentLoggedEmployee.Pword;
+            identification += "Employee UserName: " + LoggedEmployee.CurrentLoggedEmployee.Uname;
            
             this.EmployeeInfoTextBlock.Text = identification;
         }
