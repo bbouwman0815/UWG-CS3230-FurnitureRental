@@ -38,7 +38,7 @@
         <TextBlock x:Name="addr2Label" Grid.Column="1" HorizontalAlignment="Left" Margin="127,179,0,0" Text="Address 2" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBox x:Name="cityTextBox" HorizontalAlignment="Left" Margin="10,254,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="145"/>
         <TextBlock x:Name="cityLabel" HorizontalAlignment="Left" Margin="10,235,0,0" Text="City" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <ComboBox x:Name="stateComboBox" Grid.Column="1" Margin="127,254,0,0" Width="145" ItemsSource="{x:Bind states}" DisplayMemberPath="Source"/>
+        <ComboBox x:Name="stateComboBox" Grid.Column="1" Margin="127,254,0,0" Width="145" ItemsSource="{x:Bind states}"/>
         <TextBlock x:Name="stateLabel" Grid.Column="1" HorizontalAlignment="Left" Margin="127,235,0,0" Text="State" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBox x:Name="zipTextBox" HorizontalAlignment="Left" Margin="10,314,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="145"/>
         <TextBlock x:Name="zipLabel" HorizontalAlignment="Left" Margin="10,295,0,0" Text="Zip" TextWrapping="Wrap" VerticalAlignment="Top"/>

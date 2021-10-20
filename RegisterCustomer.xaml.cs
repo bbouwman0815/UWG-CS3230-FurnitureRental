@@ -23,6 +23,7 @@ namespace UWG_CS3230_FurnitureRental
     public sealed partial class RegisterCustomer : ContentDialog
     {
         ObservableCollection<String> states = new ObservableCollection<String>();
+
         EmployeeDAL dal = new EmployeeDAL();
 
         public RegisterCustomer()
