@@ -6,11 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Height="736" Width="1161">
 
-    <Grid>
+    <Grid Margin="0,0,10,10" Width="1161" Height="736">
         <TextBlock x:ConnectionId='2' x:Name="EmployeeInfoTextBlock" HorizontalAlignment="Left" Margin="34,28,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="192" Width="322"/>
         <Button x:ConnectionId='3' x:Name="RegisterCustomerButton" Content="Register New Customer" Margin="0,37,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"                                />
+        <Button x:ConnectionId='4' x:Name="logoutButton" Content="Logout" Margin="1046,674,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.679,0.188" Width="80"                           />
     </Grid>
 </Page>
 
