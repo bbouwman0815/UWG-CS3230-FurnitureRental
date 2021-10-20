@@ -1,0 +1,14 @@
+﻿<Page
+    x:Class="UWG_CS3230_FurnitureRental.Home"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWG_CS3230_FurnitureRental"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <TextBlock x:Name="EmployeeInfoTextBlock" HorizontalAlignment="Left" Margin="34,28,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="192" Width="322"/>
+    </Grid>
+</Page>
