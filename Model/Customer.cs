@@ -11,7 +11,7 @@ namespace UWG_CS3230_FurnitureRental.Model
     {
         public string fName;
         public string lName;
-        public char gender;
+        public string gender;
         public DateTime birthday;
         public DateTime registrationDate;
         public string phoneNumber;

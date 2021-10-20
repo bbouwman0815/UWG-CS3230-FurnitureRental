@@ -9,6 +9,7 @@ namespace UWG_CS3230_FurnitureRental.Model
 {
     public class Address
     {
+        public int? id;
         public string address1;
         public string? address2;
         public string city;
