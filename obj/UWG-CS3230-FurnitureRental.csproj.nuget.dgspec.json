@@ -1,24 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cupid\\source\\repos\\UWG-CS3230-FurnitureRental\\UWG-CS3230-FurnitureRental.csproj": {}
+    "C:\\Users\\benev\\Desktop\\CS\\Fall 2021\\Information Management\\Project_Iteration2\\UWG-CS3230-FurnitureRental.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cupid\\source\\repos\\UWG-CS3230-FurnitureRental\\UWG-CS3230-FurnitureRental.csproj": {
+    "C:\\Users\\benev\\Desktop\\CS\\Fall 2021\\Information Management\\Project_Iteration2\\UWG-CS3230-FurnitureRental.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cupid\\source\\repos\\UWG-CS3230-FurnitureRental\\UWG-CS3230-FurnitureRental.csproj",
+        "projectUniqueName": "C:\\Users\\benev\\Desktop\\CS\\Fall 2021\\Information Management\\Project_Iteration2\\UWG-CS3230-FurnitureRental.csproj",
         "projectName": "UWG-CS3230-FurnitureRental",
-        "projectPath": "C:\\Users\\cupid\\source\\repos\\UWG-CS3230-FurnitureRental\\UWG-CS3230-FurnitureRental.csproj",
-        "packagesPath": "C:\\Users\\cupid\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cupid\\source\\repos\\UWG-CS3230-FurnitureRental\\obj\\",
+        "projectPath": "C:\\Users\\benev\\Desktop\\CS\\Fall 2021\\Information Management\\Project_Iteration2\\UWG-CS3230-FurnitureRental.csproj",
+        "packagesPath": "C:\\Users\\benev\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\benev\\Desktop\\CS\\Fall 2021\\Information Management\\Project_Iteration2\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files (x86)\\Microsoft SDKs\\UWPNuGetPackages\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\cupid\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\benev\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

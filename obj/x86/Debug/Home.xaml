@@ -10,6 +10,7 @@
 
     <Grid>
         <TextBlock x:ConnectionId='2' x:Name="EmployeeInfoTextBlock" HorizontalAlignment="Left" Margin="34,28,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="192" Width="322"/>
+        <Button x:ConnectionId='3' x:Name="RegisterCustomerButton" Content="Register New Customer" Margin="0,37,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"                                />
     </Grid>
 </Page>
 

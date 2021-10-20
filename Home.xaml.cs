@@ -28,5 +28,10 @@ namespace UWG_CS3230_FurnitureRental
            
             this.EmployeeInfoTextBlock.Text = identification;
         }
+
+        private void onRegisterCustomerClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+
+        }
     }
 }
