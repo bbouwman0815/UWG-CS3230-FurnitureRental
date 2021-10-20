@@ -19,12 +19,13 @@ namespace UWG_CS3230_FurnitureRental
 
         private void setupEmployeeHeader()
         {
-            String identification = LoggedEmployee.CurrentLoggedEmployee.Fname + " ";
+            String identification = "Employee Name: ";
+            identification += LoggedEmployee.CurrentLoggedEmployee.Fname + " ";
             identification += LoggedEmployee.CurrentLoggedEmployee.Lname;
             identification += Environment.NewLine;
-            identification += LoggedEmployee.CurrentLoggedEmployee.Id;
+            identification += "Employee Number: " + LoggedEmployee.CurrentLoggedEmployee.Id;
             identification += Environment.NewLine;
-            identification += LoggedEmployee.CurrentLoggedEmployee.Pword;
+            identification += "Employee UserName: " + LoggedEmployee.CurrentLoggedEmployee.Uname;
            
             this.EmployeeInfoTextBlock.Text = identification;
         }
@@ -33,6 +34,29 @@ namespace UWG_CS3230_FurnitureRental
         {
             ContentDialog registerDialog = new RegisterCustomer();
             await registerDialog.ShowAsync();
+        }
+
+        private void logoutButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            _ = this.setupLogoutDialogAsync();
+        }
+
+        private async System.Threading.Tasks.Task setupLogoutDialogAsync()
+        {
+            ContentDialog deleteFileDialog = new ContentDialog
+            {
+                Title = "Are you sure you wish to logout?",
+                PrimaryButtonText = "Logout",
+                CloseButtonText = "Cancel"
+            };
+            ContentDialogResult result = await deleteFileDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                Frame.Navigate(typeof(MainPage));
+            }
+            else
+            {
+            }
         }
     }
 }

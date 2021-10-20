@@ -6,12 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="1161" Height="736">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="951" Height="590">
 
-    <Grid>
-        <Button x:Name="loginButton" Content="Login" Margin="0,368,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.065,-7.688" Width="74" HorizontalAlignment="Center" Click="loginButton_Click"/>
+    <Grid Margin="0,0,10,10">
+        <Button x:Name="loginButton" Content="Login" Margin="0,347,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.065,-7.688" Width="74" HorizontalAlignment="Center" Click="loginButton_Click"/>
         <TextBox x:Name="usernameTextBox" HorizontalAlignment="Center" Margin="0,261,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="Enter Username:" Width="169"/>
-        <TextBox x:Name="passwordTextBox" HorizontalAlignment="Center" Margin="0,311,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.368,3.281" PlaceholderText="Enter Password:" Width="169"/>
+        <PasswordBox x:Name="passwordTextBox" HorizontalAlignment="Center" Margin="0,298,0,0" VerticalAlignment="Top" Width="169" PlaceholderText="Enter Password:"/>
 
     </Grid>
 </Page>
