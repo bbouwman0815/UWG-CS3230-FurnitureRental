@@ -48,7 +48,6 @@ namespace UWG_CS3230_FurnitureRental.DAL
 
             }
             return furnitureList;
-
         }
 
         public ObservableCollection<Furniture> getFurnitureByCategory(int categoryId)
@@ -82,7 +81,6 @@ namespace UWG_CS3230_FurnitureRental.DAL
 
             }
             return furnitureList;
-
         }
 
         public string getCategoryTypeById(int categoryId)
@@ -106,7 +104,6 @@ namespace UWG_CS3230_FurnitureRental.DAL
 
             }
             return category;
-
         }
 
         public int getCategoryIdByType(string type)
@@ -130,7 +127,6 @@ namespace UWG_CS3230_FurnitureRental.DAL
 
             }
             return id;
-
         }
 
         public int getStyleIdByType(string type)
@@ -154,7 +150,6 @@ namespace UWG_CS3230_FurnitureRental.DAL
 
             }
             return id;
-
         }
 
         public ObservableCollection<Furniture> getFurnitureByStyle(int styleId)
@@ -188,7 +183,6 @@ namespace UWG_CS3230_FurnitureRental.DAL
 
             }
             return furnitureList;
-
         }
 
         public ObservableCollection<Furniture> getFurnitureBySearch(string search)
@@ -219,10 +213,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
                     });
 
                 }
-
             }
             return furnitureList;
-
         }
     }
 }

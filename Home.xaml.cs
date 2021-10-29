@@ -17,7 +17,9 @@ namespace UWG_CS3230_FurnitureRental
         private readonly EmployeeDAL dal = new EmployeeDAL();
         private readonly FurnitureDAL fdal = new FurnitureDAL();
 
-        private ObservableCollection<Furniture> furniture;
+        private ObservableCollection<Furniture> customerOrder = new ObservableCollection<Furniture>();
+
+        private Furniture selectedFurniture { get; set; }
 
         public Home()
         {
@@ -70,24 +72,22 @@ namespace UWG_CS3230_FurnitureRental
             }
         }
 
-        private async System.Threading.Tasks.Task notifyInvalidSearchResult()
-        {
-            ContentDialog noWifiDialog = new ContentDialog()
-            {
-                Title = "Invalid search result.",
-                Content = "Use the Help option to see the search possibilities.",
-                CloseButtonText = "Ok lol"
-            };
-
-            await noWifiDialog.ShowAsync();
-        }
-
-        private void searchButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void HandleSearchTextChange(object sender, TextChangedEventArgs e)
         {
             string search = this.searchInputTextBox.Text;
 
             ObservableCollection<Furniture> furniture = this.fdal.getFurnitureBySearch(search);
             this.furnitureListView.ItemsSource = furniture;
+        }
+
+        private void addFurnitureButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if (this.furnitureListView.SelectedItem != null)
+            {
+                this.customerOrder.Add((Furniture)this.furnitureListView.SelectedItems[0]);
+                this.orderListView.ItemsSource = this.customerOrder;
+                
+            }
         }
     }
 }
