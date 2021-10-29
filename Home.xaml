@@ -12,5 +12,9 @@
         <TextBlock x:Name="EmployeeInfoTextBlock" HorizontalAlignment="Left" Margin="34,28,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="192" Width="322"/>
         <Button x:Name="RegisterCustomerButton" Content="Register New Customer" Margin="0,37,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Click="onRegisterCustomerClick"/>
         <Button x:Name="logoutButton" Content="Logout" Margin="1046,674,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.679,0.188" Width="80" Click="logoutButton_Click"/>
+        <ListView x:Name="furnitureListView" Margin="429,184,485,144" RequestedTheme="Default" Header="Available Inventory">
+        </ListView>
+        <TextBox x:Name="searchInputTextBox" HorizontalAlignment="Left" Margin="429,147,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.691,-0.047" Width="161" PlaceholderText="Ex) Modern"/>
+        <Button x:Name="searchButton" Content="Search" Margin="595,147,0,0" VerticalAlignment="Top" Width="81" Click="searchButton_Click"/>
     </Grid>
 </Page>

@@ -1,6 +1,9 @@
 ﻿using System;
 using Windows.UI.Xaml.Controls;
 using UWG_CS3230_FurnitureRental.Model;
+using UWG_CS3230_FurnitureRental.DAL;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -11,6 +14,11 @@ namespace UWG_CS3230_FurnitureRental
     /// </summary>
     public sealed partial class Home : Page
     {
+        private readonly EmployeeDAL dal = new EmployeeDAL();
+        private readonly FurnitureDAL fdal = new FurnitureDAL();
+
+        private ObservableCollection<Furniture> furniture;
+
         public Home()
         {
             this.InitializeComponent();
@@ -28,6 +36,9 @@ namespace UWG_CS3230_FurnitureRental
             identification += "Employee UserName: " + LoggedEmployee.CurrentLoggedEmployee.Uname;
            
             this.EmployeeInfoTextBlock.Text = identification;
+
+            ObservableCollection<Furniture> furniture = this.fdal.getFurnitureInventory();
+            this.furnitureListView.ItemsSource = furniture;
         }
 
         private async void onRegisterCustomerClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -57,6 +68,26 @@ namespace UWG_CS3230_FurnitureRental
             else
             {
             }
+        }
+
+        private async System.Threading.Tasks.Task notifyInvalidSearchResult()
+        {
+            ContentDialog noWifiDialog = new ContentDialog()
+            {
+                Title = "Invalid search result.",
+                Content = "Use the Help option to see the search possibilities.",
+                CloseButtonText = "Ok lol"
+            };
+
+            await noWifiDialog.ShowAsync();
+        }
+
+        private void searchButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            string search = this.searchInputTextBox.Text;
+
+            ObservableCollection<Furniture> furniture = this.fdal.getFurnitureBySearch(search);
+            this.furnitureListView.ItemsSource = furniture;
         }
     }
 }

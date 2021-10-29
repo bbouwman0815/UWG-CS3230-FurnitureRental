@@ -123,6 +123,7 @@
     <Compile Include="DAL\Connection.cs" />
     <Compile Include="DAL\DataReaderHelper.cs" />
     <Compile Include="DAL\EmployeeDALl.cs" />
+    <Compile Include="DAL\FurnitureDALI.cs" />
     <Compile Include="Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
@@ -131,6 +132,7 @@
     </Compile>
     <Compile Include="Model\Address.cs" />
     <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\Furniture.cs" />
     <Compile Include="Model\LoggedEmployee.cs" />
     <Compile Include="Model\States.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
