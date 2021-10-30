@@ -25,6 +25,7 @@ namespace UWG_CS3230_FurnitureRental
         {
             this.InitializeComponent();
             this.setupEmployeeHeader();
+            this.hideOrder();
         }
 
         private void setupEmployeeHeader()
@@ -72,6 +73,26 @@ namespace UWG_CS3230_FurnitureRental
             }
         }
 
+        private async System.Threading.Tasks.Task setupCancelOrderDialogAsync()
+        {
+            ContentDialog cancelOrderDialog = new ContentDialog
+            {
+                Title = "Are you sure you wish to cancel the order?",
+                PrimaryButtonText = "Yes",
+                CloseButtonText = "No"
+            };
+            ContentDialogResult result = await cancelOrderDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                this.placeNewOrderButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                this.hideOrder();
+            }
+            else
+            {
+             
+            }
+        }
+
         private void HandleSearchTextChange(object sender, TextChangedEventArgs e)
         {
             string search = this.searchInputTextBox.Text;
@@ -88,6 +109,47 @@ namespace UWG_CS3230_FurnitureRental
                 this.orderListView.ItemsSource = this.customerOrder;
                 
             }
+        }
+
+        private void displayOrder()
+        {
+            this.addFurnitureButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.placeOrderButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.cancelOrderButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.orderBorder.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.orderDetailsTextBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.orderTotalTextBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.orderListView.Visibility = Windows.UI.Xaml.Visibility.Visible;
+        }
+
+        private void hideOrder()
+        {
+            this.addFurnitureButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.placeOrderButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.cancelOrderButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.orderBorder.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.orderDetailsTextBox.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.orderTotalTextBox.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.orderListView.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
+            this.customerOrder.Clear();
+            this.orderListView.ItemsSource = this.customerOrder;
+        }
+
+        private void placeNewOrderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            this.displayOrder();
+            this.placeNewOrderButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+        }
+
+        private void placeOrderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+
+        }
+
+        private void cancelOrderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            _ = this.setupCancelOrderDialogAsync();
         }
     }
 }

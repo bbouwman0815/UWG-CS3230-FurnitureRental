@@ -17,14 +17,14 @@
         </ListView>
         <TextBox x:ConnectionId='6' x:Name="searchInputTextBox" HorizontalAlignment="Left" Margin="114,183,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.691,-0.047" Width="247" PlaceholderText="Search for furniture"                                     />
         <Border BorderThickness="1" BorderBrush="Black" Margin="71,143,760,67"/>
-        <Button x:ConnectionId='7' x:Name="placeOrderButton" Content="Place New Order" Margin="72,674,0,0" VerticalAlignment="Top" Width="330"/>
+        <Button x:ConnectionId='7' x:Name="placeNewOrderButton" Content="Place New Order" Margin="72,674,0,0" VerticalAlignment="Top" Width="330"                                  />
         <Button x:ConnectionId='8' x:Name="addFurnitureButton" Content="+" Margin="356,101,0,0" VerticalAlignment="Top" Width="45" FontSize="18"                                 />
         <ListView x:ConnectionId='9' x:Name="orderListView" Margin="477,232,437,124" Width="247" />
-        <Button x:ConnectionId='10' x:Name="placeOrderButton1" Content="Place Order" Margin="436,674,0,0" VerticalAlignment="Top" Width="165"/>
-        <Button x:ConnectionId='11' x:Name="cancelOrderButton" Content="Cancel Order" Margin="606,674,0,0" VerticalAlignment="Top" Width="160"/>
-        <Border BorderThickness="1" BorderBrush="Black" Margin="436,143,395,67"/>
-        <TextBox x:ConnectionId='12' x:Name="orderDetailsTextBox" HorizontalAlignment="Left" Margin="477,183,0,0" Text="Order Details" TextWrapping="Wrap" VerticalAlignment="Top" Width="235"/>
-        <TextBox x:ConnectionId='13' x:Name="orderTotalTextBox" HorizontalAlignment="Left" Margin="550,617,0,0" Text="Order Total: " TextWrapping="Wrap" VerticalAlignment="Top" Width="174"/>
+        <Button x:ConnectionId='10' x:Name="placeOrderButton" Content="Place Order" Margin="436,674,0,0" VerticalAlignment="Top" Width="165"                               />
+        <Button x:ConnectionId='11' x:Name="cancelOrderButton" Content="Cancel Order" Margin="606,674,0,0" VerticalAlignment="Top" Width="160"                                />
+        <Border x:ConnectionId='12' x:Name="orderBorder" BorderThickness="1" BorderBrush="Black" Margin="436,143,395,67"/>
+        <TextBox x:ConnectionId='13' x:Name="orderDetailsTextBox" HorizontalAlignment="Left" Margin="477,183,0,0" Text="Order Details" TextWrapping="Wrap" VerticalAlignment="Top" Width="235"/>
+        <TextBox x:ConnectionId='14' x:Name="orderTotalTextBox" HorizontalAlignment="Left" Margin="550,617,0,0" Text="Order Total: " TextWrapping="Wrap" VerticalAlignment="Top" Width="174"/>
     </Grid>
 </Page>
 
