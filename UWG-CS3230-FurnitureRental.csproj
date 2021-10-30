@@ -134,11 +134,14 @@
     <Compile Include="Model\Customer.cs" />
     <Compile Include="Model\Furniture.cs" />
     <Compile Include="Model\LoggedEmployee.cs" />
+    <Compile Include="Model\RentalItem.cs" />
+    <Compile Include="Model\RentalTransaction.cs" />
     <Compile Include="Model\States.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterCustomer.xaml.cs">
       <DependentUpon>RegisterCustomer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\OrderFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

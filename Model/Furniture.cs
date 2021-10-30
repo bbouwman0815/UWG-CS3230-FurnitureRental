@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UWG_CS3230_FurnitureRental.DAL;
 
 namespace UWG_CS3230_FurnitureRental.Model
 {
@@ -17,7 +18,10 @@ namespace UWG_CS3230_FurnitureRental.Model
 
         public override string ToString()
         {
-            return "Furniture: " + Description;
+            FurnitureDAL dal = new FurnitureDAL();
+            string style = dal.getStyleTypeById(this.StyleId);
+            string category = dal.getCategoryTypeById(this.CategoryId);
+            return category + " " + style + " " + this.Description;
         }
     }
 }

@@ -4,6 +4,7 @@ using UWG_CS3230_FurnitureRental.Model;
 using UWG_CS3230_FurnitureRental.DAL;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using UWG_CS3230_FurnitureRental.Utilities;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -18,6 +19,7 @@ namespace UWG_CS3230_FurnitureRental
         private readonly FurnitureDAL fdal = new FurnitureDAL();
 
         private ObservableCollection<Furniture> customerOrder = new ObservableCollection<Furniture>();
+        private ObservableCollection<RentalItem> rentalItems = new ObservableCollection<RentalItem>();
 
         private Furniture selectedFurniture { get; set; }
 
@@ -26,6 +28,13 @@ namespace UWG_CS3230_FurnitureRental
             this.InitializeComponent();
             this.setupEmployeeHeader();
             this.hideOrder();
+            this.setupQuantity();
+        }
+
+        private void setupQuantity()
+        {
+            ObservableCollection<int> rentalItems = new ObservableCollection<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            this.quantityComboBox.ItemsSource = rentalItems;
         }
 
         private void setupEmployeeHeader()
@@ -105,9 +114,18 @@ namespace UWG_CS3230_FurnitureRental
         {
             if (this.furnitureListView.SelectedItem != null)
             {
-                this.customerOrder.Add((Furniture)this.furnitureListView.SelectedItems[0]);
-                this.orderListView.ItemsSource = this.customerOrder;
-                
+                Furniture furniture = (Furniture)this.furnitureListView.SelectedItems[0];
+                int quantity = Int32.Parse(this.quantityComboBox.SelectedValue.ToString());
+                double price = Convert.ToDouble(this.priceTextBox.Text);
+                RentalItem rentalItem = new RentalItem(furniture.Id, quantity, price);
+
+                this.rentalItems.Add(rentalItem);
+                this.orderListView.ItemsSource = this.rentalItems;
+                this.orderTotalTextBox.Text = OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
+
+                //this.customerOrder.Add((Furniture)this.furnitureListView.SelectedItems[0]);
+                //this.orderListView.ItemsSource = this.customerOrder;
+
             }
         }
 
@@ -120,6 +138,8 @@ namespace UWG_CS3230_FurnitureRental
             this.orderDetailsTextBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.orderTotalTextBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.orderListView.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.quantityComboBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.priceTextBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
         }
 
         private void hideOrder()
@@ -131,6 +151,8 @@ namespace UWG_CS3230_FurnitureRental
             this.orderDetailsTextBox.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             this.orderTotalTextBox.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             this.orderListView.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.quantityComboBox.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.priceTextBox.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
 
             this.customerOrder.Clear();
             this.orderListView.ItemsSource = this.customerOrder;

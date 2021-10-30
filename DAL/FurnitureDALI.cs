@@ -106,6 +106,29 @@ namespace UWG_CS3230_FurnitureRental.DAL
             return category;
         }
 
+        public string getStyleTypeById(int styleId)
+        {
+            String category = "";
+            using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
+            {
+                connection.Open();
+                String query = "select type from style where id = @styleId;";
+
+                using MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.Add("@styleId", MySqlDbType.Int32).Value = styleId;
+
+                using MySqlDataReader reader = command.ExecuteReader();
+                int typeordinal = reader.GetOrdinal("type");
+
+                while (reader.Read())
+                {
+                    category = reader.GetFieldValueCheckNull<string>(typeordinal);
+                }
+
+            }
+            return category;
+        }
+
         public int getCategoryIdByType(string type)
         {
             int id = -1;
@@ -183,6 +206,39 @@ namespace UWG_CS3230_FurnitureRental.DAL
 
             }
             return furnitureList;
+        }
+
+        public Furniture GetFurnitureById(int id)
+        {
+            Furniture furniture = new Furniture();
+            using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
+            {
+                connection.Open();
+                String query = "select * from furniture where id = @id;";
+
+                using MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
+
+                using MySqlDataReader reader = command.ExecuteReader();
+                int idordinal = reader.GetOrdinal("id");
+                int styleordinal = reader.GetOrdinal("styleId");
+                int categoryordinal = reader.GetOrdinal("categoryId");
+                int descriptionordinal = reader.GetOrdinal("description");
+
+                while (reader.Read())
+                {
+                    furniture = (new Furniture
+                    {
+                        Id = reader.GetFieldValueCheckNull<int>(idordinal),
+                        StyleId = reader.GetFieldValueCheckNull<int>(styleordinal),
+                        CategoryId = reader.GetFieldValueCheckNull<int>(categoryordinal),
+                        Description = reader.GetFieldValueCheckNull<string>(descriptionordinal)
+                    });
+
+                }
+
+            }
+            return furniture;
         }
 
         public ObservableCollection<Furniture> getFurnitureBySearch(string search)
