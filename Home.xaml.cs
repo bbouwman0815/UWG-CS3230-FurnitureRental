@@ -18,16 +18,27 @@ namespace UWG_CS3230_FurnitureRental
         private readonly EmployeeDAL dal = new EmployeeDAL();
         private readonly FurnitureDAL fdal = new FurnitureDAL();
 
-        private ObservableCollection<Furniture> inventory = new ObservableCollection<Furniture>();
-        private ObservableCollection<RentalItem> rentalItems = new ObservableCollection<RentalItem>();
+        private ObservableCollection<Furniture> inventory { get; set; }
+        private ObservableCollection<RentalItem> rentalItems { get; set; }
 
         private Furniture selectedFurniture { get; set; }
+
+        private RentalItem selectedRentalItem { get; set; }
 
         public Home()
         {
             this.InitializeComponent();
+            this.initializeCollections();
             this.setupEmployeeHeader();
             this.hideOrder();
+        }
+
+        private void initializeCollections()
+        {
+            this.inventory = new ObservableCollection<Furniture>();
+            this.rentalItems = new ObservableCollection<RentalItem>();
+            this.selectedFurniture = new Furniture();
+            this.selectedRentalItem = new RentalItem();
         }
 
         private void setupQuantity()
@@ -112,7 +123,6 @@ namespace UWG_CS3230_FurnitureRental
             if (result == ContentDialogResult.Primary)
             {
                 this.rentalItems.Remove(rentalItem);
-                this.orderListView.ItemsSource = this.rentalItems;
                 this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
             }
         }
@@ -131,8 +141,9 @@ namespace UWG_CS3230_FurnitureRental
         private void HandleSearchTextChange(object sender, TextChangedEventArgs e)
         {
             string search = this.searchInputTextBox.Text;
-
-            this.inventory = this.fdal.getFurnitureBySearch(search);
+            ObservableCollection<Furniture> foundFurniture = this.fdal.getFurnitureBySearch(search);
+            this.inventory = foundFurniture;
+            this.furnitureListView.ItemsSource = this.inventory;
         }
 
         private void addFurnitureButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)

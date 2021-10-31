@@ -23,6 +23,11 @@ namespace UWG_CS3230_FurnitureRental.Model
             this.DailyRentalRate = dailyRentalRate;
         }
 
+        public RentalItem()
+        {
+          
+        }
+
         public override string ToString()
         {
             FurnitureDAL dal = new FurnitureDAL();

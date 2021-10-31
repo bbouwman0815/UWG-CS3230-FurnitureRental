@@ -17,12 +17,14 @@
         </TextBlock>
         <Button x:ConnectionId='3' x:Name="RegisterCustomerButton" Content="Register New Customer" Margin="973,19,0,0" VerticalAlignment="Top"                                />
         <Button x:ConnectionId='4' x:Name="logoutButton" Content="Logout" Margin="1066,738,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.679,0.188" Width="68"                           />
-        <ListView x:ConnectionId='5' x:Name="furnitureListView" Margin="113,230,648,121" RequestedTheme="Default" Header="Inventory"                                                                           >
+        <ListView x:ConnectionId='5' x:Name="furnitureListView" Margin="113,230,648,121" RequestedTheme="Default" Header="Inventory"                                               
+                                                                                                                                    >
         </ListView>
-        <TextBox x:ConnectionId='6' x:Name="searchInputTextBox" HorizontalAlignment="Left" Margin="109,177,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.691,-0.047" Width="247" PlaceholderText="Search for furniture"                                     />
+        <TextBox x:ConnectionId='6' x:Name="searchInputTextBox" HorizontalAlignment="Left" Margin="109,177,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="247" PlaceholderText="Search for furniture"                                     />
         <Button x:ConnectionId='7' x:Name="placeNewOrderButton" Content="Place New Order" Margin="95,675,0,0" VerticalAlignment="Top" Width="436"                                   Height="37"/>
         <Button x:ConnectionId='8' x:Name="addFurnitureButton" Content="+" Margin="468,174,0,0" VerticalAlignment="Top" Width="45" FontSize="18"                                 />
-        <ListView x:ConnectionId='9' x:Name="orderListView" Margin="639,230,102,194"                                   />
+        <ListView x:ConnectionId='9' x:Name="orderListView" Margin="639,230,102,194"                                                 
+                                                                                           />
         <Button x:ConnectionId='10' x:Name="placeOrderButton" Content="Place Order" Margin="860,675,0,0" VerticalAlignment="Top" Width="238"                                Height="37"/>
         <Button x:ConnectionId='11' x:Name="cancelOrderButton" Content="Cancel Order" Margin="617,675,0,0" VerticalAlignment="Top" Width="238"                                 Height="37"/>
         <TextBox x:ConnectionId='12' x:Name="orderDetailsTextBox" HorizontalAlignment="Left" Margin="639,177,0,0" Text="Order Details" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" IsReadOnly="True"/>
