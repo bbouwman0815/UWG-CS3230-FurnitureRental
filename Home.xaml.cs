@@ -28,13 +28,16 @@ namespace UWG_CS3230_FurnitureRental
             this.InitializeComponent();
             this.setupEmployeeHeader();
             this.hideOrder();
-            this.setupQuantity();
         }
 
         private void setupQuantity()
         {
-            ObservableCollection<int> rentalItems = new ObservableCollection<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-            this.quantityComboBox.ItemsSource = rentalItems;
+            if ((Furniture)this.furnitureListView.SelectedItems[0] != null)
+            {
+                Furniture furniture = (Furniture)this.furnitureListView.SelectedItems[0];
+                ObservableCollection<int> rentalItemQuantity = furniture.GetQuantityRange();
+                this.quantityComboBox.ItemsSource = rentalItemQuantity;
+            }
         }
 
         private void setupEmployeeHeader()
@@ -91,6 +94,8 @@ namespace UWG_CS3230_FurnitureRental
             if (result == ContentDialogResult.Primary)
             {
                 this.placeNewOrderButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                this.priceTextBox.Text = "";
+                this.quantityComboBox.SelectedIndex = 0;
                 this.hideOrder();
             }
         }
@@ -146,6 +151,8 @@ namespace UWG_CS3230_FurnitureRental
             RentalItem rentalItem = new RentalItem(furniture.Id, quantity, price);
 
             this.rentalItems.Add(rentalItem);
+            furniture.UpdateQuantity(quantity);
+            this.setupQuantity();
             this.orderListView.ItemsSource = this.rentalItems;
             this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
 
@@ -206,6 +213,11 @@ namespace UWG_CS3230_FurnitureRental
             {
                 _ = this.setupCancelOrderItem();
             }    
+        }
+
+        private void handleSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.setupQuantity();
         }
     }
 }
