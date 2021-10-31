@@ -121,6 +121,14 @@ namespace UWG_CS3230_FurnitureRental
             {
                 this.rentalItems.Remove(rentalItem);
                 this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
+
+                foreach (Furniture currentFurniture in this.inventory)
+                {
+                    if (currentFurniture.Id == rentalItem.FurnitureId)
+                    {
+                        currentFurniture.UpdateQuantity(rentalItem.Quantity, "remove");
+                    }
+                }
             }
         }
 
