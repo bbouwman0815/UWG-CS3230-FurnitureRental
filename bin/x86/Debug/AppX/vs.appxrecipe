@@ -30,13 +30,13 @@
     <AppXManifest Include="C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2021-10-31T21:37:19.448</Modified>
+      <Modified>2021-10-31T22:30:48.416</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\bin\x86\Debug\UWG-CS3230-FurnitureRental.exe">
       <PackagePath>entrypoint\UWG-CS3230-FurnitureRental.exe</PackagePath>
-      <Modified>2021-10-31T21:37:18.692</Modified>
+      <Modified>2021-10-31T22:30:47.732</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\cupid\.nuget\packages\bouncycastle.netcore\1.8.5\lib\netstandard2.0\BouncyCastle.Crypto.dll">
       <PackagePath>BouncyCastle.Crypto.dll</PackagePath>
@@ -96,61 +96,61 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\Properties\Default.rd.xml">
       <PackagePath>Properties\Default.rd.xml</PackagePath>
-      <Modified>2021-10-31T20:52:18.038</Modified>
+      <Modified>2021-10-31T21:39:15.007</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
-      <Modified>2021-10-31T20:52:18.030</Modified>
+      <Modified>2021-10-31T21:39:14.999</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2021-10-31T20:52:18.031</Modified>
+      <Modified>2021-10-31T21:39:14.999</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\Assets\Square150x150Logo.scale-200.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2021-10-31T20:52:18.031</Modified>
+      <Modified>2021-10-31T21:39:14.999</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\Assets\Square44x44Logo.scale-200.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2021-10-31T20:52:18.031</Modified>
+      <Modified>2021-10-31T21:39:14.999</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2021-10-31T20:52:18.032</Modified>
+      <Modified>2021-10-31T21:39:14.999</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\Assets\StoreLogo.png">
       <PackagePath>Assets\StoreLogo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2021-10-31T20:52:18.032</Modified>
+      <Modified>2021-10-31T21:39:14.999</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2021-10-31T20:52:18.032</Modified>
+      <Modified>2021-10-31T21:39:15.001</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\bin\x86\Debug\UWG-CS3230-FurnitureRental.xr.xml">
       <PackagePath>UWG-CS3230-FurnitureRental.xr.xml</PackagePath>
-      <Modified>2021-10-31T21:33:16.498</Modified>
+      <Modified>2021-10-31T22:22:10.483</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\bin\x86\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
-      <Modified>2021-10-31T21:37:18.608</Modified>
+      <Modified>2021-10-31T22:30:47.645</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\bin\x86\Debug\Home.xbf">
       <PackagePath>Home.xbf</PackagePath>
-      <Modified>2021-10-31T21:37:18.608</Modified>
+      <Modified>2021-10-31T22:30:47.645</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\bin\x86\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
-      <Modified>2021-10-31T21:37:18.608</Modified>
+      <Modified>2021-10-31T22:30:47.645</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\bin\x86\Debug\RegisterCustomer.xbf">
       <PackagePath>RegisterCustomer.xbf</PackagePath>
-      <Modified>2021-10-31T21:37:18.608</Modified>
+      <Modified>2021-10-31T22:30:47.645</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.18362.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -158,11 +158,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2021-10-31T21:37:18.824</Modified>
+      <Modified>2021-10-31T22:30:47.866</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\cupid\Desktop\UWG-CS3230-FurnitureRental\bin\x86\Debug\Core\UWG-CS3230-FurnitureRental.exe">
       <PackagePath>UWG-CS3230-FurnitureRental.exe</PackagePath>
-      <Modified>2021-10-31T21:37:19.444</Modified>
+      <Modified>2021-10-31T22:30:48.412</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

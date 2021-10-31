@@ -70,11 +70,15 @@ namespace UWG_CS3230_FurnitureRental.Model
             return this.Available > 0;
         }
 
-        public void UpdateQuantity(int rented)
+        public void UpdateQuantity(int rented, string procedure)
         {
-            if (this.CheckQuantityAvailableForRequest(rented))
+            if (this.CheckQuantityAvailableForRequest(rented) & procedure == "add")
             {
                 this.Available = this.Available - rented;
+            }
+            if (procedure == "remove")
+            {
+                this.Available = this.Available + rented;
             }
         }
     }

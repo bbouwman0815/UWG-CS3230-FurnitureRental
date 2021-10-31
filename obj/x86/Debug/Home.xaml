@@ -30,7 +30,8 @@
         <TextBox x:ConnectionId='12' x:Name="orderDetailsTextBox" HorizontalAlignment="Left" Margin="639,177,0,0" Text="Order Details" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" IsReadOnly="True"/>
         <TextBox x:ConnectionId='13' x:Name="orderTotalTextBox" HorizontalAlignment="Left" Margin="828,608,0,0" Text="Order Total: " TextWrapping="Wrap" VerticalAlignment="Top" Width="205" IsReadOnly="True"/>
         <TextBox x:ConnectionId='14' x:Name="priceTextBox" HorizontalAlignment="Left" Margin="306,677,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="143" Height="37" PlaceholderText="Enter Price"/>
-        <ComboBox x:ConnectionId='15' x:Name="quantityComboBox" Margin="454,677,0,0" Width="74" Height="38" PlaceholderText="Qty"/>
+        <ComboBox x:ConnectionId='15' x:Name="quantityComboBox" Margin="454,677,0,0" Width="74" Height="38" PlaceholderText="Qty"
+                                    />
         <Button x:ConnectionId='16' x:Name="removeFurnitureButton" Content="-" Margin="1014,175,0,0" VerticalAlignment="Top" Width="45" FontSize="18"                                    />
         <Border BorderThickness="1" BorderBrush="Black" Margin="95,147,630,116"/>
         <Border x:ConnectionId='17' x:Name="orderBorder" BorderThickness="1" BorderBrush="Black" Margin="617,147,76,116"/>

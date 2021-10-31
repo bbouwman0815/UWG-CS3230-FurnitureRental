@@ -21,9 +21,13 @@ namespace UWG_CS3230_FurnitureRental
         private ObservableCollection<Furniture> inventory { get; set; }
         private ObservableCollection<RentalItem> rentalItems { get; set; }
 
+        private ObservableCollection<int> quantityAv { get; set; }
+
         private Furniture selectedFurniture { get; set; }
 
         private RentalItem selectedRentalItem { get; set; }
+
+        private int selectedQuantity { get; set; }
 
         public Home()
         {
@@ -37,18 +41,11 @@ namespace UWG_CS3230_FurnitureRental
         {
             this.inventory = new ObservableCollection<Furniture>();
             this.rentalItems = new ObservableCollection<RentalItem>();
+            this.quantityAv = new ObservableCollection<int>();
+            this.quantityComboBox.ItemsSource = this.quantityAv;
             this.selectedFurniture = new Furniture();
             this.selectedRentalItem = new RentalItem();
-        }
-
-        private void setupQuantity()
-        {
-            if ((Furniture)this.furnitureListView.SelectedItems[0] != null)
-            {
-                Furniture furniture = (Furniture)this.furnitureListView.SelectedItems[0];
-                ObservableCollection<int> rentalItemQuantity = furniture.GetQuantityRange();
-                this.quantityComboBox.ItemsSource = rentalItemQuantity;
-            }
+            this.selectedQuantity = 0;
         }
 
         private void setupEmployeeHeader()
@@ -154,14 +151,16 @@ namespace UWG_CS3230_FurnitureRental
                 return;
             }
 
-            Furniture furniture = (Furniture)this.furnitureListView.SelectedItems[0];
+            Furniture furniture = this.selectedFurniture;
             int quantity = Int32.Parse(this.quantityComboBox.SelectedValue.ToString());
             double price = Convert.ToDouble(this.priceTextBox.Text);
             RentalItem rentalItem = new RentalItem(furniture.Id, quantity, price);
 
             this.rentalItems.Add(rentalItem);
-            furniture.UpdateQuantity(quantity);
-            this.setupQuantity();
+            furniture.UpdateQuantity(quantity, "add");
+            this.quantityAv = new ObservableCollection<int>();
+            this.selectedFurniture = null;
+   
             this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
 
             this.priceTextBox.Text = "";
@@ -224,7 +223,11 @@ namespace UWG_CS3230_FurnitureRental
 
         private void handleSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            this.setupQuantity();
+            if (this.selectedFurniture != null)
+            {
+                this.quantityAv = this.selectedFurniture.GetQuantityRange();
+                this.quantityComboBox.ItemsSource = this.quantityAv;
+            }
         }
     }
 }
