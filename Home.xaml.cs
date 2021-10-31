@@ -18,7 +18,7 @@ namespace UWG_CS3230_FurnitureRental
         private readonly EmployeeDAL dal = new EmployeeDAL();
         private readonly FurnitureDAL fdal = new FurnitureDAL();
 
-        private ObservableCollection<Furniture> customerOrder = new ObservableCollection<Furniture>();
+        private ObservableCollection<Furniture> inventory = new ObservableCollection<Furniture>();
         private ObservableCollection<RentalItem> rentalItems = new ObservableCollection<RentalItem>();
 
         private Furniture selectedFurniture { get; set; }
@@ -52,8 +52,7 @@ namespace UWG_CS3230_FurnitureRental
            
             this.EmployeeInfoTextBlock.Text = identification;
 
-            ObservableCollection<Furniture> furniture = this.fdal.getFurnitureInventory();
-            this.furnitureListView.ItemsSource = furniture;
+            this.inventory = this.fdal.getFurnitureInventory();
         }
 
         private async void onRegisterCustomerClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -133,8 +132,7 @@ namespace UWG_CS3230_FurnitureRental
         {
             string search = this.searchInputTextBox.Text;
 
-            ObservableCollection<Furniture> furniture = this.fdal.getFurnitureBySearch(search);
-            this.furnitureListView.ItemsSource = furniture;
+            this.inventory = this.fdal.getFurnitureBySearch(search);
         }
 
         private void addFurnitureButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -153,7 +151,6 @@ namespace UWG_CS3230_FurnitureRental
             this.rentalItems.Add(rentalItem);
             furniture.UpdateQuantity(quantity);
             this.setupQuantity();
-            this.orderListView.ItemsSource = this.rentalItems;
             this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
 
             this.priceTextBox.Text = "";
@@ -187,8 +184,7 @@ namespace UWG_CS3230_FurnitureRental
             this.priceTextBox.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             this.removeFurnitureButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
 
-            this.customerOrder.Clear();
-            this.orderListView.ItemsSource = this.customerOrder;
+            this.rentalItems.Clear();
         }
 
         private void placeNewOrderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)

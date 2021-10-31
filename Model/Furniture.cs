@@ -23,10 +23,25 @@ namespace UWG_CS3230_FurnitureRental.Model
 
         public override string ToString()
         {
+            string output = "";
             FurnitureDAL dal = new FurnitureDAL();
-            string style = dal.getStyleTypeById(this.StyleId);
-            string category = dal.getCategoryTypeById(this.CategoryId);
-            return category + " " + style + " " + this.Description;
+            output += Environment.NewLine;
+            output += dal.getStyleTypeById(this.StyleId);
+            output += " ";
+            output += dal.getCategoryTypeById(this.CategoryId);
+            output += " ";
+            output += this.Description;
+            output += Environment.NewLine;
+            if (this.CheckIfAvailable())
+            {
+                output += "Currently in stock: " + this.Available;
+            }
+            else
+            {
+                output += "Currently out of stock";
+            }
+            output += Environment.NewLine;
+            return output;
         }
 
         public ObservableCollection<int> GetQuantityRange()
@@ -40,7 +55,7 @@ namespace UWG_CS3230_FurnitureRental.Model
             return quantity;
         }
 
-        public bool CheckQuantityAvailable(int request)
+        public bool CheckQuantityAvailableForRequest(int request)
         {
             if (this.Available >= request)
             {
@@ -50,9 +65,14 @@ namespace UWG_CS3230_FurnitureRental.Model
             return false;
         }
 
+        public bool CheckIfAvailable()
+        {
+            return this.Available > 0;
+        }
+
         public void UpdateQuantity(int rented)
         {
-            if (this.CheckQuantityAvailable(rented))
+            if (this.CheckQuantityAvailableForRequest(rented))
             {
                 this.Available = this.Available - rented;
             }
