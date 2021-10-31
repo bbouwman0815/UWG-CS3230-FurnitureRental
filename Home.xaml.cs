@@ -68,7 +68,7 @@ namespace UWG_CS3230_FurnitureRental
         {
             ContentDialog deleteFileDialog = new ContentDialog
             {
-                Title = "Are you sure you wish to logout?",
+                Title = "Are you sure you want to logout?",
                 PrimaryButtonText = "Logout",
                 CloseButtonText = "Cancel"
             };
@@ -77,16 +77,13 @@ namespace UWG_CS3230_FurnitureRental
             {
                 Frame.Navigate(typeof(MainPage));
             }
-            else
-            {
-            }
         }
 
         private async System.Threading.Tasks.Task setupCancelOrderDialogAsync()
         {
             ContentDialog cancelOrderDialog = new ContentDialog
             {
-                Title = "Are you sure you wish to cancel the order?",
+                Title = "Are you sure you want to cancel the order?",
                 PrimaryButtonText = "Yes",
                 CloseButtonText = "No"
             };
@@ -96,10 +93,6 @@ namespace UWG_CS3230_FurnitureRental
                 this.placeNewOrderButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 this.hideOrder();
             }
-            else
-            {
-             
-            }
         }
 
         private async System.Threading.Tasks.Task setupCancelOrderItem()
@@ -107,7 +100,7 @@ namespace UWG_CS3230_FurnitureRental
             RentalItem rentalItem = (RentalItem)this.orderListView.SelectedItems[0];
             ContentDialog cancelOrderDialog = new ContentDialog
             {
-                Title = "Are you sure you wish to remove the item: " + this.fdal.GetFurnitureById(rentalItem.FurnitureId) + " Quantity:  " + rentalItem.Quantity,
+                Title = "Are you sure you want to remove the item: " + this.fdal.GetFurnitureById(rentalItem.FurnitureId) + " | Quantity:  " + rentalItem.Quantity,
                 PrimaryButtonText = "Yes",
                 CloseButtonText = "No"
             };
@@ -118,10 +111,17 @@ namespace UWG_CS3230_FurnitureRental
                 this.orderListView.ItemsSource = this.rentalItems;
                 this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
             }
-            else
-            {
+        }
 
-            }
+        private async System.Threading.Tasks.Task setupHelpDialogAsync()
+        {
+            ContentDialog helpDialog = new ContentDialog
+            {
+                Title = "Before you can add the item, check that the item, the price, and the quantity are selected.",
+                PrimaryButtonText = "Ok",
+            };
+
+            ContentDialogResult result = await helpDialog.ShowAsync();
         }
 
         private void HandleSearchTextChange(object sender, TextChangedEventArgs e)
@@ -134,20 +134,23 @@ namespace UWG_CS3230_FurnitureRental
 
         private void addFurnitureButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            if (this.furnitureListView.SelectedItem != null)
+            if (this.furnitureListView.SelectedItem == null | this.priceTextBox.Text == "" | this.quantityComboBox.SelectedValue == null | !(OrderFormatter.VerifyPrice(this.priceTextBox.Text)))
             {
-                Furniture furniture = (Furniture)this.furnitureListView.SelectedItems[0];
-                int quantity = Int32.Parse(this.quantityComboBox.SelectedValue.ToString());
-                double price = Convert.ToDouble(this.priceTextBox.Text);
-                RentalItem rentalItem = new RentalItem(furniture.Id, quantity, price);
-
-                this.rentalItems.Add(rentalItem);
-                this.orderListView.ItemsSource = this.rentalItems;
-                this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
-
-                this.priceTextBox.Text = "";
-                this.quantityComboBox.SelectedIndex = 0;
+                _ = this.setupHelpDialogAsync();
+                return;
             }
+
+            Furniture furniture = (Furniture)this.furnitureListView.SelectedItems[0];
+            int quantity = Int32.Parse(this.quantityComboBox.SelectedValue.ToString());
+            double price = Convert.ToDouble(this.priceTextBox.Text);
+            RentalItem rentalItem = new RentalItem(furniture.Id, quantity, price);
+
+            this.rentalItems.Add(rentalItem);
+            this.orderListView.ItemsSource = this.rentalItems;
+            this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
+
+            this.priceTextBox.Text = "";
+            this.quantityComboBox.SelectedIndex = 0;
         }
 
         private void displayOrder()

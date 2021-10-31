@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UWG_CS3230_FurnitureRental.Model;
 
@@ -27,6 +28,14 @@ namespace UWG_CS3230_FurnitureRental.Utilities
         {
             NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
             return totalCost.ToString("C", nfi);
+        }
+
+        public static bool VerifyPrice(string price)
+        {
+            Regex rgx = new Regex(@"^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$");
+            bool match = rgx.IsMatch(price);
+
+            return match;
         }
     }
 }
