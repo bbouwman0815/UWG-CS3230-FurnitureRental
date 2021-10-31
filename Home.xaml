@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Height="736" Width="1161">
 
     <Grid Margin="0,0,10,10" Width="1161" Height="736">
-        <TextBlock x:Name="EmployeeInfoTextBlock" HorizontalAlignment="Left" Margin="805,10,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="119" Width="322" RenderTransformOrigin="0.5,0.5">
+        <TextBlock x:Name="EmployeeInfoTextBlock" HorizontalAlignment="Left" Margin="919,10,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="117" Width="231" RenderTransformOrigin="0.5,0.5">
         </TextBlock>
         <Button x:Name="RegisterCustomerButton" Content="Register New Customer" Margin="26,19,0,0" VerticalAlignment="Top" Click="onRegisterCustomerClick"/>
         <Button x:Name="logoutButton" Content="Logout" Margin="1058,674,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.679,0.188" Width="68" Click="logoutButton_Click"/>
@@ -18,14 +18,15 @@
         <TextBox x:Name="searchInputTextBox" HorizontalAlignment="Left" Margin="114,183,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.691,-0.047" Width="247" PlaceholderText="Search for furniture" TextChanged="HandleSearchTextChange"/>
         <Border BorderThickness="1" BorderBrush="Black" Margin="71,143,760,67"/>
         <Button x:Name="placeNewOrderButton" Content="Place New Order" Margin="72,674,0,0" VerticalAlignment="Top" Width="330" Click="placeNewOrderButton_Click"/>
-        <Button x:Name="addFurnitureButton" Content="+" Margin="356,101,0,0" VerticalAlignment="Top" Width="45" FontSize="18" Click="addFurnitureButton_Click"/>
-        <ListView x:Name="orderListView" Margin="477,232,317,124" />
-        <Button x:Name="placeOrderButton" Content="Place Order" Margin="436,674,0,0" VerticalAlignment="Top" Width="165" Click="placeOrderButton_Click"/>
-        <Button x:Name="cancelOrderButton" Content="Cancel Order" Margin="606,674,0,0" VerticalAlignment="Top" Width="160" Click="cancelOrderButton_Click"/>
-        <TextBox x:Name="orderDetailsTextBox" HorizontalAlignment="Left" Margin="477,183,0,0" Text="Order Details" TextWrapping="Wrap" VerticalAlignment="Top" Width="235"/>
-        <TextBox x:Name="orderTotalTextBox" HorizontalAlignment="Left" Margin="639,617,0,0" Text="Order Total: " TextWrapping="Wrap" VerticalAlignment="Top" Width="205"/>
+        <Button x:Name="addFurnitureButton" Content="+" Margin="357,106,0,0" VerticalAlignment="Top" Width="45" FontSize="18" Click="addFurnitureButton_Click"/>
+        <ListView x:Name="orderListView" Margin="477,232,290,124" />
+        <Button x:Name="placeOrderButton" Content="Place Order" Margin="436,674,0,0" VerticalAlignment="Top" Width="225" Click="placeOrderButton_Click"/>
+        <Button x:Name="cancelOrderButton" Content="Cancel Order" Margin="675,674,0,0" VerticalAlignment="Top" Width="238" Click="cancelOrderButton_Click"/>
+        <TextBox x:Name="orderDetailsTextBox" HorizontalAlignment="Left" Margin="477,183,0,0" Text="Order Details" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" IsReadOnly="True"/>
+        <TextBox x:Name="orderTotalTextBox" HorizontalAlignment="Left" Margin="639,617,0,0" Text="Order Total: " TextWrapping="Wrap" VerticalAlignment="Top" Width="205" IsReadOnly="True"/>
         <TextBox x:Name="priceTextBox" HorizontalAlignment="Left" Margin="196,674,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="126" Height="37" PlaceholderText="Enter Price"/>
         <ComboBox x:Name="quantityComboBox" Margin="327,674,0,0" Width="74" Height="36" PlaceholderText="Qty"/>
         <Border x:Name="orderBorder" BorderThickness="1" BorderBrush="Black" Margin="436,143,248,67"/>
+        <Button x:Name="removeFurnitureButton" Content="-" Margin="868,106,0,0" VerticalAlignment="Top" Width="45" FontSize="18" Click="removeFurnitureButton_Click"/>
     </Grid>
 </Page>

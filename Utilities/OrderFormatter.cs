@@ -22,5 +22,11 @@ namespace UWG_CS3230_FurnitureRental.Utilities
             }
             return totalCost.ToString("C", nfi);
         }
+
+        public static string FormatTotalCost(double totalCost)
+        {
+            NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
+            return totalCost.ToString("C", nfi);
+        }
     }
 }

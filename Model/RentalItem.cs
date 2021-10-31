@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UWG_CS3230_FurnitureRental.DAL;
+using UWG_CS3230_FurnitureRental.Utilities;
 
 namespace UWG_CS3230_FurnitureRental.Model
 {
@@ -29,8 +30,10 @@ namespace UWG_CS3230_FurnitureRental.Model
             string description = furniture.Description;
             string style = dal.getStyleTypeById(furniture.StyleId);
             string category = dal.getCategoryTypeById(furniture.CategoryId);
+            string totalCost = OrderFormatter.FormatTotalCost(this.TotalRentalRate);
+            string dailyRate = OrderFormatter.FormatTotalCost(this.DailyRentalRate);
 
-            return category + " " + style + " " + description + " : $" + this.DailyRentalRate + " x " + this.Quantity + " = " + this.TotalRentalRate;
+            return category + " " + style + " " + description + "   " + dailyRate + " x " + this.Quantity + " = " + totalCost;
         }
     }
 }

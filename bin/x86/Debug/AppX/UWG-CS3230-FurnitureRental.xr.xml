@@ -55,6 +55,7 @@
       <RootProperty Name="RenderTransformOrigin" />
       <RootProperty Name="Width" />
       <RootProperty Name="PlaceholderText" />
+      <RootProperty Name="IsReadOnly" />
       <RootProperty Name="Height" />
       <RootEvent Name="TextChanged" />
     </RootType>

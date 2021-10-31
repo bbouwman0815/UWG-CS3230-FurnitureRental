@@ -102,6 +102,28 @@ namespace UWG_CS3230_FurnitureRental
             }
         }
 
+        private async System.Threading.Tasks.Task setupCancelOrderItem()
+        {
+            RentalItem rentalItem = (RentalItem)this.orderListView.SelectedItems[0];
+            ContentDialog cancelOrderDialog = new ContentDialog
+            {
+                Title = "Are you sure you wish to remove the item: " + this.fdal.GetFurnitureById(rentalItem.FurnitureId) + " Quantity:  " + rentalItem.Quantity,
+                PrimaryButtonText = "Yes",
+                CloseButtonText = "No"
+            };
+            ContentDialogResult result = await cancelOrderDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                this.rentalItems.Remove(rentalItem);
+                this.orderListView.ItemsSource = this.rentalItems;
+                this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
+            }
+            else
+            {
+
+            }
+        }
+
         private void HandleSearchTextChange(object sender, TextChangedEventArgs e)
         {
             string search = this.searchInputTextBox.Text;
@@ -121,11 +143,10 @@ namespace UWG_CS3230_FurnitureRental
 
                 this.rentalItems.Add(rentalItem);
                 this.orderListView.ItemsSource = this.rentalItems;
-                this.orderTotalTextBox.Text = OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
+                this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
 
-                //this.customerOrder.Add((Furniture)this.furnitureListView.SelectedItems[0]);
-                //this.orderListView.ItemsSource = this.customerOrder;
-
+                this.priceTextBox.Text = "";
+                this.quantityComboBox.SelectedIndex = 0;
             }
         }
 
@@ -140,6 +161,7 @@ namespace UWG_CS3230_FurnitureRental
             this.orderListView.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.quantityComboBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.priceTextBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.removeFurnitureButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
         }
 
         private void hideOrder()
@@ -153,6 +175,7 @@ namespace UWG_CS3230_FurnitureRental
             this.orderListView.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             this.quantityComboBox.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             this.priceTextBox.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.removeFurnitureButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
 
             this.customerOrder.Clear();
             this.orderListView.ItemsSource = this.customerOrder;
@@ -172,6 +195,14 @@ namespace UWG_CS3230_FurnitureRental
         private void cancelOrderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             _ = this.setupCancelOrderDialogAsync();
+        }
+
+        private void removeFurnitureButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if (this.orderListView.SelectedItem != null)
+            {
+                _ = this.setupCancelOrderItem();
+            }    
         }
     }
 }
