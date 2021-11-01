@@ -122,13 +122,17 @@ namespace UWG_CS3230_FurnitureRental
                 this.rentalItems.Remove(rentalItem);
                 this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
 
+                Furniture furniture = new Furniture();
                 foreach (Furniture currentFurniture in this.inventory)
                 {
                     if (currentFurniture.Id == rentalItem.FurnitureId)
                     {
-                        currentFurniture.UpdateQuantity(rentalItem.Quantity, "remove");
+                        furniture = currentFurniture;
                     }
                 }
+                furniture.AddQuantity(rentalItem.Quantity);
+                this.quantityAv = furniture.GetQuantityRange();
+                this.quantityComboBox.ItemsSource = this.quantityAv;
             }
         }
 
@@ -146,9 +150,23 @@ namespace UWG_CS3230_FurnitureRental
         private void HandleSearchTextChange(object sender, TextChangedEventArgs e)
         {
             string search = this.searchInputTextBox.Text;
-            ObservableCollection<Furniture> foundFurniture = this.fdal.getFurnitureBySearch(search);
-            this.inventory = foundFurniture;
+            this.inventory = this.fdal.getFurnitureBySearch(search);
+            this.ConfigureQuantities();
             this.furnitureListView.ItemsSource = this.inventory;
+        }
+
+        private void ConfigureQuantities()
+        {
+            foreach (RentalItem currentItem in this.rentalItems)
+            {
+                foreach (Furniture currentFurniture in this.inventory)
+                {
+                    if (currentItem.FurnitureId == currentFurniture.Id)
+                    {
+                        currentFurniture.RemoveQuantity(currentItem.Quantity);
+                    }
+                }
+            }
         }
 
         private void addFurnitureButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -165,10 +183,9 @@ namespace UWG_CS3230_FurnitureRental
             RentalItem rentalItem = new RentalItem(furniture.Id, quantity, price);
 
             this.rentalItems.Add(rentalItem);
-            furniture.UpdateQuantity(quantity, "add");
-            this.quantityAv = new ObservableCollection<int>();
-            this.selectedFurniture = null;
-   
+            furniture.RemoveQuantity(quantity);
+            this.quantityAv = furniture.GetQuantityRange();
+            this.quantityComboBox.ItemsSource = this.quantityAv;
             this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
 
             this.priceTextBox.Text = "";
