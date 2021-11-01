@@ -133,6 +133,7 @@ namespace UWG_CS3230_FurnitureRental
                 furniture.AddQuantity(rentalItem.Quantity);
                 this.quantityAv = furniture.GetQuantityRange();
                 this.quantityComboBox.ItemsSource = this.quantityAv;
+                this.refreshDisplay();
             }
         }
 
@@ -186,9 +187,11 @@ namespace UWG_CS3230_FurnitureRental
             furniture.RemoveQuantity(quantity);
             this.quantityAv = furniture.GetQuantityRange();
             this.quantityComboBox.ItemsSource = this.quantityAv;
-            this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
+            this.refreshDisplay();
 
+            this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
             this.priceTextBox.Text = "";
+            this.searchInputTextBox.Text = "";
             this.quantityComboBox.SelectedIndex = 0;
         }
 
@@ -220,6 +223,8 @@ namespace UWG_CS3230_FurnitureRental
             this.removeFurnitureButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
 
             this.rentalItems.Clear();
+            this.searchInputTextBox.Text = "";
+            this.ConfigureQuantities();
         }
 
         private void placeNewOrderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -253,6 +258,13 @@ namespace UWG_CS3230_FurnitureRental
                 this.quantityAv = this.selectedFurniture.GetQuantityRange();
                 this.quantityComboBox.ItemsSource = this.quantityAv;
             }
+        }
+
+        private void refreshDisplay()
+        {
+            this.inventory = this.fdal.getFurnitureInventory();
+            this.ConfigureQuantities();
+            this.furnitureListView.ItemsSource = this.inventory;
         }
     }
 }
