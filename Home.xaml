@@ -6,11 +6,34 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Height="736" Width="1161">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Height="825" Width="1161">
 
-    <Grid Margin="0,0,10,10" Width="1161" Height="736">
-        <TextBlock x:Name="EmployeeInfoTextBlock" HorizontalAlignment="Left" Margin="34,28,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="192" Width="322"/>
-        <Button x:Name="RegisterCustomerButton" Content="Register New Customer" Margin="0,37,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Click="onRegisterCustomerClick"/>
-        <Button x:Name="logoutButton" Content="Logout" Margin="1046,674,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.679,0.188" Width="80" Click="logoutButton_Click"/>
+    <Grid Margin="0,0,10,10" Width="1161" Height="825">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="701*"/>
+            <RowDefinition Height="36*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="EmployeeInfoTextBlock" HorizontalAlignment="Left" Margin="24,16,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="117" Width="231" RenderTransformOrigin="0.5,0.5">
+        </TextBlock>
+        <Button x:Name="RegisterCustomerButton" Content="Register New Customer" Margin="973,19,0,0" VerticalAlignment="Top" Click="onRegisterCustomerClick"/>
+        <Button x:Name="logoutButton" Content="Logout" Margin="1066,738,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.679,0.188" Width="68" Click="logoutButton_Click"/>
+        <ListView x:Name="furnitureListView" Margin="113,230,648,121" RequestedTheme="Default" Header="Inventory"  ItemsSource="{x:Bind inventory, Mode=TwoWay}"
+                                    SelectedItem="{x:Bind selectedFurniture, Mode=TwoWay}" SelectionChanged="handleSelectionChanged">
+        </ListView>
+        <TextBox x:Name="searchInputTextBox" HorizontalAlignment="Left" Margin="109,177,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="247" PlaceholderText="Search for furniture" TextChanged="HandleSearchTextChange"/>
+        <Button x:Name="placeNewOrderButton" Content="Place New Order" Margin="95,675,0,0" VerticalAlignment="Top" Width="436" Click="placeNewOrderButton_Click" Height="37"/>
+        <Button x:Name="addFurnitureButton" Content="+" Margin="468,174,0,0" VerticalAlignment="Top" Width="45" FontSize="18" Click="addFurnitureButton_Click"/>
+        <ListView x:Name="orderListView" Margin="639,230,102,194"  ItemsSource="{x:Bind rentalItems, Mode=TwoWay}"
+                                    SelectedItem="{x:Bind selectedRentalItem, Mode=TwoWay}"/>
+        <Button x:Name="placeOrderButton" Content="Place Order" Margin="860,675,0,0" VerticalAlignment="Top" Width="238" Click="placeOrderButton_Click" Height="37"/>
+        <Button x:Name="cancelOrderButton" Content="Cancel Order" Margin="617,675,0,0" VerticalAlignment="Top" Width="238" Click="cancelOrderButton_Click" Height="37"/>
+        <TextBox x:Name="orderDetailsTextBox" HorizontalAlignment="Left" Margin="639,177,0,0" Text="Order Details" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" IsReadOnly="True"/>
+        <TextBox x:Name="orderTotalTextBox" HorizontalAlignment="Left" Margin="828,608,0,0" Text="Order Total: " TextWrapping="Wrap" VerticalAlignment="Top" Width="205" IsReadOnly="True"/>
+        <TextBox x:Name="priceTextBox" HorizontalAlignment="Left" Margin="306,677,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="143" Height="37" PlaceholderText="Enter Price"/>
+        <ComboBox x:Name="quantityComboBox" Margin="454,677,0,0" Width="74" Height="38" PlaceholderText="Qty"
+                                    />
+        <Button x:Name="removeFurnitureButton" Content="-" Margin="1014,175,0,0" VerticalAlignment="Top" Width="45" FontSize="18" Click="removeFurnitureButton_Click"/>
+        <Border BorderThickness="1" BorderBrush="Black" Margin="95,147,630,116"/>
+        <Border x:Name="orderBorder" BorderThickness="1" BorderBrush="Black" Margin="617,147,76,116"/>
     </Grid>
 </Page>
