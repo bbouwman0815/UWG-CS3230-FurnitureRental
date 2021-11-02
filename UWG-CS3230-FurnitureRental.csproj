@@ -124,6 +124,7 @@
     <Compile Include="DAL\DataReaderHelper.cs" />
     <Compile Include="DAL\EmployeeDALl.cs" />
     <Compile Include="DAL\FurnitureDALI.cs" />
+    <Compile Include="DAL\RentalTransactionDALI.cs" />
     <Compile Include="Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>

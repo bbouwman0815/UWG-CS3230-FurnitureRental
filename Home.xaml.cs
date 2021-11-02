@@ -29,6 +29,8 @@ namespace UWG_CS3230_FurnitureRental
 
         private int selectedQuantity { get; set; }
 
+        private int rentalPeriod { get; set; }
+
         public Home()
         {
             this.InitializeComponent();
@@ -46,6 +48,7 @@ namespace UWG_CS3230_FurnitureRental
             this.selectedFurniture = new Furniture();
             this.selectedRentalItem = new RentalItem();
             this.selectedQuantity = 0;
+            this.rentalPeriod = 0;
         }
 
         private void setupEmployeeHeader()
@@ -107,36 +110,6 @@ namespace UWG_CS3230_FurnitureRental
             }
         }
 
-        private async System.Threading.Tasks.Task setupCancelOrderItem()
-        {
-            RentalItem rentalItem = (RentalItem)this.orderListView.SelectedItems[0];
-            ContentDialog cancelOrderDialog = new ContentDialog
-            {
-                Title = "Are you sure you want to remove the item: " + this.fdal.GetFurnitureById(rentalItem.FurnitureId) + " | Quantity:  " + rentalItem.Quantity,
-                PrimaryButtonText = "Yes",
-                CloseButtonText = "No"
-            };
-            ContentDialogResult result = await cancelOrderDialog.ShowAsync();
-            if (result == ContentDialogResult.Primary)
-            {
-                this.rentalItems.Remove(rentalItem);
-                this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
-
-                Furniture furniture = new Furniture();
-                foreach (Furniture currentFurniture in this.inventory)
-                {
-                    if (currentFurniture.Id == rentalItem.FurnitureId)
-                    {
-                        furniture = currentFurniture;
-                    }
-                }
-                furniture.AddQuantity(rentalItem.Quantity);
-                this.quantityAv = furniture.GetQuantityRange();
-                this.quantityComboBox.ItemsSource = this.quantityAv;
-                this.refreshDisplay();
-            }
-        }
-
         private async System.Threading.Tasks.Task setupHelpDialogAsync()
         {
             ContentDialog helpDialog = new ContentDialog
@@ -189,10 +162,40 @@ namespace UWG_CS3230_FurnitureRental
             this.quantityComboBox.ItemsSource = this.quantityAv;
             this.refreshDisplay();
 
-            this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems);
+            this.updateTotal();
             this.priceTextBox.Text = "";
             this.searchInputTextBox.Text = "";
             this.quantityComboBox.SelectedIndex = 0;
+        }
+
+        private async System.Threading.Tasks.Task setupCancelOrderItem()
+        {
+            RentalItem rentalItem = (RentalItem)this.orderListView.SelectedItems[0];
+            ContentDialog cancelOrderDialog = new ContentDialog
+            {
+                Title = "Are you sure you want to remove the item: " + this.fdal.GetFurnitureById(rentalItem.FurnitureId) + " | Quantity:  " + rentalItem.Quantity,
+                PrimaryButtonText = "Yes",
+                CloseButtonText = "No"
+            };
+            ContentDialogResult result = await cancelOrderDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                this.rentalItems.Remove(rentalItem);
+                this.updateTotal();
+
+                Furniture furniture = new Furniture();
+                foreach (Furniture currentFurniture in this.inventory)
+                {
+                    if (currentFurniture.Id == rentalItem.FurnitureId)
+                    {
+                        furniture = currentFurniture;
+                    }
+                }
+                furniture.AddQuantity(rentalItem.Quantity);
+                this.quantityAv = furniture.GetQuantityRange();
+                this.quantityComboBox.ItemsSource = this.quantityAv;
+                this.refreshDisplay();
+            }
         }
 
         private void displayOrder()
@@ -207,6 +210,7 @@ namespace UWG_CS3230_FurnitureRental
             this.quantityComboBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.priceTextBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.removeFurnitureButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.orderDatePicker.Visibility = Windows.UI.Xaml.Visibility.Visible;
         }
 
         private void hideOrder()
@@ -221,9 +225,14 @@ namespace UWG_CS3230_FurnitureRental
             this.quantityComboBox.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             this.priceTextBox.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             this.removeFurnitureButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.orderDatePicker.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.placeNewOrderButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
 
             this.rentalItems.Clear();
+            this.orderDetailsTextBox.Text = "";
+            this.orderDatePicker.SelectedDate = null;
             this.searchInputTextBox.Text = "";
+            this.orderTotalTextBox.Text = "";
             this.ConfigureQuantities();
         }
 
@@ -235,9 +244,29 @@ namespace UWG_CS3230_FurnitureRental
 
         private void placeOrderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            RentalTransaction rentalTransaction = new RentalTransaction
+            {
+                id = null,
+                cost = OrderFormatter.CalculateOrderCost(this.rentalItems, this.rentalPeriod),
+                transactionDate = DateTime.Now,
+                dueDate = this.orderDatePicker.Date.DateTime,
+                employeeId = LoggedEmployee.CurrentLoggedEmployee.Id,
+                memberId = 1
+            };
 
+            RentalTransactionDAL rdal = new RentalTransactionDAL();
+            int transactionId = rdal.CreateNewRentalTransaction(rentalTransaction);
+
+            foreach (RentalItem currentRentalItem in this.rentalItems)
+            {
+                currentRentalItem.RentalId = transactionId;
+                rdal.CreateNewRentalItem(currentRentalItem);
+            }
+
+            this.rentalItems.Clear();
+            this.hideOrder();
         }
-
+          
         private void cancelOrderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             _ = this.setupCancelOrderDialogAsync();
@@ -265,6 +294,34 @@ namespace UWG_CS3230_FurnitureRental
             this.inventory = this.fdal.getFurnitureInventory();
             this.ConfigureQuantities();
             this.furnitureListView.ItemsSource = this.inventory;
+            this.searchInputTextBox.Text = "";
+        }
+
+        private void handleDateChanged(object sender, DatePickerValueChangedEventArgs e)
+        {
+            DateTime currentDate = DateTime.Now;
+            DateTime returnDate = this.orderDatePicker.Date.DateTime;
+            if (returnDate < currentDate)
+            {
+                return;
+            }
+            this.rentalPeriod = (returnDate.Date - currentDate.Date).Days;
+            this.updateTotal();
+        }
+
+        private void updateTotal()
+        {
+            this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems, this.rentalPeriod);
+            this.updateOrderDetails();
+         
+        }
+
+        private void updateOrderDetails()
+        {
+            string details = "";
+            details += "Rental Period: " + this.rentalPeriod + " days";
+            details += "   Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems, this.rentalPeriod);
+            this.orderDetailsTextBox.Text = details;
         }
     }
 }

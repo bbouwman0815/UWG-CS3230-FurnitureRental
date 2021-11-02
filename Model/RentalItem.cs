@@ -10,7 +10,7 @@ namespace UWG_CS3230_FurnitureRental.Model
 {
     public class RentalItem
     {
-        public int RentalId { get; set; }
+        public int? RentalId { get; set; }
         public int FurnitureId { get; set; }
         public int Quantity { get; set; }
         public double DailyRentalRate { get; set; }
@@ -38,7 +38,13 @@ namespace UWG_CS3230_FurnitureRental.Model
             string totalCost = OrderFormatter.FormatTotalCost(this.TotalRentalRate);
             string dailyRate = OrderFormatter.FormatTotalCost(this.DailyRentalRate);
 
-            return category + " " + style + " " + description + "   " + dailyRate + " x " + this.Quantity + " = " + totalCost;
+            String output = Environment.NewLine; 
+            output += category + " " + style + " " + description;
+            output += Environment.NewLine;
+            output += "Daily rate: " + dailyRate + " x " + this.Quantity + " = " + totalCost;
+            output += Environment.NewLine;
+
+            return output;
         }
     }
 }

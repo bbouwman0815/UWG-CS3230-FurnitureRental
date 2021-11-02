@@ -12,7 +12,7 @@ namespace UWG_CS3230_FurnitureRental.Utilities
 {
     public class OrderFormatter
     {
-        public static string CalculateFormatOrderCost(ObservableCollection<RentalItem> items)
+        public static string CalculateFormatOrderCost(ObservableCollection<RentalItem> items, int rentalPeriod)
         {
             NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
            
@@ -21,7 +21,19 @@ namespace UWG_CS3230_FurnitureRental.Utilities
             {
                 totalCost += item.TotalRentalRate;
             }
+            totalCost *= rentalPeriod;
             return totalCost.ToString("C", nfi);
+        }
+
+        public static double CalculateOrderCost(ObservableCollection<RentalItem> items, int rentalPeriod)
+        {
+            double totalCost = 0.0;
+            foreach (RentalItem item in items)
+            {
+                totalCost += item.TotalRentalRate;
+            }
+            totalCost *= rentalPeriod;
+            return totalCost;
         }
 
         public static string FormatTotalCost(double totalCost)
