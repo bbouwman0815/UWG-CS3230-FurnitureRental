@@ -49,5 +49,6 @@ namespace UWG_CS3230_FurnitureRental.DAL
                 command.ExecuteNonQuery();
             }
         }
+
     }
 }
