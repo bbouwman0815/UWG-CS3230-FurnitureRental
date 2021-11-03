@@ -17,7 +17,7 @@
         </TextBlock>
         <Button x:Name="RegisterCustomerButton" Content="Register New Customer" Margin="973,19,0,0" VerticalAlignment="Top" Click="onRegisterCustomerClick"/>
         <Button x:Name="logoutButton" Content="Logout" Margin="1066,738,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.679,0.188" Width="68" Click="logoutButton_Click"/>
-        <ListView x:Name="furnitureListView" Margin="113,230,648,121" RequestedTheme="Default" Header="Inventory"  ItemsSource="{x:Bind inventory, Mode=TwoWay}"
+        <ListView x:Name="furnitureListView" Margin="113,278,648,145" RequestedTheme="Default" Header="Inventory"  ItemsSource="{x:Bind inventory, Mode=TwoWay}"
                                     SelectedItem="{x:Bind selectedFurniture, Mode=TwoWay}" SelectionChanged="handleSelectionChanged">
         </ListView>
         <TextBox x:Name="searchInputTextBox" HorizontalAlignment="Left" Margin="109,177,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="247" PlaceholderText="Search for furniture" TextChanged="HandleSearchTextChange"/>
@@ -33,8 +33,10 @@
         <ComboBox x:Name="quantityComboBox" Margin="454,677,0,0" Width="74" Height="38" PlaceholderText="Qty"
                                     />
         <Button x:Name="removeFurnitureButton" Content="-" Margin="1014,175,0,0" VerticalAlignment="Top" Width="45" FontSize="18" Click="removeFurnitureButton_Click"/>
-        <Border BorderThickness="1" BorderBrush="Black" Margin="95,147,630,116"/>
         <DatePicker x:Name="orderDatePicker" Margin="639,177,0,0" VerticalAlignment="Top" Width="314" DateChanged="handleDateChanged"/>
         <Border x:Name="orderBorder" BorderThickness="1" BorderBrush="Black" Margin="617,147,76,116"/>
+        <ComboBox x:Name="categoryComboBox" Margin="109,214,0,0" Width="120" Height="34" PlaceholderText="Category"/>
+        <ComboBox x:Name="styleComboBox" Margin="234,214,0,0" Width="122" Height="34" PlaceholderText="Style"/>
+        <Border x:Name="orderBorder_Copy" BorderThickness="1" BorderBrush="Black" Margin="79,147,614,116"/>
     </Grid>
 </Page>

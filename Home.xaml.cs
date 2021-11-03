@@ -20,6 +20,8 @@ namespace UWG_CS3230_FurnitureRental
 
         private ObservableCollection<Furniture> inventory { get; set; }
         private ObservableCollection<RentalItem> rentalItems { get; set; }
+        private ObservableCollection<string> styles { get; set; }
+        private ObservableCollection<string> categories { get; set; }
 
         private ObservableCollection<int> quantityAv { get; set; }
 
@@ -35,6 +37,7 @@ namespace UWG_CS3230_FurnitureRental
         {
             this.InitializeComponent();
             this.initializeCollections();
+            this.setupTypeComboBoxes();
             this.setupEmployeeHeader();
             this.hideOrder();
         }
@@ -44,11 +47,22 @@ namespace UWG_CS3230_FurnitureRental
             this.inventory = new ObservableCollection<Furniture>();
             this.rentalItems = new ObservableCollection<RentalItem>();
             this.quantityAv = new ObservableCollection<int>();
+            
             this.quantityComboBox.ItemsSource = this.quantityAv;
             this.selectedFurniture = new Furniture();
             this.selectedRentalItem = new RentalItem();
             this.selectedQuantity = 0;
             this.rentalPeriod = 0;
+        }
+
+        private void setupTypeComboBoxes()
+        {
+            FurnitureDAL fdal = new FurnitureDAL();
+            this.categories = fdal.GetCategories();
+            this.styles = fdal.GetStyles();
+
+            this.styleComboBox.ItemsSource = this.styles;
+            this.categoryComboBox.ItemsSource = this.categories;
         }
 
         private void setupEmployeeHeader()
@@ -63,7 +77,7 @@ namespace UWG_CS3230_FurnitureRental
            
             this.EmployeeInfoTextBlock.Text = identification;
 
-            this.inventory = this.fdal.getFurnitureInventory();
+            this.inventory = this.fdal.GetFurnitureInventory();
         }
 
         private async void onRegisterCustomerClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -124,7 +138,7 @@ namespace UWG_CS3230_FurnitureRental
         private void HandleSearchTextChange(object sender, TextChangedEventArgs e)
         {
             string search = this.searchInputTextBox.Text;
-            this.inventory = this.fdal.getFurnitureBySearch(search);
+            this.inventory = this.fdal.SearchFurnitureByDescription(search);
             this.ConfigureQuantities();
             this.furnitureListView.ItemsSource = this.inventory;
         }
@@ -255,12 +269,15 @@ namespace UWG_CS3230_FurnitureRental
             };
 
             RentalTransactionDAL rdal = new RentalTransactionDAL();
+            FurnitureDAL fdal = new FurnitureDAL();
             int transactionId = rdal.CreateNewRentalTransaction(rentalTransaction);
 
             foreach (RentalItem currentRentalItem in this.rentalItems)
             {
                 currentRentalItem.RentalId = transactionId;
                 rdal.CreateNewRentalItem(currentRentalItem);
+                int quantity = fdal.GetFurnitureById(currentRentalItem.FurnitureId).Available - currentRentalItem.Quantity;
+                fdal.UpdateAvailableFurnitureQuantity(currentRentalItem.FurnitureId, quantity);
             }
 
             this.rentalItems.Clear();
@@ -291,7 +308,7 @@ namespace UWG_CS3230_FurnitureRental
 
         private void refreshDisplay()
         {
-            this.inventory = this.fdal.getFurnitureInventory();
+            this.inventory = this.fdal.GetFurnitureInventory();
             this.ConfigureQuantities();
             this.furnitureListView.ItemsSource = this.inventory;
             this.searchInputTextBox.Text = "";

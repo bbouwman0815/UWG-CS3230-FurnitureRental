@@ -26,9 +26,9 @@ namespace UWG_CS3230_FurnitureRental.Model
             string output = "";
             FurnitureDAL dal = new FurnitureDAL();
             output += Environment.NewLine;
-            output += dal.getStyleTypeById(this.StyleId);
+            output += dal.GetStyleTypeById(this.StyleId);
             output += " ";
-            output += dal.getCategoryTypeById(this.CategoryId);
+            output += dal.GetCategoryTypeById(this.CategoryId);
             output += " ";
             output += this.Description;
             output += Environment.NewLine;
