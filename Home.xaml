@@ -17,14 +17,9 @@
         </TextBlock>
         <Button x:Name="RegisterCustomerButton" Content="Register New Customer" Margin="973,19,0,0" VerticalAlignment="Top" Click="onRegisterCustomerClick"/>
         <Button x:Name="logoutButton" Content="Logout" Margin="1066,738,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.679,0.188" Width="68" Click="logoutButton_Click"/>
-        <ListView x:Name="furnitureListView" Margin="113,278,648,145" RequestedTheme="Default" Header="Inventory"  ItemsSource="{x:Bind inventory, Mode=TwoWay}"
-                                    SelectedItem="{x:Bind selectedFurniture, Mode=TwoWay}" SelectionChanged="handleSelectionChanged">
-        </ListView>
-        <TextBox x:Name="searchInputTextBox" HorizontalAlignment="Left" Margin="109,177,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="247" PlaceholderText="Search for furniture" TextChanged="HandleSearchTextChange"/>
         <Button x:Name="placeNewOrderButton" Content="Place New Order" Margin="95,675,0,0" VerticalAlignment="Top" Width="436" Click="placeNewOrderButton_Click" Height="37"/>
-        <Button x:Name="addFurnitureButton" Content="+" Margin="468,174,0,0" VerticalAlignment="Top" Width="45" FontSize="18" Click="addFurnitureButton_Click"/>
         <ListView x:Name="orderListView" Margin="639,230,102,194"  ItemsSource="{x:Bind rentalItems, Mode=TwoWay}"
-                                    SelectedItem="{x:Bind selectedRentalItem, Mode=TwoWay}"/>
+                  SelectedItem="{x:Bind selectedRentalItem, Mode=TwoWay}"/>
         <Button x:Name="placeOrderButton" Content="Place Order" Margin="854,675,0,0" VerticalAlignment="Top" Width="231" Click="placeOrderButton_Click" Height="37"/>
         <Button x:Name="cancelOrderButton" Content="Cancel Order" Margin="617,675,0,0" VerticalAlignment="Top" Width="232" Click="cancelOrderButton_Click" Height="37"/>
         <TextBox x:Name="orderDetailsTextBox" HorizontalAlignment="Left" Margin="639,103,0,0" Text="Order Details" TextWrapping="Wrap" VerticalAlignment="Top" Width="420" IsReadOnly="True"/>
@@ -34,9 +29,31 @@
                                     />
         <Button x:Name="removeFurnitureButton" Content="-" Margin="1014,175,0,0" VerticalAlignment="Top" Width="45" FontSize="18" Click="removeFurnitureButton_Click"/>
         <DatePicker x:Name="orderDatePicker" Margin="639,177,0,0" VerticalAlignment="Top" Width="314" DateChanged="handleDateChanged"/>
-        <Border x:Name="orderBorder" BorderThickness="1" BorderBrush="Black" Margin="617,147,76,116"/>
-        <ComboBox x:Name="categoryComboBox" Margin="109,214,0,0" Width="120" Height="34" PlaceholderText="Category"/>
-        <ComboBox x:Name="styleComboBox" Margin="234,214,0,0" Width="122" Height="34" PlaceholderText="Style"/>
-        <Border x:Name="orderBorder_Copy" BorderThickness="1" BorderBrush="Black" Margin="79,147,614,116"/>
+        <Grid x:Name="orderBorder" BorderThickness="1" BorderBrush="Black" Margin="617,147,76,116">
+            <TextBlock x:Name="orderDueDateTextBlock" HorizontalAlignment="Left" Margin="23,10,0,0" Text="Order Due Date" TextWrapping="Wrap" VerticalAlignment="Top"/>
+
+        </Grid>
+        <Grid x:Name="furniturePanel" BorderThickness="1" BorderBrush="Black" Margin="79,147,614,116">
+
+            <Button x:Name="addFurnitureButton" Content="+" Margin="397,30,0,0" VerticalAlignment="Top" Width="45" FontSize="18" Click="addFurnitureButton_Click"/>
+            <TextBox x:Name="searchInputTextBox" Text="" TextWrapping="Wrap" PlaceholderText="Search for furniture" TextChanged="HandleSearchTextChange" Margin="25,33,190,455"/>
+            <ComboBox x:Name="categoryComboBox" Margin="25,72,0,0" Width="120" Height="34" PlaceholderText="Category"/>
+            <ComboBox x:Name="styleComboBox" Margin="155,72,0,0" Width="122" Height="34" PlaceholderText="Style"/>
+            <ListView x:Name="furnitureListView" Margin="27,131,26,25" RequestedTheme="Default" Header="Inventory"  ItemsSource="{x:Bind inventory, Mode=TwoWay}"
+                      SelectedItem="{x:Bind selectedFurniture, Mode=TwoWay}" SelectionChanged="handleSelectionChanged">
+            </ListView>
+
+        </Grid>
+        <Grid x:Name="memberPanel" BorderThickness="1" BorderBrush="Black" Margin="79,147,614,116" Visibility="Collapsed">
+
+            <Button x:Name="addMemberButton" Content="+" Margin="397,30,0,0" VerticalAlignment="Top" Width="45" FontSize="18" Click="addFurnitureButton_Click" Visibility="Collapsed"/>
+            <ComboBox x:Name="searchMemberByComboBox" PlaceholderText="Member Search Method" Margin="25,33,0,0" Width="251"></ComboBox>
+            <TextBox x:Name="memberSearchTextBox" Margin="25,72,190,415" Height="34" PlaceholderText="Search for member"/>
+            <ListView x:Name="memberListView" Margin="27,131,26,25" RequestedTheme="Default" Header="Members"  ItemsSource="{x:Bind members, Mode=TwoWay}"
+                      SelectedItem="{x:Bind selectedMember, Mode=TwoWay}" SelectionChanged="handleSelectionChanged">
+            </ListView>
+
+        </Grid>
+        <Button x:Name="toggleFurnitureAndMembers" Content="Toggle Members" Margin="423,103,0,0" VerticalAlignment="Top" Click="toggleFurnitureAndMembers_Click"/>
     </Grid>
 </Page>
