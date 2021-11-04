@@ -4,6 +4,7 @@ using UWG_CS3230_FurnitureRental.Model;
 using UWG_CS3230_FurnitureRental.DAL;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using Windows.UI.Xaml;
 using UWG_CS3230_FurnitureRental.Utilities;
 using System.Linq;
@@ -484,16 +485,18 @@ namespace UWG_CS3230_FurnitureRental
 
         private void memberSearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string searchType = this.searchMemberByComboBox.SelectedValue.ToString();
-            if (searchType != null)
+            this.memberListView.ItemsSource = new ObservableCollection<Customer>();
+            var content = this.searchMemberByComboBox.SelectedValue;
+            if (content != null)
             {
+                var searchType = content.ToString();
                 if (searchType == "Id")
                 {
                     try
                     {
                         int id = Convert.ToInt32(this.memberSearchTextBox.Text);
                         var match = this.mdal.GetMemberById(id);
-                        if (match != null)
+                        if (match != null && match.fName != null)
                         {
                             this.members.Add(match);
                             this.memberListView.ItemsSource = this.members;
@@ -508,6 +511,27 @@ namespace UWG_CS3230_FurnitureRental
                     {
                         Console.WriteLine("The number cannot fit in an Int32.");
                     }
+                }
+
+                else if (searchType == "Name")
+                {
+                    string name = this.memberSearchTextBox.Text;
+                    var members = this.mdal.GetMemberByName(name);
+                    if (members != null)
+                    { 
+                        this.memberListView.ItemsSource = members;
+                    }
+
+                }
+                else if (searchType == "Phone")
+                {
+                    string phone = this.memberSearchTextBox.Text;
+                    var members = this.mdal.GetMemberByPhone(phone);
+                    if (members != null)
+                    {
+                        this.memberListView.ItemsSource = members;
+                    }
+
                 }
             }
         }

@@ -17,5 +17,13 @@ namespace UWG_CS3230_FurnitureRental.Model
         public DateTime registrationDate;
         public string phoneNumber;
         public Address address;
+
+        public override string ToString()
+        {
+            string output = "";
+            output += this.fName + " " + this.lName;
+            output += Environment.NewLine;
+            return output;
+        }
     }
 }
