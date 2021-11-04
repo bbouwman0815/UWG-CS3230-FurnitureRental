@@ -74,6 +74,7 @@
       <RootProperty Name="PlaceholderText" />
       <RootProperty Name="Items" />
       <RootProperty Name="ItemsSource" />
+      <RootEvent Name="SelectionChanged" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.DatePicker">
       <RootProperty Name="Margin" />
