@@ -48,7 +48,7 @@
 
             <Button x:Name="addMemberButton" Content="+" Margin="397,30,0,0" VerticalAlignment="Top" Width="45" FontSize="18" Click="addFurnitureButton_Click" Visibility="Collapsed"/>
             <ComboBox x:Name="searchMemberByComboBox" PlaceholderText="Member Search Method" Margin="25,33,0,0" Width="251"></ComboBox>
-            <TextBox x:Name="memberSearchTextBox" Margin="25,72,190,415" Height="34" PlaceholderText="Search for member"/>
+            <TextBox x:Name="memberSearchTextBox" Margin="25,72,190,415" Height="34" PlaceholderText="Search for member" TextChanged="memberSearchTextBox_TextChanged" />
             <ListView x:Name="memberListView" Margin="27,131,26,25" RequestedTheme="Default" Header="Members"  ItemsSource="{x:Bind members, Mode=TwoWay}"
                       SelectedItem="{x:Bind selectedMember, Mode=TwoWay}" SelectionChanged="handleSelectionChanged">
             </ListView>

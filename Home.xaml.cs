@@ -18,6 +18,7 @@ namespace UWG_CS3230_FurnitureRental
     {
         private readonly EmployeeDAL dal = new EmployeeDAL();
         private readonly FurnitureDAL fdal = new FurnitureDAL();
+        private readonly MemberDAL mdal = new MemberDAL();
 
         private ObservableCollection<Furniture> inventory { get; set; }
         private ObservableCollection<Customer> members { get; set; }
@@ -393,6 +394,36 @@ namespace UWG_CS3230_FurnitureRental
             this.searchMemberByComboBox.SelectedIndex = -1;
             this.quantityComboBox.SelectedIndex = -1;
             this.priceTextBox.Text = "";
+        }
+
+        private void memberSearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchType = this.searchMemberByComboBox.SelectedValue.ToString();
+            if (searchType != null)
+            {
+                if (searchType == "Id")
+                {
+                    try
+                    {
+                        int id = Convert.ToInt32(this.memberSearchTextBox.Text);
+                        var match = this.mdal.GetMemberById(id);
+                        if (match != null)
+                        {
+                            this.members.Add(match);
+                            this.memberListView.ItemsSource = this.members;
+                        }
+                   
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Input string is not a sequence of digits.");
+                    }
+                    catch (OverflowException)
+                    {
+                        Console.WriteLine("The number cannot fit in an Int32.");
+                    }
+                }
+            }
         }
     }
 }

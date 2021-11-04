@@ -9,6 +9,7 @@ namespace UWG_CS3230_FurnitureRental.Model
 {
     public class Customer
     {
+        public int? id;
         public string fName;
         public string lName;
         public string gender;
