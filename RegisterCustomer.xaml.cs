@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Windows.UI.Xaml.Controls;
 using UWG_CS3230_FurnitureRental.DAL;
@@ -16,8 +17,11 @@ namespace UWG_CS3230_FurnitureRental
         private const string phoneRegex = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
         private const string zipRegex = @"^\d{5}-?(\d{4})?$";
         private readonly ObservableCollection<string> states = new ObservableCollection<string>();
+        private bool edit;
 
         private readonly EmployeeDAL dal = new EmployeeDAL();
+        private readonly MemberDAL mDal = new MemberDAL();
+        private readonly Customer editCustomer;
 
         #endregion
 
@@ -27,6 +31,34 @@ namespace UWG_CS3230_FurnitureRental
         {
             this.InitializeComponent();
             this.initStates();
+            this.edit = false;
+        }
+
+        public RegisterCustomer(Customer customer)
+        {
+            this.editCustomer = customer;
+            this.InitializeComponent();
+            this.initStates();
+            this.fNameTextBox.Text = customer.fName;
+            this.lNameTextBox.Text = customer.lName;
+            if (customer.gender == "M")
+            {
+                this.genderComboBox.SelectedIndex = 0;
+            }
+            else
+            {
+                this.genderComboBox.SelectedIndex = 1;
+            }
+
+            this.phoneTextBox.Text = customer.phoneNumber;
+            this.bdayDatePicker.SelectedDate = customer.birthday;
+            this.addr1TextBox.Text = customer.address.address1;
+            this.addr2TextBox.Text = customer.address.address2;
+            this.cityTextBox.Text = customer.address.city;
+            var stateIndex = this.states.IndexOf(customer.address.state);
+            this.stateComboBox.SelectedIndex = stateIndex;
+            this.zipTextBox.Text = customer.address.zip;
+            this.edit = true;
         }
 
         #endregion
@@ -46,6 +78,20 @@ namespace UWG_CS3230_FurnitureRental
         }
 
         private void ContentDialog_SaveButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+
+            if (this.edit)
+            {
+                this.editMemberSave(args);
+            }
+            else
+            {
+                this.newMemberSave(args);
+            }
+            
+        }
+
+        private void newMemberSave(ContentDialogButtonClickEventArgs args)
         {
             if (string.IsNullOrEmpty(this.fNameTextBox.Text))
             {
@@ -102,16 +148,76 @@ namespace UWG_CS3230_FurnitureRental
             }
         }
 
+        private void editMemberSave(ContentDialogButtonClickEventArgs args)
+        {
+            if (string.IsNullOrEmpty(this.fNameTextBox.Text))
+            {
+                args.Cancel = true;
+                this.errorTextBox.Text = "First Name Required";
+            }
+            else if (string.IsNullOrEmpty(this.lNameTextBox.Text))
+            {
+                args.Cancel = true;
+                this.errorTextBox.Text = "Last Name Required";
+            }
+            else if (this.genderComboBox.SelectedValue == null)
+            {
+                args.Cancel = true;
+                this.errorTextBox.Text = "Gender Required";
+            }
+            else if (!Regex.IsMatch(this.phoneTextBox.Text, phoneRegex))
+            {
+                args.Cancel = true;
+                this.errorTextBox.Text = "Phone Format Invalid";
+            }
+            else if (this.bdayDatePicker.SelectedDate == null)
+            {
+                args.Cancel = true;
+                this.errorTextBox.Text = "Birthday Required";
+            }
+            else if (string.IsNullOrEmpty(this.addr1TextBox.Text))
+            {
+                args.Cancel = true;
+                this.errorTextBox.Text = "Address 1 Required";
+            }
+            else if (string.IsNullOrEmpty(this.cityTextBox.Text))
+            {
+                args.Cancel = true;
+                this.errorTextBox.Text = "City Required";
+            }
+            else if (this.stateComboBox.SelectedValue == null)
+            {
+                args.Cancel = true;
+                this.errorTextBox.Text = "State Required";
+            }
+            else if (!Regex.IsMatch(this.zipTextBox.Text, zipRegex))
+            {
+                args.Cancel = true;
+                this.errorTextBox.Text = "Zip Format Invalid";
+            }
+            else
+            {
+                var address = this.createAddress();
+                var newCustomer = this.createCustomer(address);
+                this.dal.CreateNewAddress(address);
+                var id = this.dal.GetAddressId(address);
+                this.mDal.UpdateMember(newCustomer, id);
+            }
+        }
+
         private Address createAddress()
         {
             var customerAddress = new Address {
-                id = null,
                 address1 = this.addr1TextBox.Text,
                 address2 = this.addr2TextBox.Text,
                 city = this.cityTextBox.Text,
                 state = this.stateComboBox.SelectedValue.ToString(),
                 zip = this.zipTextBox.Text
             };
+            if (this.editCustomer != null)
+            {
+                customerAddress.id = this.editCustomer.address.id;
+            }
             return customerAddress;
         }
 
@@ -126,6 +232,11 @@ namespace UWG_CS3230_FurnitureRental
                 phoneNumber = this.phoneTextBox.Text,
                 registrationDate = DateTime.Now
             };
+            if (this.editCustomer != null)
+            {
+                newCustomer.id = this.editCustomer.id;
+                newCustomer.registrationDate = this.editCustomer.registrationDate;
+            }
             return newCustomer;
         }
 

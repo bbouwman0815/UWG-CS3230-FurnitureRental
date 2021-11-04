@@ -46,7 +46,7 @@
         </Grid>
         <Grid x:Name="memberPanel" BorderThickness="1" BorderBrush="Black" Margin="79,147,614,116" Visibility="Collapsed">
 
-            <Button x:Name="addMemberButton" Content="+" Margin="397,30,0,0" VerticalAlignment="Top" Width="45" FontSize="18" Visibility="Collapsed" Click="addMemberButton_Click"/>
+            <Button x:Name="editMemberButton" Content="Edit Member" Margin="311,31,0,0" VerticalAlignment="Top" Width="132" FontSize="18" Visibility="Collapsed" Click="editMemberButton_Click"/>
             <ComboBox x:Name="searchMemberByComboBox" PlaceholderText="Member Search Method" Margin="25,33,0,0" Width="251"></ComboBox>
             <TextBox x:Name="memberSearchTextBox" Margin="25,72,190,415" Height="34" PlaceholderText="Search for member" TextChanged="memberSearchTextBox_TextChanged" />
             <ListView x:Name="memberListView" Margin="27,131,26,25" RequestedTheme="Default" Header="Members"  ItemsSource="{x:Bind members, Mode=TwoWay}"

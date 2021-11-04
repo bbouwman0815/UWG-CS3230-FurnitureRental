@@ -282,7 +282,6 @@ namespace UWG_CS3230_FurnitureRental
                 this.priceTextBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
 
-            this.addMemberButton.Visibility = Visibility.Visible;
             this.addFurnitureButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.cancelOrderButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.orderBorder.Visibility = Windows.UI.Xaml.Visibility.Visible;
@@ -296,7 +295,6 @@ namespace UWG_CS3230_FurnitureRental
 
         private void hideOrder()
         {
-            this.addMemberButton.Visibility = Visibility.Collapsed;
             this.addFurnitureButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             this.placeOrderButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             this.cancelOrderButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
@@ -560,14 +558,20 @@ namespace UWG_CS3230_FurnitureRental
             }
         }
 
-        private void addMemberButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void memberListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             this.updateOrderDetails();
+            this.editMemberButton.Visibility = Visibility.Visible;
+        }
+
+        private async void editMemberButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.selectedMember != null)
+            {
+                ContentDialog registerDialog = new RegisterCustomer(this.selectedMember);
+                await registerDialog.ShowAsync();
+            }
+            
         }
     }
 }

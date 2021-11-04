@@ -181,5 +181,24 @@ namespace UWG_CS3230_FurnitureRental.DAL
 
         }
 
+        public void UpdateMember(Customer customer, int addressId)
+        {
+            using MySqlConnection connection = new MySqlConnection(Connection.connectionString);
+            connection.Open();
+            String query = "UPDATE member SET fname = @fname, lname = @lname, birthday = @birthday, gender = @gender, phone = @phone, addressId = @addressId where id = @id;";
+
+            using MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.Add("@id", MySqlDbType.Int32).Value = customer.id;
+
+            command.Parameters.AddWithValue("@fName", customer.fName);
+            command.Parameters.AddWithValue("@lName", customer.lName);
+            command.Parameters.AddWithValue("@gender", customer.gender);
+            command.Parameters.AddWithValue("@birthday", customer.birthday);
+            command.Parameters.AddWithValue("@registrationDate", customer.registrationDate);
+            command.Parameters.AddWithValue("@phone", customer.phoneNumber);
+            command.Parameters.AddWithValue("@addressId", addressId);
+            command.ExecuteNonQuery();
+        }
+
     }
 }
