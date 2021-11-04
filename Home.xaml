@@ -37,8 +37,8 @@
 
             <Button x:Name="addFurnitureButton" Content="+" Margin="397,30,0,0" VerticalAlignment="Top" Width="45" FontSize="18" Click="addFurnitureButton_Click"/>
             <TextBox x:Name="searchInputTextBox" Text="" TextWrapping="Wrap" PlaceholderText="Search for furniture" TextChanged="HandleSearchTextChange" Margin="25,33,190,455"/>
-            <ComboBox x:Name="categoryComboBox" Margin="25,72,0,0" Width="120" Height="34" PlaceholderText="Category"/>
-            <ComboBox x:Name="styleComboBox" Margin="155,72,0,0" Width="122" Height="34" PlaceholderText="Style"/>
+            <ComboBox x:Name="categoryComboBox" Margin="25,72,0,0" Width="120" Height="34" PlaceholderText="Category" SelectionChanged="handleFilterSelectionChanged"/>
+            <ComboBox x:Name="styleComboBox" Margin="155,72,0,0" Width="122" Height="34" PlaceholderText="Style" SelectionChanged="handleFilterSelectionChanged"/>
             <ListView x:Name="furnitureListView" Margin="27,131,26,25" RequestedTheme="Default" Header="Inventory"  ItemsSource="{x:Bind inventory, Mode=TwoWay}"
                       SelectedItem="{x:Bind selectedFurniture, Mode=TwoWay}" SelectionChanged="handleSelectionChanged">
             </ListView>
