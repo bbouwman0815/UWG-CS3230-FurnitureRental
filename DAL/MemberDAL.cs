@@ -105,7 +105,7 @@ namespace UWG_CS3230_FurnitureRental.DAL
                         state = reader.GetFieldValueCheckNull<string>(stateordinal),
                         zip = reader.GetFieldValueCheckNull<string>(zipordinal)
                     };
-                    customers.Add( new Customer
+                    customers.Add(new Customer
                     {
                         id = reader.GetFieldValueCheckNull<int>(idordinal),
                         fName = reader.GetFieldValueCheckNull<string>(fnameordinal),

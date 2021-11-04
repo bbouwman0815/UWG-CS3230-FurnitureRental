@@ -58,7 +58,7 @@ namespace UWG_CS3230_FurnitureRental
             
             this.quantityComboBox.ItemsSource = this.quantityAv;
             this.selectedFurniture = new Furniture();
-            this.selectedMember = new Customer();
+            this.selectedMember = null;
             this.selectedRentalItem = new RentalItem();
             this.selectedQuantity = 0;
             this.rentalPeriod = 0;
@@ -156,7 +156,7 @@ namespace UWG_CS3230_FurnitureRental
                     transactionDate = DateTime.Now,
                     dueDate = this.orderDatePicker.Date.DateTime,
                     employeeId = LoggedEmployee.CurrentLoggedEmployee.Id,
-                    memberId = 1
+                    memberId = this.selectedMember.id.Value
                 };
 
                 RentalTransactionDAL rdal = new RentalTransactionDAL();
@@ -327,7 +327,25 @@ namespace UWG_CS3230_FurnitureRental
 
         private void placeOrderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            _ = this.setupConfirmOrderDialogAsync();
+            if (this.selectedMember != null)
+            {
+                _ = this.setupConfirmOrderDialogAsync();
+            }
+            else
+            {
+                this.selectMemberDialog();
+            }
+            
+        }
+
+        private async void selectMemberDialog()
+        {
+            ContentDialog helpDialog = new ContentDialog
+            {
+                Title = "Before you can place the order, check that a member has been selected.",
+                PrimaryButtonText = "Ok",
+            };
+            ContentDialogResult result = await helpDialog.ShowAsync();
         }
           
         private void cancelOrderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -387,6 +405,11 @@ namespace UWG_CS3230_FurnitureRental
             string details = "";
             details += "Rental Period: " + this.rentalPeriod + " days";
             details += "   Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems, this.rentalPeriod);
+            if (this.selectedMember != null)
+            {
+                details += "   Member Id: " + this.selectedMember.id;
+            }
+            
             this.orderDetailsTextBox.Text = details;
         }
 
@@ -534,6 +557,16 @@ namespace UWG_CS3230_FurnitureRental
 
                 }
             }
+        }
+
+        private void addMemberButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void memberListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.updateOrderDetails();
         }
     }
 }
