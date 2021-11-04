@@ -4,6 +4,7 @@ using UWG_CS3230_FurnitureRental.Model;
 using UWG_CS3230_FurnitureRental.DAL;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Windows.UI.Xaml;
 using UWG_CS3230_FurnitureRental.Utilities;
 using System.Linq;
 
@@ -20,6 +21,7 @@ namespace UWG_CS3230_FurnitureRental
         private readonly FurnitureDAL fdal = new FurnitureDAL();
 
         private ObservableCollection<Furniture> inventory { get; set; }
+        private ObservableCollection<Customer> members { get; set; }
         private ObservableCollection<RentalItem> rentalItems { get; set; }
         private ObservableCollection<string> styles { get; set; }
         private ObservableCollection<string> categories { get; set; }
@@ -27,6 +29,7 @@ namespace UWG_CS3230_FurnitureRental
         private ObservableCollection<int> quantityAv { get; set; }
 
         private Furniture selectedFurniture { get; set; }
+        private Customer selectedMember { get; set; }
 
         private RentalItem selectedRentalItem { get; set; }
 
@@ -39,6 +42,7 @@ namespace UWG_CS3230_FurnitureRental
             this.InitializeComponent();
             this.initializeCollections();
             this.setupTypeComboBoxes();
+            this.setupMemberSearchByComboBox();
             this.setupEmployeeHeader();
             this.hideOrder();
         }
@@ -46,11 +50,13 @@ namespace UWG_CS3230_FurnitureRental
         private void initializeCollections()
         {
             this.inventory = new ObservableCollection<Furniture>();
+            this.members = new ObservableCollection<Customer>();
             this.rentalItems = new ObservableCollection<RentalItem>();
             this.quantityAv = new ObservableCollection<int>();
             
             this.quantityComboBox.ItemsSource = this.quantityAv;
             this.selectedFurniture = new Furniture();
+            this.selectedMember = new Customer();
             this.selectedRentalItem = new RentalItem();
             this.selectedQuantity = 0;
             this.rentalPeriod = 0;
@@ -64,6 +70,11 @@ namespace UWG_CS3230_FurnitureRental
 
             this.styleComboBox.ItemsSource = this.styles;
             this.categoryComboBox.ItemsSource = this.categories;
+        }
+
+        private void setupMemberSearchByComboBox()
+        {
+            this.searchMemberByComboBox.ItemsSource = new ObservableCollection<string>() { "Id", "Phone", "Name" };
         }
 
         private void setupEmployeeHeader()
@@ -263,20 +274,27 @@ namespace UWG_CS3230_FurnitureRental
 
         private void displayOrder()
         {
+            if (this.furniturePanel.Visibility == Visibility.Visible)
+            {
+                this.quantityComboBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                this.priceTextBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            }
+
+            this.addMemberButton.Visibility = Visibility.Visible;
             this.addFurnitureButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.cancelOrderButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.orderBorder.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.orderDetailsTextBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.orderTotalTextBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.orderListView.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            this.quantityComboBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            this.priceTextBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.removeFurnitureButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.orderDatePicker.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            this.orderDueDateTextBlock.Visibility = Visibility.Visible;
         }
 
         private void hideOrder()
         {
+            this.addMemberButton.Visibility = Visibility.Collapsed;
             this.addFurnitureButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             this.placeOrderButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             this.cancelOrderButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
@@ -288,6 +306,7 @@ namespace UWG_CS3230_FurnitureRental
             this.priceTextBox.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             this.removeFurnitureButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             this.orderDatePicker.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.orderDueDateTextBlock.Visibility = Visibility.Collapsed;
             this.placeNewOrderButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
 
             this.rentalItems.Clear();
@@ -425,6 +444,41 @@ namespace UWG_CS3230_FurnitureRental
         {
             this.styleComboBox.SelectedIndex = -1;
             this.categoryComboBox.SelectedIndex = -1;
+        }
+        
+        private void toggleFurnitureAndMembers_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if (this.furniturePanel.Visibility == Visibility.Visible)
+            {
+                this.furniturePanel.Visibility = Visibility.Collapsed;
+                this.priceTextBox.Visibility = Visibility.Collapsed;
+                this.quantityComboBox.Visibility = Visibility.Collapsed;
+                if (this.orderBorder.Visibility == Visibility.Collapsed)
+                {
+                    this.placeNewOrderButton.Visibility = Visibility.Visible;
+                }
+                
+                this.memberPanel.Visibility = Visibility.Visible;
+                this.toggleFurnitureAndMembers.Content = "Toggle Furniture";
+            }
+
+            else
+            {
+                this.memberPanel.Visibility = Visibility.Collapsed;
+                this.toggleFurnitureAndMembers.Content = "Toggle Members";
+                this.furniturePanel.Visibility = Visibility.Visible;
+                if (this.orderBorder.Visibility == Visibility.Visible)
+                {
+                    this.quantityComboBox.Visibility = Visibility.Visible;
+                    this.priceTextBox.Visibility = Visibility.Visible;
+                }
+            }
+
+            this.categoryComboBox.SelectedIndex = -1;
+            this.styleComboBox.SelectedIndex = -1;
+            this.searchMemberByComboBox.SelectedIndex = -1;
+            this.quantityComboBox.SelectedIndex = -1;
+            this.priceTextBox.Text = "";
         }
     }
 }
