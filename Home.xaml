@@ -35,8 +35,8 @@
         <Button x:Name="removeFurnitureButton" Content="-" Margin="1014,175,0,0" VerticalAlignment="Top" Width="45" FontSize="18" Click="removeFurnitureButton_Click"/>
         <DatePicker x:Name="orderDatePicker" Margin="639,177,0,0" VerticalAlignment="Top" Width="314" DateChanged="handleDateChanged"/>
         <Border x:Name="orderBorder" BorderThickness="1" BorderBrush="Black" Margin="617,147,76,116"/>
-        <ComboBox x:Name="categoryComboBox" Margin="109,214,0,0" Width="120" Height="34" PlaceholderText="Category"/>
-        <ComboBox x:Name="styleComboBox" Margin="234,214,0,0" Width="122" Height="34" PlaceholderText="Style"/>
+        <ComboBox x:Name="categoryComboBox" Margin="109,214,0,0" Width="120" Height="34" PlaceholderText="Category" SelectionChanged="handleFilterSelectionChanged"/>
+        <ComboBox x:Name="styleComboBox" Margin="234,214,0,0" Width="122" Height="34" PlaceholderText="Style" SelectionChanged="handleFilterSelectionChanged"/>
         <Border x:Name="orderBorder_Copy" BorderThickness="1" BorderBrush="Black" Margin="79,147,614,116"/>
     </Grid>
 </Page>

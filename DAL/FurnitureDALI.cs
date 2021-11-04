@@ -375,6 +375,18 @@ namespace UWG_CS3230_FurnitureRental.DAL
             command.ExecuteNonQuery();
         }
 
+        public void UpdateRentedFurnitureQuantity(int id, int rented)
+        {
+            using MySqlConnection connection = new MySqlConnection(Connection.connectionString);
+            connection.Open();
+            String query = "UPDATE furniture SET rented = @rented where id = @id;";
+
+            using MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
+            command.Parameters.AddWithValue("@rented", rented);
+            command.ExecuteNonQuery();
+        }
+
         public ObservableCollection<string> GetCategories()
         {
             ObservableCollection<string> categoryList = new ObservableCollection<string>();

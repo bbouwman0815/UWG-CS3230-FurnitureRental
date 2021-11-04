@@ -5,6 +5,7 @@ using UWG_CS3230_FurnitureRental.DAL;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UWG_CS3230_FurnitureRental.Utilities;
+using System.Linq;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -124,6 +125,46 @@ namespace UWG_CS3230_FurnitureRental
             }
         }
 
+        private async System.Threading.Tasks.Task setupConfirmOrderDialogAsync()
+        {
+            ContentDialog confirmOrderDialog = new ContentDialog
+            {
+                Title = "Are you sure you want to place the following order?",
+                PrimaryButtonText = "Yes",
+                CloseButtonText = "No"
+            };
+            ContentDialogResult result = await confirmOrderDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                RentalTransaction rentalTransaction = new RentalTransaction
+                {
+                    id = null,
+                    cost = OrderFormatter.CalculateOrderCost(this.rentalItems, this.rentalPeriod),
+                    transactionDate = DateTime.Now,
+                    dueDate = this.orderDatePicker.Date.DateTime,
+                    employeeId = LoggedEmployee.CurrentLoggedEmployee.Id,
+                    memberId = 1
+                };
+
+                RentalTransactionDAL rdal = new RentalTransactionDAL();
+                FurnitureDAL fdal = new FurnitureDAL();
+                int transactionId = rdal.CreateNewRentalTransaction(rentalTransaction);
+
+                foreach (RentalItem currentRentalItem in this.rentalItems)
+                {
+                    currentRentalItem.RentalId = transactionId;
+                    rdal.CreateNewRentalItem(currentRentalItem);
+                    int availableQuantity = fdal.GetFurnitureById(currentRentalItem.FurnitureId).Available - currentRentalItem.Quantity;
+                    int rentedQuantity = fdal.GetFurnitureById(currentRentalItem.FurnitureId).Rented + currentRentalItem.Quantity;
+                    fdal.UpdateAvailableFurnitureQuantity(currentRentalItem.FurnitureId, availableQuantity);
+                    fdal.UpdateRentedFurnitureQuantity(currentRentalItem.FurnitureId, rentedQuantity);
+                }
+
+                this.rentalItems.Clear();
+                this.hideOrder();
+            }
+        }
+
         private async System.Threading.Tasks.Task setupHelpDialogAsync()
         {
             ContentDialog helpDialog = new ContentDialog
@@ -138,9 +179,17 @@ namespace UWG_CS3230_FurnitureRental
         private void HandleSearchTextChange(object sender, TextChangedEventArgs e)
         {
             string search = this.searchInputTextBox.Text;
+            if (search == "reset")
+            {
+                this.handleResetFilters();
+                this.searchInputTextBox.Text = "";
+            }
             this.inventory = this.fdal.SearchFurnitureByDescription(search);
             this.ConfigureQuantities();
             this.furnitureListView.ItemsSource = this.inventory;
+
+            this.applyFilters();
+
         }
 
         private void ConfigureQuantities()
@@ -215,7 +264,6 @@ namespace UWG_CS3230_FurnitureRental
         private void displayOrder()
         {
             this.addFurnitureButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            this.placeOrderButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.cancelOrderButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.orderBorder.Visibility = Windows.UI.Xaml.Visibility.Visible;
             this.orderDetailsTextBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
@@ -258,30 +306,7 @@ namespace UWG_CS3230_FurnitureRental
 
         private void placeOrderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            RentalTransaction rentalTransaction = new RentalTransaction
-            {
-                id = null,
-                cost = OrderFormatter.CalculateOrderCost(this.rentalItems, this.rentalPeriod),
-                transactionDate = DateTime.Now,
-                dueDate = this.orderDatePicker.Date.DateTime,
-                employeeId = LoggedEmployee.CurrentLoggedEmployee.Id,
-                memberId = 1
-            };
-
-            RentalTransactionDAL rdal = new RentalTransactionDAL();
-            FurnitureDAL fdal = new FurnitureDAL();
-            int transactionId = rdal.CreateNewRentalTransaction(rentalTransaction);
-
-            foreach (RentalItem currentRentalItem in this.rentalItems)
-            {
-                currentRentalItem.RentalId = transactionId;
-                rdal.CreateNewRentalItem(currentRentalItem);
-                int quantity = fdal.GetFurnitureById(currentRentalItem.FurnitureId).Available - currentRentalItem.Quantity;
-                fdal.UpdateAvailableFurnitureQuantity(currentRentalItem.FurnitureId, quantity);
-            }
-
-            this.rentalItems.Clear();
-            this.hideOrder();
+            _ = this.setupConfirmOrderDialogAsync();
         }
           
         private void cancelOrderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -330,7 +355,10 @@ namespace UWG_CS3230_FurnitureRental
         {
             this.orderTotalTextBox.Text = "Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems, this.rentalPeriod);
             this.updateOrderDetails();
-         
+            if (OrderFormatter.CalculateOrderCost(this.rentalItems, this.rentalPeriod) > 0)
+            {
+                this.placeOrderButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            }
         }
 
         private void updateOrderDetails()
@@ -339,6 +367,64 @@ namespace UWG_CS3230_FurnitureRental
             details += "Rental Period: " + this.rentalPeriod + " days";
             details += "   Total: " + OrderFormatter.CalculateFormatOrderCost(this.rentalItems, this.rentalPeriod);
             this.orderDetailsTextBox.Text = details;
+        }
+
+        private void handleFilterSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.applyFilters();
+        }
+
+        private void applyFilters()
+        {
+         
+            ObservableCollection<Furniture> furnitureToDisplay = new ObservableCollection<Furniture>();
+            FurnitureDAL fdal = new FurnitureDAL();
+            this.inventory = this.fdal.SearchFurnitureByDescription(this.searchInputTextBox.Text);
+            if (this.categoryComboBox.SelectedIndex > -1 && this.styleComboBox.SelectedIndex > -1)
+            {
+             
+                string styleType = this.styleComboBox.SelectedValue.ToString();
+                int style = fdal.GetStyleIdByType(styleType);
+                string categoryType = this.categoryComboBox.SelectedValue.ToString();
+                int category = fdal.GetCategoryIdByType(categoryType);
+                foreach (var currentFurniture in this.inventory.Where(currentFurniture => currentFurniture.CategoryId == category && currentFurniture.StyleId == style))
+                {
+                    furnitureToDisplay.Add(currentFurniture);
+                }
+                this.inventory = furnitureToDisplay;
+                this.furnitureListView.ItemsSource = this.inventory;
+                return;
+            }
+            if (this.categoryComboBox.SelectedIndex > -1)
+            {
+                string categoryType = this.categoryComboBox.SelectedValue.ToString();
+                int category = fdal.GetCategoryIdByType(categoryType);
+                foreach (var currentFurniture in this.inventory.Where(currentFurniture => currentFurniture.CategoryId == category))
+                {
+                    furnitureToDisplay.Add(currentFurniture);
+                }
+                this.inventory = furnitureToDisplay;
+                this.furnitureListView.ItemsSource = this.inventory;
+                return;
+            }
+            if (this.styleComboBox.SelectedIndex > -1)
+            {
+                string styleType = this.styleComboBox.SelectedValue.ToString();
+                int style = fdal.GetStyleIdByType(styleType);
+                foreach (var currentFurniture in this.inventory.Where(currentFurniture => currentFurniture.StyleId == style))
+                {
+                    furnitureToDisplay.Add(currentFurniture);
+                }
+                this.inventory = furnitureToDisplay;
+                this.furnitureListView.ItemsSource = this.inventory;
+                return;
+            } 
+        }
+
+        private void handleResetFilters()
+        {
+            this.styleComboBox.SelectedIndex = -1;
+            this.categoryComboBox.SelectedIndex = -1;
         }
     }
 }
