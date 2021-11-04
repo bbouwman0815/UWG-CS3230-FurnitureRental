@@ -316,6 +316,7 @@ namespace UWG_CS3230_FurnitureRental
             this.orderDatePicker.SelectedDate = null;
             this.searchInputTextBox.Text = "";
             this.orderTotalTextBox.Text = "";
+            this.rentalPeriod = 0;
             this.ConfigureQuantities();
         }
 
