@@ -8,6 +8,7 @@ using System.Diagnostics;
 using Windows.UI.Xaml;
 using UWG_CS3230_FurnitureRental.Utilities;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -195,6 +196,20 @@ namespace UWG_CS3230_FurnitureRental
             {
                 this.handleResetFilters();
                 this.searchInputTextBox.Text = "";
+            }
+            if (Regex.IsMatch(search, @"^\d"))
+            {
+                Furniture furnitureByID = this.fdal.GetFurnitureById(Int32.Parse(search));
+                if (furnitureByID.Id != 0) {
+                    this.inventory.Clear();
+                    this.inventory.Add(furnitureByID);
+                    this.ConfigureQuantities();
+                    this.furnitureListView.ItemsSource = this.inventory;
+
+                    this.applyFilters();
+
+                    return;
+                }
             }
             this.inventory = this.fdal.SearchFurnitureByDescription(search);
             this.ConfigureQuantities();
@@ -479,13 +494,15 @@ namespace UWG_CS3230_FurnitureRental
                 this.inventory = furnitureToDisplay;
                 this.furnitureListView.ItemsSource = this.inventory;
                 return;
-            } 
+            }
         }
 
         private void handleResetFilters()
         {
             this.styleComboBox.SelectedIndex = -1;
             this.categoryComboBox.SelectedIndex = -1;
+            this.quantityComboBox.SelectedIndex = -1;
+            this.selectedFurniture = new Furniture();
         }
         
         private void toggleFurnitureAndMembers_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)

@@ -114,29 +114,6 @@ namespace UWG_CS3230_FurnitureRental.DAL
             return categoryList;
         }
 
-        public List<int> GetStylesBySearch(string search)
-        {
-            List<int> stylesList = new List<int>();
-            using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
-            {
-                connection.Open();
-                String query = "select id from style where type LIKE @search";
-
-                using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@search", "%" + search + "%");
-
-                using MySqlDataReader reader = command.ExecuteReader();
-                int idordinal = reader.GetOrdinal("id");
-
-                while (reader.Read())
-                {
-                    int category = reader.GetFieldValueCheckNull<int>(idordinal);
-                    stylesList.Add(category);
-                };
-            }
-            return stylesList;
-        }
-
         public ObservableCollection<Furniture> GetFurnitureByStyle(int styleId)
         {
             ObservableCollection<Furniture> furnitureList = new ObservableCollection<Furniture>();
