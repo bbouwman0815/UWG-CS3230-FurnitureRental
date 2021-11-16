@@ -447,10 +447,10 @@ namespace UWG_CS3230_FurnitureRental
             {
              
                 string styleType = this.styleComboBox.SelectedValue.ToString();
-                int style = fdal.GetStyleIdByType(styleType);
+         
                 string categoryType = this.categoryComboBox.SelectedValue.ToString();
-                int category = fdal.GetCategoryIdByType(categoryType);
-                foreach (var currentFurniture in this.inventory.Where(currentFurniture => currentFurniture.CategoryId == category && currentFurniture.StyleId == style))
+  
+                foreach (var currentFurniture in this.inventory.Where(currentFurniture => currentFurniture.Category == categoryType && currentFurniture.Style == styleType))
                 {
                     furnitureToDisplay.Add(currentFurniture);
                 }
@@ -461,8 +461,7 @@ namespace UWG_CS3230_FurnitureRental
             if (this.categoryComboBox.SelectedIndex > -1)
             {
                 string categoryType = this.categoryComboBox.SelectedValue.ToString();
-                int category = fdal.GetCategoryIdByType(categoryType);
-                foreach (var currentFurniture in this.inventory.Where(currentFurniture => currentFurniture.CategoryId == category))
+                foreach (var currentFurniture in this.inventory.Where(currentFurniture => currentFurniture.Category == categoryType))
                 {
                     furnitureToDisplay.Add(currentFurniture);
                 }
@@ -473,8 +472,7 @@ namespace UWG_CS3230_FurnitureRental
             if (this.styleComboBox.SelectedIndex > -1)
             {
                 string styleType = this.styleComboBox.SelectedValue.ToString();
-                int style = fdal.GetStyleIdByType(styleType);
-                foreach (var currentFurniture in this.inventory.Where(currentFurniture => currentFurniture.StyleId == style))
+                foreach (var currentFurniture in this.inventory.Where(currentFurniture => currentFurniture.Style == styleType))
                 {
                     furnitureToDisplay.Add(currentFurniture);
                 }
@@ -594,7 +592,6 @@ namespace UWG_CS3230_FurnitureRental
         private void editItemButton_Click(object sender, RoutedEventArgs e)
         {
             _ = setupEditItemAsync();
-            this.refreshDisplay();
         }
 
         private async System.Threading.Tasks.Task setupEditItemAsync()
@@ -609,6 +606,8 @@ namespace UWG_CS3230_FurnitureRental
                 this.removeOrderItem(rentalItem);
                 this.addEditedFurniture();
             }
+
+            this.refreshDisplay();
         }
     }
 }

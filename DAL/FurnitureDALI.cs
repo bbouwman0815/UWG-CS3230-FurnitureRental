@@ -30,8 +30,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
 
                 using MySqlDataReader reader = command.ExecuteReader();
                 int idordinal = reader.GetOrdinal("id");
-                int styleordinal = reader.GetOrdinal("styleId");
-                int categoryordinal = reader.GetOrdinal("categoryId");
+                int styleordinal = reader.GetOrdinal("style");
+                int categoryordinal = reader.GetOrdinal("category");
                 int descriptionordinal = reader.GetOrdinal("description");
                 int availableordinal = reader.GetOrdinal("available");
                 int rentedordinal = reader.GetOrdinal("rented");
@@ -42,8 +42,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
                     furnitureList.Add(new Furniture
                     {
                         Id = reader.GetFieldValueCheckNull<int>(idordinal),
-                        StyleId = reader.GetFieldValueCheckNull<int>(styleordinal),
-                        CategoryId = reader.GetFieldValueCheckNull<int>(categoryordinal),
+                        Style = reader.GetFieldValueCheckNull<string>(styleordinal),
+                        Category = reader.GetFieldValueCheckNull<string>(categoryordinal),
                         Description = reader.GetFieldValueCheckNull<string>(descriptionordinal),
                         Available = reader.GetFieldValueCheckNull<int>(availableordinal),
                         Rented = reader.GetFieldValueCheckNull<int>(rentedordinal),
@@ -67,8 +67,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
 
                 using MySqlDataReader reader = command.ExecuteReader();
                 int idordinal = reader.GetOrdinal("id");
-                int styleordinal = reader.GetOrdinal("styleId");
-                int categoryordinal = reader.GetOrdinal("categoryId");
+                int styleordinal = reader.GetOrdinal("style");
+                int categoryordinal = reader.GetOrdinal("category");
                 int descriptionordinal = reader.GetOrdinal("description");
                 int availableordinal = reader.GetOrdinal("available");
                 int rentedordinal = reader.GetOrdinal("rented");
@@ -79,8 +79,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
                     furnitureList.Add(new Furniture
                     {
                         Id = reader.GetFieldValueCheckNull<int>(idordinal),
-                        StyleId = reader.GetFieldValueCheckNull<int>(styleordinal),
-                        CategoryId = reader.GetFieldValueCheckNull<int>(categoryordinal),
+                        Style = reader.GetFieldValueCheckNull<string>(styleordinal),
+                        Category = reader.GetFieldValueCheckNull<string>(categoryordinal),
                         Description = reader.GetFieldValueCheckNull<string>(descriptionordinal),
                         Available = reader.GetFieldValueCheckNull<int>(availableordinal),
                         Rented = reader.GetFieldValueCheckNull<int>(rentedordinal),
@@ -89,73 +89,6 @@ namespace UWG_CS3230_FurnitureRental.DAL
                 }
             }
             return furnitureList;
-        }
-
-        public string GetCategoryTypeById(int categoryId)
-        {
-            String category = "";
-            using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
-            {
-                connection.Open();
-                String query = "select type from category where id = @categoryId;";
-
-                using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.Add("@categoryId", MySqlDbType.Int32).Value = categoryId;
-
-                using MySqlDataReader reader = command.ExecuteReader();
-                int typeordinal = reader.GetOrdinal("type");
-
-                while (reader.Read())
-                {
-                    category = reader.GetFieldValueCheckNull<string>(typeordinal);
-                }
-            }
-            return category;
-        }
-
-        public string GetStyleTypeById(int styleId)
-        {
-            String category = "";
-            using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
-            {
-                connection.Open();
-                String query = "select type from style where id = @styleId;";
-
-                using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.Add("@styleId", MySqlDbType.Int32).Value = styleId;
-
-                using MySqlDataReader reader = command.ExecuteReader();
-                int typeordinal = reader.GetOrdinal("type");
-
-                while (reader.Read())
-                {
-                    category = reader.GetFieldValueCheckNull<string>(typeordinal);
-                }
-            }
-            return category;
-        }
-
-        public int GetCategoryIdByType(string type)
-        {
-            int id = -1;
-            using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
-            {
-                connection.Open();
-                String query = "select id from category where type = @type;";
-
-                using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.Add("@type", MySqlDbType.VarChar).Value = type;
-
-                using MySqlDataReader reader = command.ExecuteReader();
-                int idordinal = reader.GetOrdinal("id");
-
-                while (reader.Read())
-                {
-                    id = reader.GetFieldValueCheckNull<int>(idordinal);
-                }
-
-            }
-            return id;
         }
 
         public List<int> GetCategoriesBySearch(string search)
@@ -204,28 +137,6 @@ namespace UWG_CS3230_FurnitureRental.DAL
             return stylesList;
         }
 
-        public int GetStyleIdByType(string type)
-        {
-            int id = -1;
-            using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
-            {
-                connection.Open();
-                String query = "select id from style where type = @type;";
-
-                using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.Add("@type", MySqlDbType.VarChar).Value = type;
-
-                using MySqlDataReader reader = command.ExecuteReader();
-                int idordinal = reader.GetOrdinal("id");
-
-                while (reader.Read())
-                {
-                    id = reader.GetFieldValueCheckNull<int>(idordinal);
-                }
-            }
-            return id;
-        }
-
         public ObservableCollection<Furniture> GetFurnitureByStyle(int styleId)
         {
             ObservableCollection<Furniture> furnitureList = new ObservableCollection<Furniture>();
@@ -239,8 +150,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
 
                 using MySqlDataReader reader = command.ExecuteReader();
                 int idordinal = reader.GetOrdinal("id");
-                int styleordinal = reader.GetOrdinal("styleId");
-                int categoryordinal = reader.GetOrdinal("categoryId");
+                int styleordinal = reader.GetOrdinal("style");
+                int categoryordinal = reader.GetOrdinal("category");
                 int descriptionordinal = reader.GetOrdinal("description");
                 int availableordinal = reader.GetOrdinal("available");
                 int rentedordinal = reader.GetOrdinal("rented");
@@ -251,8 +162,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
                     furnitureList.Add(new Furniture
                     {
                         Id = reader.GetFieldValueCheckNull<int>(idordinal),
-                        StyleId = reader.GetFieldValueCheckNull<int>(styleordinal),
-                        CategoryId = reader.GetFieldValueCheckNull<int>(categoryordinal),
+                        Style = reader.GetFieldValueCheckNull<string>(styleordinal),
+                        Category = reader.GetFieldValueCheckNull<string>(categoryordinal),
                         Description = reader.GetFieldValueCheckNull<string>(descriptionordinal),
                         Available = reader.GetFieldValueCheckNull<int>(availableordinal),
                         Rented = reader.GetFieldValueCheckNull<int>(rentedordinal),
@@ -276,8 +187,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
 
                 using MySqlDataReader reader = command.ExecuteReader();
                 int idordinal = reader.GetOrdinal("id");
-                int styleordinal = reader.GetOrdinal("styleId");
-                int categoryordinal = reader.GetOrdinal("categoryId");
+                int styleordinal = reader.GetOrdinal("style");
+                int categoryordinal = reader.GetOrdinal("category");
                 int descriptionordinal = reader.GetOrdinal("description");
                 int availableordinal = reader.GetOrdinal("available");
                 int rentedordinal = reader.GetOrdinal("rented");
@@ -288,8 +199,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
                     furnitureList.Add(new Furniture
                     {
                         Id = reader.GetFieldValueCheckNull<int>(idordinal),
-                        StyleId = reader.GetFieldValueCheckNull<int>(styleordinal),
-                        CategoryId = reader.GetFieldValueCheckNull<int>(categoryordinal),
+                        Style = reader.GetFieldValueCheckNull<string>(styleordinal),
+                        Category = reader.GetFieldValueCheckNull<string>(categoryordinal),
                         Description = reader.GetFieldValueCheckNull<string>(descriptionordinal),
                         Available = reader.GetFieldValueCheckNull<int>(availableordinal),
                         Rented = reader.GetFieldValueCheckNull<int>(rentedordinal),
@@ -313,8 +224,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
 
                 using MySqlDataReader reader = command.ExecuteReader();
                 int idordinal = reader.GetOrdinal("id");
-                int styleordinal = reader.GetOrdinal("styleId");
-                int categoryordinal = reader.GetOrdinal("categoryId");
+                int styleordinal = reader.GetOrdinal("style");
+                int categoryordinal = reader.GetOrdinal("category");
                 int descriptionordinal = reader.GetOrdinal("description");
                 int availableordinal = reader.GetOrdinal("available");
                 int rentedordinal = reader.GetOrdinal("rented");
@@ -325,8 +236,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
                     furniture = (new Furniture
                     {
                         Id = reader.GetFieldValueCheckNull<int>(idordinal),
-                        StyleId = reader.GetFieldValueCheckNull<int>(styleordinal),
-                        CategoryId = reader.GetFieldValueCheckNull<int>(categoryordinal),
+                        Style = reader.GetFieldValueCheckNull<string>(styleordinal),
+                        Category = reader.GetFieldValueCheckNull<string>(categoryordinal),
                         Description = reader.GetFieldValueCheckNull<string>(descriptionordinal),
                         Available = reader.GetFieldValueCheckNull<int>(availableordinal),
                         Rented = reader.GetFieldValueCheckNull<int>(rentedordinal),
@@ -350,8 +261,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
 
                 using MySqlDataReader reader = command.ExecuteReader();
                 int idordinal = reader.GetOrdinal("id");
-                int styleordinal = reader.GetOrdinal("styleId");
-                int categoryordinal = reader.GetOrdinal("categoryId");
+                int styleordinal = reader.GetOrdinal("style");
+                int categoryordinal = reader.GetOrdinal("category");
                 int descriptionordinal = reader.GetOrdinal("description");
                 int availableordinal = reader.GetOrdinal("available");
                 int rentedordinal = reader.GetOrdinal("rented");
@@ -362,8 +273,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
                     furnitureList.Add(new Furniture
                     {
                         Id = reader.GetFieldValueCheckNull<int>(idordinal),
-                        StyleId = reader.GetFieldValueCheckNull<int>(styleordinal),
-                        CategoryId = reader.GetFieldValueCheckNull<int>(categoryordinal),
+                        Style = reader.GetFieldValueCheckNull<string>(styleordinal),
+                        Category = reader.GetFieldValueCheckNull<string>(categoryordinal),
                         Description = reader.GetFieldValueCheckNull<string>(descriptionordinal),
                         Available = reader.GetFieldValueCheckNull<int>(availableordinal),
                         Rented = reader.GetFieldValueCheckNull<int>(rentedordinal),

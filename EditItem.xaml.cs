@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using UWG_CS3230_FurnitureRental.DAL;
 using UWG_CS3230_FurnitureRental.Model;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -41,10 +42,16 @@ namespace UWG_CS3230_FurnitureRental
 
         private void setupDisplay()
         {
+            FurnitureDAL fdal = new FurnitureDAL();
             ObservableCollection<int> available = RentalItem.SelectedRentalItem.GetQuantityRange();
-            int itemDescription = RentalItem.SelectedRentalItem.Quantity;
+            int itemQuantity = RentalItem.SelectedRentalItem.Quantity;
+            int id = RentalItem.SelectedRentalItem.FurnitureId;
+            Furniture furniture = fdal.GetFurnitureById(id);
+            String description = furniture.Description;
             this.QuantityComboBox.ItemsSource = available;
-            this.ItemDescriptionTextBlock.Text = "Current Quantity: " + itemDescription;
+            description += Environment.NewLine;
+            description += "Current Quantity: " + itemQuantity;
+            this.ItemDescriptionTextBlock.Text = description;
         }
     }
 }

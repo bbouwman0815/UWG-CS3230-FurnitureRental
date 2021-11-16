@@ -11,9 +11,9 @@ namespace UWG_CS3230_FurnitureRental.Model
     public class Furniture
     {
         public int Id { get; set; }
-        public int StyleId { get; set; }
+        public string Style { get; set; }
 
-        public int CategoryId { get; set; }
+        public string Category { get; set; }
 
         public string Description { get; set; }
 
@@ -28,9 +28,9 @@ namespace UWG_CS3230_FurnitureRental.Model
             string output = "";
             FurnitureDAL dal = new FurnitureDAL();
             output += Environment.NewLine;
-            output += dal.GetStyleTypeById(this.StyleId);
+            output += this.Style;
             output += " ";
-            output += dal.GetCategoryTypeById(this.CategoryId);
+            output += this.Category;
             output += " ";
             output += this.Description;
             output += Environment.NewLine;

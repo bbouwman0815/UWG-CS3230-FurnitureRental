@@ -9736,11 +9736,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\cupid\\Desktop\\testsss\\UWG-CS3230-FurnitureRental\\UWG-CS3230-FurnitureRental.csproj",
+      "projectUniqueName": "C:\\Users\\cupid\\Desktop\\UWG-CS3230-FurnitureRental\\UWG-CS3230-FurnitureRental.csproj",
       "projectName": "UWG-CS3230-FurnitureRental",
-      "projectPath": "C:\\Users\\cupid\\Desktop\\testsss\\UWG-CS3230-FurnitureRental\\UWG-CS3230-FurnitureRental.csproj",
+      "projectPath": "C:\\Users\\cupid\\Desktop\\UWG-CS3230-FurnitureRental\\UWG-CS3230-FurnitureRental.csproj",
       "packagesPath": "C:\\Users\\cupid\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\cupid\\Desktop\\testsss\\UWG-CS3230-FurnitureRental\\obj\\",
+      "outputPath": "C:\\Users\\cupid\\Desktop\\UWG-CS3230-FurnitureRental\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [

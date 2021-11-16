@@ -47,12 +47,12 @@ namespace UWG_CS3230_FurnitureRental.Model
             FurnitureDAL dal = new FurnitureDAL();
             Furniture furniture = dal.GetFurnitureById(this.FurnitureId);
             string description = furniture.Description;
-            string style = dal.GetStyleTypeById(furniture.StyleId);
-            string category = dal.GetCategoryTypeById(furniture.CategoryId);
+            string style = furniture.Style;
+            string category = furniture.Category;
             string totalCost = OrderFormatter.FormatTotalCost(this.TotalRentalRate);
             string dailyRate = OrderFormatter.FormatTotalCost(this.DailyRentalRate);
 
-            String output = Environment.NewLine; 
+            String output = Environment.NewLine;
             output += category + " " + style + " " + description;
             output += Environment.NewLine;
             output += "Daily rate: " + dailyRate + " x " + this.Quantity + " = " + totalCost;
