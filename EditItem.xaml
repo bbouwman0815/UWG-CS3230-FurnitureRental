@@ -1,0 +1,24 @@
+﻿<ContentDialog
+    x:Class="UWG_CS3230_FurnitureRental.EditItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWG_CS3230_FurnitureRental"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Edit Item"
+    PrimaryButtonText="Edit"
+    SecondaryButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick" 
+    Height="1216" Width="1836">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="400*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="ItemDescriptionTextBlock" HorizontalAlignment="Left" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="126" Width="282" Grid.ColumnSpan="2"/>
+        <ComboBox x:Name="QuantityComboBox" Grid.Column="1" Margin="52,138,0,0" Width="120"/>
+    </Grid>
+</ContentDialog>

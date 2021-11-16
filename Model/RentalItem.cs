@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace UWG_CS3230_FurnitureRental.Model
         public double DailyRentalRate { get; set; }
         public double TotalRentalRate => Quantity * DailyRentalRate;
 
+        public static RentalItem SelectedRentalItem { get; set; }
+
         public RentalItem(int furnitureId, int quantity, double dailyRentalRate)
         {
             this.FurnitureId = furnitureId;
@@ -26,6 +29,17 @@ namespace UWG_CS3230_FurnitureRental.Model
         public RentalItem()
         {
           
+        }
+
+        public ObservableCollection<int> GetQuantityRange()
+        {
+            ObservableCollection<int> quantity = new ObservableCollection<int>();
+            for (int i = 0; i <= this.Quantity; i++)
+            {
+                quantity.Add(i);
+            }
+
+            return quantity;
         }
 
         public override string ToString()

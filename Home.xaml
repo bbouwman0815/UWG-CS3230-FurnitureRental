@@ -24,10 +24,9 @@
         <Button x:Name="cancelOrderButton" Content="Cancel Order" Margin="617,675,0,0" VerticalAlignment="Top" Width="232" Click="cancelOrderButton_Click" Height="37"/>
         <TextBox x:Name="orderDetailsTextBox" HorizontalAlignment="Left" Margin="639,103,0,0" Text="Order Details" TextWrapping="Wrap" VerticalAlignment="Top" Width="420" IsReadOnly="True"/>
         <TextBox x:Name="orderTotalTextBox" HorizontalAlignment="Left" Margin="828,608,0,0" Text="Order Total: " TextWrapping="Wrap" VerticalAlignment="Top" Width="205" IsReadOnly="True"/>
-        <TextBox x:Name="priceTextBox" HorizontalAlignment="Left" Margin="306,677,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="143" Height="37" PlaceholderText="Enter Price"/>
         <ComboBox x:Name="quantityComboBox" Margin="454,677,0,0" Width="74" Height="38" PlaceholderText="Qty"
                                     />
-        <Button x:Name="removeFurnitureButton" Content="-" Margin="1014,175,0,0" VerticalAlignment="Top" Width="45" FontSize="18" Click="removeFurnitureButton_Click"/>
+        <Button x:Name="removeFurnitureButton" Content="-" Margin="1014,175,0,0" VerticalAlignment="Top" Width="42" FontSize="18" Click="removeFurnitureButton_Click"/>
         <DatePicker x:Name="orderDatePicker" Margin="639,177,0,0" VerticalAlignment="Top" Width="314" DateChanged="handleDateChanged"/>
         <Grid x:Name="orderBorder" BorderThickness="1" BorderBrush="Black" Margin="617,147,76,116">
             <TextBlock x:Name="orderDueDateTextBlock" HorizontalAlignment="Left" Margin="23,10,0,0" Text="Order Due Date" TextWrapping="Wrap" VerticalAlignment="Top"/>
@@ -55,5 +54,6 @@
 
         </Grid>
         <Button x:Name="toggleFurnitureAndMembers" Content="Toggle Members" Margin="423,103,0,0" VerticalAlignment="Top" Click="toggleFurnitureAndMembers_Click"/>
+        <Button x:Name="editItemButton" Content="#" Margin="970,175,0,0" VerticalAlignment="Top" Width="39" Height="37" Click="editItemButton_Click"/>
     </Grid>
 </Page>

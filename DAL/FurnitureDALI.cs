@@ -35,6 +35,7 @@ namespace UWG_CS3230_FurnitureRental.DAL
                 int descriptionordinal = reader.GetOrdinal("description");
                 int availableordinal = reader.GetOrdinal("available");
                 int rentedordinal = reader.GetOrdinal("rented");
+                int rentalrateordinal = reader.GetOrdinal("rentalRate");
 
                 while (reader.Read())
                 {
@@ -45,7 +46,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
                         CategoryId = reader.GetFieldValueCheckNull<int>(categoryordinal),
                         Description = reader.GetFieldValueCheckNull<string>(descriptionordinal),
                         Available = reader.GetFieldValueCheckNull<int>(availableordinal),
-                        Rented = reader.GetFieldValueCheckNull<int>(rentedordinal)
+                        Rented = reader.GetFieldValueCheckNull<int>(rentedordinal),
+                        RentalRate = reader.GetFieldValueCheckNull<double>(rentalrateordinal)
                     });
                 }
             }
@@ -70,6 +72,7 @@ namespace UWG_CS3230_FurnitureRental.DAL
                 int descriptionordinal = reader.GetOrdinal("description");
                 int availableordinal = reader.GetOrdinal("available");
                 int rentedordinal = reader.GetOrdinal("rented");
+                int rentalrateordinal = reader.GetOrdinal("rentalRate");
 
                 while (reader.Read())
                 {
@@ -80,7 +83,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
                         CategoryId = reader.GetFieldValueCheckNull<int>(categoryordinal),
                         Description = reader.GetFieldValueCheckNull<string>(descriptionordinal),
                         Available = reader.GetFieldValueCheckNull<int>(availableordinal),
-                        Rented = reader.GetFieldValueCheckNull<int>(rentedordinal)
+                        Rented = reader.GetFieldValueCheckNull<int>(rentedordinal),
+                        RentalRate = reader.GetFieldValueCheckNull<double>(rentalrateordinal)
                     });
                 }
             }
@@ -240,6 +244,7 @@ namespace UWG_CS3230_FurnitureRental.DAL
                 int descriptionordinal = reader.GetOrdinal("description");
                 int availableordinal = reader.GetOrdinal("available");
                 int rentedordinal = reader.GetOrdinal("rented");
+                int rentalrateordinal = reader.GetOrdinal("rentalRate");
 
                 while (reader.Read())
                 {
@@ -250,7 +255,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
                         CategoryId = reader.GetFieldValueCheckNull<int>(categoryordinal),
                         Description = reader.GetFieldValueCheckNull<string>(descriptionordinal),
                         Available = reader.GetFieldValueCheckNull<int>(availableordinal),
-                        Rented = reader.GetFieldValueCheckNull<int>(rentedordinal)
+                        Rented = reader.GetFieldValueCheckNull<int>(rentedordinal),
+                        RentalRate = reader.GetFieldValueCheckNull<double>(rentalrateordinal)
                     });
                 }
             }
@@ -275,6 +281,7 @@ namespace UWG_CS3230_FurnitureRental.DAL
                 int descriptionordinal = reader.GetOrdinal("description");
                 int availableordinal = reader.GetOrdinal("available");
                 int rentedordinal = reader.GetOrdinal("rented");
+                int rentalrateordinal = reader.GetOrdinal("rentalRate");
 
                 while (reader.Read())
                 {
@@ -285,7 +292,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
                         CategoryId = reader.GetFieldValueCheckNull<int>(categoryordinal),
                         Description = reader.GetFieldValueCheckNull<string>(descriptionordinal),
                         Available = reader.GetFieldValueCheckNull<int>(availableordinal),
-                        Rented = reader.GetFieldValueCheckNull<int>(rentedordinal)
+                        Rented = reader.GetFieldValueCheckNull<int>(rentedordinal),
+                        RentalRate = reader.GetFieldValueCheckNull<double>(rentalrateordinal)
                     });
                 }
             }
@@ -310,6 +318,7 @@ namespace UWG_CS3230_FurnitureRental.DAL
                 int descriptionordinal = reader.GetOrdinal("description");
                 int availableordinal = reader.GetOrdinal("available");
                 int rentedordinal = reader.GetOrdinal("rented");
+                int rentalrateordinal = reader.GetOrdinal("rentalRate");
 
                 while (reader.Read())
                 {
@@ -320,7 +329,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
                         CategoryId = reader.GetFieldValueCheckNull<int>(categoryordinal),
                         Description = reader.GetFieldValueCheckNull<string>(descriptionordinal),
                         Available = reader.GetFieldValueCheckNull<int>(availableordinal),
-                        Rented = reader.GetFieldValueCheckNull<int>(rentedordinal)
+                        Rented = reader.GetFieldValueCheckNull<int>(rentedordinal),
+                        RentalRate = reader.GetFieldValueCheckNull<double>(rentalrateordinal)
                     });
                 }
             }
@@ -345,6 +355,7 @@ namespace UWG_CS3230_FurnitureRental.DAL
                 int descriptionordinal = reader.GetOrdinal("description");
                 int availableordinal = reader.GetOrdinal("available");
                 int rentedordinal = reader.GetOrdinal("rented");
+                int rentalrateordinal = reader.GetOrdinal("rentalRate");
 
                 while (reader.Read())
                 {
@@ -355,7 +366,9 @@ namespace UWG_CS3230_FurnitureRental.DAL
                         CategoryId = reader.GetFieldValueCheckNull<int>(categoryordinal),
                         Description = reader.GetFieldValueCheckNull<string>(descriptionordinal),
                         Available = reader.GetFieldValueCheckNull<int>(availableordinal),
-                        Rented = reader.GetFieldValueCheckNull<int>(rentedordinal)
+                        Rented = reader.GetFieldValueCheckNull<int>(rentedordinal),
+                        RentalRate = reader.GetFieldValueCheckNull<double>(rentalrateordinal)
+
                     });
 
                 }

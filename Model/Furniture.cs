@@ -21,6 +21,8 @@ namespace UWG_CS3230_FurnitureRental.Model
 
         public int Rented { get; set; }
 
+        public double RentalRate { get; set; }
+
         public override string ToString()
         {
             string output = "";
@@ -31,6 +33,8 @@ namespace UWG_CS3230_FurnitureRental.Model
             output += dal.GetCategoryTypeById(this.CategoryId);
             output += " ";
             output += this.Description;
+            output += Environment.NewLine;
+            output += "Daily Rental Rate: " + this.RentalRate;
             output += Environment.NewLine;
             if (this.CheckIfAvailable())
             {
