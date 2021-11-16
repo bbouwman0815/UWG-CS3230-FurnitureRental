@@ -44,8 +44,8 @@
     <RootType FullName="Windows.UI.Xaml.Controls.ComboBox">
       <RootProperty Name="Margin" />
       <RootProperty Name="Width" />
-      <RootProperty Name="Height" />
       <RootProperty Name="PlaceholderText" />
+      <RootProperty Name="Height" />
       <RootProperty Name="Items" />
       <RootProperty Name="ItemsSource" />
       <RootEvent Name="SelectionChanged" />

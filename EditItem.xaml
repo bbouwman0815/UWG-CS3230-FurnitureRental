@@ -19,6 +19,6 @@
             <ColumnDefinition Width="400*"/>
         </Grid.ColumnDefinitions>
         <TextBlock x:Name="ItemDescriptionTextBlock" HorizontalAlignment="Left" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="126" Width="282" Grid.ColumnSpan="2"/>
-        <ComboBox x:Name="QuantityComboBox" Grid.Column="1" Margin="52,138,0,0" Width="120"/>
+        <ComboBox x:Name="QuantityComboBox" Grid.Column="1" Margin="29,138,0,0" Width="143" PlaceholderText="New Quantity"/>
     </Grid>
 </ContentDialog>

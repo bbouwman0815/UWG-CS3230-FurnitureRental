@@ -614,6 +614,7 @@ namespace UWG_CS3230_FurnitureRental
         private async System.Threading.Tasks.Task setupEditItemAsync()
         {
             RentalItem.SelectedRentalItem = this.selectedRentalItem;
+
             ContentDialog editItemDialog = new EditItem();
             _ = await editItemDialog.ShowAsync();
 

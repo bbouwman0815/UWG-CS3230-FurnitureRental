@@ -43,11 +43,11 @@ namespace UWG_CS3230_FurnitureRental
         private void setupDisplay()
         {
             FurnitureDAL fdal = new FurnitureDAL();
-            ObservableCollection<int> available = RentalItem.SelectedRentalItem.GetQuantityRange();
             int itemQuantity = RentalItem.SelectedRentalItem.Quantity;
             int id = RentalItem.SelectedRentalItem.FurnitureId;
             Furniture furniture = fdal.GetFurnitureById(id);
             String description = furniture.Description;
+            ObservableCollection<int> available = furniture.GetQuantityRange();
             this.QuantityComboBox.ItemsSource = available;
             description += Environment.NewLine;
             description += "Current Quantity: " + itemQuantity;
