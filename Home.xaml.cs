@@ -160,19 +160,8 @@ namespace UWG_CS3230_FurnitureRental
                 };
 
                 RentalTransactionDAL rdal = new RentalTransactionDAL();
-                FurnitureDAL fdal = new FurnitureDAL();
-                int transactionId = rdal.CreateNewRentalTransaction(rentalTransaction);
-
-                foreach (RentalItem currentRentalItem in this.rentalItems)
-                {
-                    currentRentalItem.RentalId = transactionId;
-                    rdal.CreateNewRentalItem(currentRentalItem);
-                    int availableQuantity = fdal.GetFurnitureById(currentRentalItem.FurnitureId).Available - currentRentalItem.Quantity;
-                    int rentedQuantity = fdal.GetFurnitureById(currentRentalItem.FurnitureId).Rented + currentRentalItem.Quantity;
-                    fdal.UpdateAvailableFurnitureQuantity(currentRentalItem.FurnitureId, availableQuantity);
-                    fdal.UpdateRentedFurnitureQuantity(currentRentalItem.FurnitureId, rentedQuantity);
-                }
-
+               
+                rdal.CreateNewRentalTransaction(rentalTransaction, new List<RentalItem>(this.rentalItems));
                 this.rentalItems.Clear();
                 this.hideOrder();
             }
