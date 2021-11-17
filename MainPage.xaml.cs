@@ -3,6 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using UWG_CS3230_FurnitureRental.DAL;
 using UWG_CS3230_FurnitureRental.Model;
+using UWG_CS3230_FurnitureRental.Utilities;
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace UWG_CS3230_FurnitureRental
@@ -22,7 +23,6 @@ namespace UWG_CS3230_FurnitureRental
         {
             if (this.verifyLoginCredentials())
             {
-                this.setLoggedEmployee();
                 Frame.Navigate(typeof(Home));
             }
             else
@@ -32,22 +32,11 @@ namespace UWG_CS3230_FurnitureRental
             }
         }
 
-        private void setLoggedEmployee()
-        {
-            String username = usernameTextBox.Text;
-            String password = passwordTextBox.Password.ToString();
-            EmployeeDAL dal = new EmployeeDAL();
-            LoggedEmployee.CurrentLoggedEmployee = dal.GetEmployeeByLoginInformation(username, password);
-        }
-
         private bool verifyLoginCredentials()
         {
             String username = usernameTextBox.Text;
             String password = passwordTextBox.Password.ToString();
-            EmployeeDAL dal = new EmployeeDAL();
-            bool isValid = dal.VerifyEmployeeLogin(username, password);
-
-            return isValid;
+            return Crypter.VerifyLogin(username, password);
         }
 
         private async System.Threading.Tasks.Task notifyInvalidCredentialsAsync()

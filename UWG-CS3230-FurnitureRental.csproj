@@ -146,6 +146,7 @@
     <Compile Include="RegisterCustomer.xaml.cs">
       <DependentUpon>RegisterCustomer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\Crypter.cs" />
     <Compile Include="Utilities\OrderFormatter.cs" />
   </ItemGroup>
   <ItemGroup>

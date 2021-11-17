@@ -186,6 +186,7 @@ namespace UWG_CS3230_FurnitureRental
                 this.handleResetFilters();
                 this.searchInputTextBox.Text = "";
             }
+
             if (Regex.IsMatch(search, @"^\d"))
             {
                 Furniture furnitureByID = this.fdal.GetFurnitureById(Int32.Parse(search));
@@ -194,12 +195,10 @@ namespace UWG_CS3230_FurnitureRental
                     this.inventory.Add(furnitureByID);
                     this.ConfigureQuantities();
                     this.furnitureListView.ItemsSource = this.inventory;
-
-                    this.applyFilters();
-
                     return;
                 }
             }
+
             this.inventory = this.fdal.SearchFurnitureByDescription(search);
             this.ConfigureQuantities();
             this.furnitureListView.ItemsSource = this.inventory;
@@ -239,7 +238,7 @@ namespace UWG_CS3230_FurnitureRental
             double price = furniture.RentalRate;
             RentalItem rentalItem = new RentalItem(furniture.Id, quantity, price);
 
-            this.rentalItems.Add(rentalItem);
+            this.handleDuplicates(rentalItem);
             furniture.RemoveQuantity(quantity);
             this.quantityAv = furniture.GetQuantityRange();
             this.quantityComboBox.ItemsSource = this.quantityAv;
@@ -248,6 +247,23 @@ namespace UWG_CS3230_FurnitureRental
             this.updateTotal();
             this.searchInputTextBox.Text = "";
             this.quantityComboBox.SelectedIndex = 0;
+        }
+
+        private void handleDuplicates(RentalItem rentalItem)
+        {
+            if (this.rentalItems.Contains(rentalItem))
+            {
+                foreach (RentalItem rental in this.rentalItems)
+                {
+                    if (rental.FurnitureId == rentalItem.FurnitureId)
+                    {
+                        rental.Quantity += rentalItem.Quantity;
+                    }
+                }
+            } else
+            {
+                this.rentalItems.Add(rentalItem);
+            }
         }
 
         private void addEditedFurniture()

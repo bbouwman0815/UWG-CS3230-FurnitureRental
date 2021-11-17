@@ -8,54 +8,12 @@ namespace UWG_CS3230_FurnitureRental.DAL
     public class EmployeeDAL
     {
         /// <summary>
-        /// Get all the employees of the given department
-        /// </summary>
-        /// <param name="dno">department number</param>
-        /// <returns> all the employees of the given department</returns>
-        public LoggedEmployee GetEmployeeByLoginInformation(string uname, string password)
-        {
-            LoggedEmployee employeeList = new LoggedEmployee();
-            using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
-            {
-                connection.Open();
-                String query = "select fname, lname, id, password, uname from employee where uname = @uname and password = @password;";
-
-                using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.Add("@uname", MySqlDbType.VarChar).Value = uname;
-                command.Parameters.Add("@password", MySqlDbType.VarChar).Value = password;
-
-                using MySqlDataReader reader = command.ExecuteReader();
-                int fnameoridinal = reader.GetOrdinal("fname");
-                int lnameordinal = reader.GetOrdinal("lname");
-                int idordinal = reader.GetOrdinal("id");
-                int pwordordinal = reader.GetOrdinal("password");
-                int unameordinal = reader.GetOrdinal("uname");
-
-                while (reader.Read())
-                {
-                    employeeList = new LoggedEmployee
-                    {
-                        Fname = reader.GetFieldValueCheckNull<string>(fnameoridinal),
-                        Lname = reader.GetFieldValueCheckNull<string>(lnameordinal),
-                        Id = reader.GetFieldValueCheckNull<int>(idordinal),
-                        Pword = reader.GetFieldValueCheckNull<string>(pwordordinal),
-                        Uname = reader.GetFieldValueCheckNull<string>(unameordinal),
-                    };
-
-                }
-
-            }
-            return employeeList;
-
-        }
-
-        /// <summary>
         /// Verifies the employee login.
         /// </summary>
         /// <param name="fname">The fname.</param>
         /// <param name="password">The password.</param>
         /// <returns></returns>
-        public bool VerifyEmployeeLogin(string uname, string password)
+        public LoggedEmployee VerifyEmployeeLogin(string uname, string password)
         {
             List<LoggedEmployee> employeeList = new List<LoggedEmployee>();
             using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
@@ -88,7 +46,12 @@ namespace UWG_CS3230_FurnitureRental.DAL
                 }
 
             }
-            return employeeList.Count > 0;
+
+            if (employeeList.Count == 0)
+            {
+                return null;
+            }    
+            return employeeList[0];
 
         }
 
