@@ -27,7 +27,7 @@ namespace UWG_CS3230_FurnitureRental
             }
             else
             {
-                this.notifyInvalidCredentialsAsync();
+                _ = this.notifyInvalidCredentialsAsync();
                 this.passwordTextBox.Password = "";
             }
         }

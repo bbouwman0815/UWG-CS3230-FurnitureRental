@@ -9,6 +9,7 @@ using UWG_CS3230_FurnitureRental.Model;
 
 namespace UWG_CS3230_FurnitureRental.Utilities
 {
+    // Credit to https://www.youtube.com/watch?v=EEItNLDw0-A
     public class Crypter
     {
         public static bool VerifyLogin(String username, String password)
