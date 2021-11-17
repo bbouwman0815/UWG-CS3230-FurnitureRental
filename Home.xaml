@@ -18,21 +18,22 @@
         <Button x:Name="RegisterCustomerButton" Content="Register New Customer" Margin="973,19,0,0" VerticalAlignment="Top" Click="onRegisterCustomerClick"/>
         <Button x:Name="logoutButton" Content="Logout" Margin="1066,738,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.679,0.188" Width="68" Click="logoutButton_Click"/>
         <Button x:Name="placeNewOrderButton" Content="Place New Order" Margin="95,675,0,0" VerticalAlignment="Top" Width="436" Click="placeNewOrderButton_Click" Height="37"/>
-        <ListView x:Name="orderListView" Margin="639,230,102,194"  ItemsSource="{x:Bind rentalItems, Mode=TwoWay}"
-                  SelectedItem="{x:Bind selectedRentalItem, Mode=TwoWay}"/>
         <Button x:Name="placeOrderButton" Content="Place Order" Margin="854,675,0,0" VerticalAlignment="Top" Width="231" Click="placeOrderButton_Click" Height="37"/>
         <Button x:Name="cancelOrderButton" Content="Cancel Order" Margin="617,675,0,0" VerticalAlignment="Top" Width="232" Click="cancelOrderButton_Click" Height="37"/>
         <TextBox x:Name="orderDetailsTextBox" HorizontalAlignment="Left" Margin="639,103,0,0" Text="Order Details" TextWrapping="Wrap" VerticalAlignment="Top" Width="420" IsReadOnly="True"/>
-        <TextBox x:Name="orderTotalTextBox" HorizontalAlignment="Left" Margin="828,608,0,0" Text="Order Total: " TextWrapping="Wrap" VerticalAlignment="Top" Width="205" IsReadOnly="True"/>
         <ComboBox x:Name="quantityComboBox" Margin="454,677,0,0" Width="74" Height="38" PlaceholderText="Qty"
-                                    />
-        <Button x:Name="removeFurnitureButton" Content="-" Margin="1014,175,0,0" VerticalAlignment="Top" Width="42" FontSize="18" Click="removeFurnitureButton_Click"/>
-        <DatePicker x:Name="orderDatePicker" Margin="639,177,0,0" VerticalAlignment="Top" Width="314" DateChanged="handleDateChanged"/>
+        />
+
         <Grid x:Name="orderBorder" BorderThickness="1" BorderBrush="Black" Margin="617,147,76,116">
             <TextBlock x:Name="orderDueDateTextBlock" HorizontalAlignment="Left" Margin="23,10,0,0" Text="Order Due Date" TextWrapping="Wrap" VerticalAlignment="Top"/>
-
+            <DatePicker x:Name="orderDatePicker" Margin="24,30,0,0" VerticalAlignment="Top" Width="314" DateChanged="handleDateChanged"/>
+            <Button x:Name="removeFurnitureButton" Content="-" Margin="403,30,0,0" VerticalAlignment="Top" Width="42" FontSize="18" Click="removeFurnitureButton_Click"/>
+            <Button x:Name="editItemButton" Content="#" Margin="360,31,0,0" VerticalAlignment="Top" Width="39" Height="37" Click="editItemButton_Click"/>
+            <ListView x:Name="orderListView" Margin="27,85,27,85"  ItemsSource="{x:Bind rentalItems, Mode=TwoWay}"
+                      SelectedItem="{x:Bind selectedRentalItem, Mode=TwoWay}"/>
+            <TextBox x:Name="orderTotalTextBox" HorizontalAlignment="Left" Margin="210,461,0,0" Text="Order Total: " TextWrapping="Wrap" VerticalAlignment="Top" Width="205" IsReadOnly="True"/>
         </Grid>
-        <Grid x:Name="furniturePanel" BorderThickness="1" BorderBrush="Black" Margin="79,147,614,116">
+        <Grid x:Name="furniturePanel" BorderThickness="1" BorderBrush="Black" Margin="79,147,614,116" Visibility="Visible">
 
             <Button x:Name="addFurnitureButton" Content="+" Margin="397,30,0,0" VerticalAlignment="Top" Width="45" FontSize="18" Click="addFurnitureButton_Click"/>
             <TextBox x:Name="searchInputTextBox" Text="" TextWrapping="Wrap" PlaceholderText="Search for furniture" TextChanged="HandleSearchTextChange" Margin="25,33,190,455"/>
@@ -46,6 +47,7 @@
         <Grid x:Name="memberPanel" BorderThickness="1" BorderBrush="Black" Margin="79,147,614,116" Visibility="Collapsed">
 
             <Button x:Name="editMemberButton" Content="Edit Member" Margin="311,31,0,0" VerticalAlignment="Top" Width="132" FontSize="18" Visibility="Collapsed" Click="editMemberButton_Click"/>
+            <Button x:Name="viewMemberRentalsButton" Content="View Rentals" Margin="312,74,0,0" VerticalAlignment="Top" Width="132" FontSize="18" Visibility="Collapsed" Click="showMemberRentalsButton_Click"/>
             <ComboBox x:Name="searchMemberByComboBox" PlaceholderText="Member Search Method" Margin="25,33,0,0" Width="251"></ComboBox>
             <TextBox x:Name="memberSearchTextBox" Margin="25,72,190,415" Height="34" PlaceholderText="Search for member" TextChanged="memberSearchTextBox_TextChanged" />
             <ListView x:Name="memberListView" Margin="27,131,26,25" RequestedTheme="Default" Header="Members"  ItemsSource="{x:Bind members, Mode=TwoWay}"
@@ -54,6 +56,5 @@
 
         </Grid>
         <Button x:Name="toggleFurnitureAndMembers" Content="Toggle Members" Margin="423,103,0,0" VerticalAlignment="Top" Click="toggleFurnitureAndMembers_Click"/>
-        <Button x:Name="editItemButton" Content="#" Margin="970,175,0,0" VerticalAlignment="Top" Width="39" Height="37" Click="editItemButton_Click"/>
     </Grid>
 </Page>

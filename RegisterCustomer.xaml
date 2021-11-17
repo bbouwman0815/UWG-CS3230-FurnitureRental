@@ -19,10 +19,10 @@
             <ColumnDefinition Width="100*"/>
             <ColumnDefinition Width="400*"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="fNameTextBox" PlaceholderText="Hubert" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="145" RenderTransformOrigin="0.183,0.516" Margin="10,30,0,0" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="fNameTextBox" PlaceholderText="Hubert" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="145" RenderTransformOrigin="0.183,0.516" Margin="10,30,0,0" Grid.ColumnSpan="2" LostFocus="fNameTextBox_LostFocus"/>
         <TextBlock x:Name="fNameLabel" HorizontalAlignment="Left" Margin="10,10,0,0" Text="First Name *" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         <TextBlock x:Name="lNameLabel" HorizontalAlignment="Left" Margin="127,10,0,0" Text="Last Name *" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1"/>
-        <TextBox x:Name="lNameTextBox" PlaceholderText="Cumberdale" Grid.Column="1" HorizontalAlignment="Left" Margin="127,30,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="145"/>
+        <TextBox x:Name="lNameTextBox" PlaceholderText="Cumberdale" Grid.Column="1" HorizontalAlignment="Left" Margin="127,30,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="145" LostFocus="lNameTextBox_LostFocus"/>
         <ComboBox x:Name="genderComboBox" PlaceholderText="Choose..." Margin="10,86,0,0" Width="145" Grid.ColumnSpan="2">
             <x:String>M</x:String>
             <x:String>F</x:String>
@@ -40,7 +40,7 @@
         <TextBlock x:Name="cityLabel" HorizontalAlignment="Left" Margin="10,235,0,0" Text="City *" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <ComboBox x:Name="stateComboBox" PlaceholderText="Choose..." Grid.Column="1" Margin="127,254,0,0" Width="145" ItemsSource="{x:Bind states}"/>
         <TextBlock x:Name="stateLabel" Grid.Column="1" HorizontalAlignment="Left" Margin="127,235,0,0" Text="State *" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBox x:Name="zipTextBox" PlaceholderText="(12345-1234)" HorizontalAlignment="Left" Margin="10,314,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="145"/>
+        <TextBox x:Name="zipTextBox" PlaceholderText="(12345-1234)" HorizontalAlignment="Left" Margin="10,314,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="145" BeforeTextChanging="zipTextBox_BeforeTextChanging"/>
         <TextBlock x:Name="zipLabel" HorizontalAlignment="Left" Margin="10,295,0,0" Text="Zip *" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBlock x:Name="errorTextBox" Foreground="Red" HorizontalAlignment="Left" Margin="10,351,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="333"/>
     </Grid>

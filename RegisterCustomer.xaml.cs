@@ -93,15 +93,17 @@ namespace UWG_CS3230_FurnitureRental
 
         private void newMemberSave(ContentDialogButtonClickEventArgs args)
         {
+            if (!string.IsNullOrEmpty(this.errorTextBox.Text))
+            {
+                args.Cancel = true;
+            }
             if (string.IsNullOrEmpty(this.fNameTextBox.Text))
             {
                 args.Cancel = true;
-                this.errorTextBox.Text = "First Name Required";
             }
             else if (string.IsNullOrEmpty(this.lNameTextBox.Text))
             {
                 args.Cancel = true;
-                this.errorTextBox.Text = "Last Name Required";
             }
             else if (this.genderComboBox.SelectedValue == null)
             {
@@ -241,5 +243,34 @@ namespace UWG_CS3230_FurnitureRental
         }
 
         #endregion
+
+        private void fNameTextBox_LostFocus(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.fNameTextBox.Text))
+            {
+                this.errorTextBox.Text += "First Name Required\n";
+            }
+            else
+            {
+                this.errorTextBox.Text = "";
+            }
+        }
+
+        private void zipTextBox_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
+        {
+            args.Cancel = args.NewText.Any(c => !char.IsDigit(c));
+        }
+
+        private void lNameTextBox_LostFocus(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.lNameTextBox.Text))
+            {
+                this.errorTextBox.Text += "Last Name Required\n";
+            }
+            else
+            {
+                this.errorTextBox.Text = "";
+            }
+        }
     }
 }
