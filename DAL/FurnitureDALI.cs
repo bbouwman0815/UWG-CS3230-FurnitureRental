@@ -54,140 +54,6 @@ namespace UWG_CS3230_FurnitureRental.DAL
             return furnitureList;
         }
 
-        public ObservableCollection<Furniture> SearchFurnitureByCategory(int categoryId)
-        {
-            ObservableCollection<Furniture> furnitureList = new ObservableCollection<Furniture>();
-            using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
-            {
-                connection.Open();
-                String query = "select * from furniture where categoryId = @categoryId;";
-
-                using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.Add("@categoryId", MySqlDbType.Int32).Value = categoryId;
-
-                using MySqlDataReader reader = command.ExecuteReader();
-                int idordinal = reader.GetOrdinal("id");
-                int styleordinal = reader.GetOrdinal("style");
-                int categoryordinal = reader.GetOrdinal("category");
-                int descriptionordinal = reader.GetOrdinal("description");
-                int availableordinal = reader.GetOrdinal("available");
-                int rentedordinal = reader.GetOrdinal("rented");
-                int rentalrateordinal = reader.GetOrdinal("rentalRate");
-
-                while (reader.Read())
-                {
-                    furnitureList.Add(new Furniture
-                    {
-                        Id = reader.GetFieldValueCheckNull<int>(idordinal),
-                        Style = reader.GetFieldValueCheckNull<string>(styleordinal),
-                        Category = reader.GetFieldValueCheckNull<string>(categoryordinal),
-                        Description = reader.GetFieldValueCheckNull<string>(descriptionordinal),
-                        Available = reader.GetFieldValueCheckNull<int>(availableordinal),
-                        Rented = reader.GetFieldValueCheckNull<int>(rentedordinal),
-                        RentalRate = reader.GetFieldValueCheckNull<double>(rentalrateordinal)
-                    });
-                }
-            }
-            return furnitureList;
-        }
-
-        public List<int> GetCategoriesBySearch(string search)
-        {
-            List<int> categoryList = new List<int>();
-            using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
-            {
-                connection.Open();
-                String query = "select id from category where type LIKE @search";
-
-                using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@search", "%" + search + "%");
-
-                using MySqlDataReader reader = command.ExecuteReader();
-                int idordinal = reader.GetOrdinal("id");
-
-                while (reader.Read())
-                {
-                    int category = reader.GetFieldValueCheckNull<int>(idordinal);
-                    categoryList.Add(category);
-                    };
-                }
-            return categoryList;
-        }
-
-        public ObservableCollection<Furniture> GetFurnitureByStyle(int styleId)
-        {
-            ObservableCollection<Furniture> furnitureList = new ObservableCollection<Furniture>();
-            using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
-            {
-                connection.Open();
-                String query = "select * from furniture where styleId = @styleId;";
-
-                using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.Add("@styleId", MySqlDbType.Int32).Value = styleId;
-
-                using MySqlDataReader reader = command.ExecuteReader();
-                int idordinal = reader.GetOrdinal("id");
-                int styleordinal = reader.GetOrdinal("style");
-                int categoryordinal = reader.GetOrdinal("category");
-                int descriptionordinal = reader.GetOrdinal("description");
-                int availableordinal = reader.GetOrdinal("available");
-                int rentedordinal = reader.GetOrdinal("rented");
-                int rentalrateordinal = reader.GetOrdinal("rentalRate");
-
-                while (reader.Read())
-                {
-                    furnitureList.Add(new Furniture
-                    {
-                        Id = reader.GetFieldValueCheckNull<int>(idordinal),
-                        Style = reader.GetFieldValueCheckNull<string>(styleordinal),
-                        Category = reader.GetFieldValueCheckNull<string>(categoryordinal),
-                        Description = reader.GetFieldValueCheckNull<string>(descriptionordinal),
-                        Available = reader.GetFieldValueCheckNull<int>(availableordinal),
-                        Rented = reader.GetFieldValueCheckNull<int>(rentedordinal),
-                        RentalRate = reader.GetFieldValueCheckNull<double>(rentalrateordinal)
-                    });
-                }
-            }
-            return furnitureList;
-        }
-
-        public ObservableCollection<Furniture> GetFurnitureByCategory(int categoryId)
-        {
-            ObservableCollection<Furniture> furnitureList = new ObservableCollection<Furniture>();
-            using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
-            {
-                connection.Open();
-                String query = "select * from furniture where categoryId = @categoryId;";
-
-                using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.Add("@categoryId", MySqlDbType.Int32).Value = categoryId;
-
-                using MySqlDataReader reader = command.ExecuteReader();
-                int idordinal = reader.GetOrdinal("id");
-                int styleordinal = reader.GetOrdinal("style");
-                int categoryordinal = reader.GetOrdinal("category");
-                int descriptionordinal = reader.GetOrdinal("description");
-                int availableordinal = reader.GetOrdinal("available");
-                int rentedordinal = reader.GetOrdinal("rented");
-                int rentalrateordinal = reader.GetOrdinal("rentalRate");
-
-                while (reader.Read())
-                {
-                    furnitureList.Add(new Furniture
-                    {
-                        Id = reader.GetFieldValueCheckNull<int>(idordinal),
-                        Style = reader.GetFieldValueCheckNull<string>(styleordinal),
-                        Category = reader.GetFieldValueCheckNull<string>(categoryordinal),
-                        Description = reader.GetFieldValueCheckNull<string>(descriptionordinal),
-                        Available = reader.GetFieldValueCheckNull<int>(availableordinal),
-                        Rented = reader.GetFieldValueCheckNull<int>(rentedordinal),
-                        RentalRate = reader.GetFieldValueCheckNull<double>(rentalrateordinal)
-                    });
-                }
-            }
-            return furnitureList;
-        }
-
         public Furniture GetFurnitureById(int id)
         {
             Furniture furniture = new Furniture();
@@ -328,6 +194,23 @@ namespace UWG_CS3230_FurnitureRental.DAL
                 };
             }
             return stylesList;
+        }
+
+        public void AddFurnitureToInventory(Furniture furniture)
+        {
+            using MySqlConnection connection = new MySqlConnection(Connection.connectionString);
+            connection.Open();
+            String query = "call uspInsertFurniture (@style, @category, @description, @available, @rented, @rentalRate)";
+
+            using MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.Add(new MySqlParameter("category", furniture.Category));
+            command.Parameters.Add(new MySqlParameter("style", furniture.Style));
+            command.Parameters.Add(new MySqlParameter("description", furniture.Description));
+            command.Parameters.Add(new MySqlParameter("available", furniture.Available));
+            command.Parameters.Add(new MySqlParameter("rented", furniture.Rented));
+            command.Parameters.Add(new MySqlParameter("rentalRate", furniture.RentalRate));         
+            command.ExecuteNonQuery();
+            connection.Close();
         }
     }
 }

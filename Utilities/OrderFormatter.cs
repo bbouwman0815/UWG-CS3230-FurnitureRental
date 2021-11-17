@@ -50,6 +50,17 @@ namespace UWG_CS3230_FurnitureRental.Utilities
             return match;
         }
 
+        public static ObservableCollection<int> GetQuantityRange(int range)
+        {
+            ObservableCollection<int> quantity = new ObservableCollection<int>();
+            for (int i = 0; i <= range; i++)
+            {
+                quantity.Add(i);
+            }
+
+            return quantity;
+        }
+
 
     }
 }
