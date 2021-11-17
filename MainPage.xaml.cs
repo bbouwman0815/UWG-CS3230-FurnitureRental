@@ -23,7 +23,13 @@ namespace UWG_CS3230_FurnitureRental
         {
             if (this.verifyLoginCredentials())
             {
-                Frame.Navigate(typeof(Home));
+                if (LoggedEmployee.CurrentLoggedEmployee.Uname == "admin")
+                {
+                    Frame.Navigate(typeof(Admin));
+                } else
+                {
+                    Frame.Navigate(typeof(Home));
+                }
             }
             else
             {

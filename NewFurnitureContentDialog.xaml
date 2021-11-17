@@ -1,0 +1,29 @@
+﻿<ContentDialog
+    x:Class="UWG_CS3230_FurnitureRental.NewFurnitureContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWG_CS3230_FurnitureRental"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Add New Furniture"
+    PrimaryButtonText="Add"
+    SecondaryButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <Grid>
+        <ComboBox x:Name="quantityComboBox" Margin="136,147,0,0" Width="135" ItemsSource="{x:Bind quantities, Mode=TwoWay}"
+                      SelectedItem="{x:Bind selectedQuantity, Mode=TwoWay}"/>
+        <TextBox x:Name="descriptionTextBox" HorizontalAlignment="Center" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="64" Width="271" PlaceholderText="Enter a Description: Ex) Coffee Table"/>
+        <ComboBox x:Name="categoryComboBox" Margin="136,110,0,79" Width="135" VerticalAlignment="Stretch" ItemsSource="{x:Bind categories, Mode=TwoWay}"
+                      SelectedItem="{x:Bind selectedCategory, Mode=TwoWay}"/>
+        <ComboBox x:Name="styleComboBox" Margin="136,73,0,0" Width="135" ItemsSource="{x:Bind styles, Mode=TwoWay}"
+                      SelectedItem="{x:Bind selectedStyle, Mode=TwoWay}"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,79,0,0" Text="Style" TextWrapping="Wrap" VerticalAlignment="Top" Width="73"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,117,0,0" Text="Category" TextWrapping="Wrap" VerticalAlignment="Top" Width="73"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,155,0,0" Text="Quantity" TextWrapping="Wrap" VerticalAlignment="Top" Width="73"/>
+        <TextBox x:Name="rentalRateTextBox" HorizontalAlignment="Left" Margin="136,189,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="135" PlaceholderText="$0.00"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,196,0,0" Text="Daily Rental Rate" TextWrapping="Wrap" VerticalAlignment="Top" Width="112" RenderTransformOrigin="0.446,1.105"/>
+    </Grid>
+</ContentDialog>

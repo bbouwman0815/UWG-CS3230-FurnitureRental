@@ -195,5 +195,22 @@ namespace UWG_CS3230_FurnitureRental.DAL
             }
             return stylesList;
         }
+
+        public void AddFurnitureToInventory(Furniture furniture)
+        {
+            using MySqlConnection connection = new MySqlConnection(Connection.connectionString);
+            connection.Open();
+            String query = "call uspInsertFurniture (@style, @category, @description, @available, @rented, @rentalRate)";
+
+            using MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.Add(new MySqlParameter("category", furniture.Category));
+            command.Parameters.Add(new MySqlParameter("style", furniture.Style));
+            command.Parameters.Add(new MySqlParameter("description", furniture.Description));
+            command.Parameters.Add(new MySqlParameter("available", furniture.Available));
+            command.Parameters.Add(new MySqlParameter("rented", furniture.Rented));
+            command.Parameters.Add(new MySqlParameter("rentalRate", furniture.RentalRate));         
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
     }
 }
