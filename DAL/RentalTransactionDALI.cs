@@ -1,6 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -83,6 +85,29 @@ namespace UWG_CS3230_FurnitureRental.DAL
                 }
             }
             return transactionIdReturn;
+        }
+
+        public ObservableCollection<RentalTransaction> GetMemberTransactions(int memberId)
+        {
+            var rentalTransactions = new ObservableCollection<RentalTransaction>();
+            using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
+            {
+                connection.Open();
+                using (var cmd = new MySqlCommand("uspGetMemberTransactions", connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@memId", MySqlDbType.Int32);
+                    cmd.Parameters["@memId"].Value = memberId;
+                    cmd.Parameters["@memId"].Direction = ParameterDirection.Input;
+                    using MySqlDataReader reader = cmd.ExecuteReader();
+                    int idordinal = reader.GetOrdinal("id");
+                    double costordinal = reader.GetOrdinal("cost");
+                    DateTime transactiondateordinal = new DateTime(reader.GetOrdinal("transactionDate"));
+
+                }
+            }
+
+            return rentalTransactions;
         }
     }
 }

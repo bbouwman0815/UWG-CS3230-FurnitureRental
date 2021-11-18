@@ -26,6 +26,8 @@ namespace UWG_CS3230_FurnitureRental
         private ObservableCollection<Furniture> inventory { get; set; }
         private ObservableCollection<Customer> members { get; set; }
         private ObservableCollection<RentalItem> rentalItems { get; set; }
+
+        private ObservableCollection<RentalTransaction> selectedMemberTransactions{ get; set; }
         private ObservableCollection<string> styles { get; set; }
         private ObservableCollection<string> categories { get; set; }
 
@@ -35,6 +37,8 @@ namespace UWG_CS3230_FurnitureRental
         private Customer selectedMember { get; set; }
 
         private RentalItem selectedRentalItem { get; set; }
+
+        private RentalTransaction selectedTransaction { get; set; }
 
         private int selectedQuantity { get; set; }
 
@@ -186,7 +190,6 @@ namespace UWG_CS3230_FurnitureRental
                 this.handleResetFilters();
                 this.searchInputTextBox.Text = "";
             }
-
             if (Regex.IsMatch(search, @"^\d"))
             {
                 Furniture furnitureByID = this.fdal.GetFurnitureById(Int32.Parse(search));
@@ -195,10 +198,12 @@ namespace UWG_CS3230_FurnitureRental
                     this.inventory.Add(furnitureByID);
                     this.ConfigureQuantities();
                     this.furnitureListView.ItemsSource = this.inventory;
+
+                    this.applyFilters();
+
                     return;
                 }
             }
-
             this.inventory = this.fdal.SearchFurnitureByDescription(search);
             this.ConfigureQuantities();
             this.furnitureListView.ItemsSource = this.inventory;
@@ -238,7 +243,7 @@ namespace UWG_CS3230_FurnitureRental
             double price = furniture.RentalRate;
             RentalItem rentalItem = new RentalItem(furniture.Id, quantity, price);
 
-            this.handleDuplicates(rentalItem);
+            this.rentalItems.Add(rentalItem);
             furniture.RemoveQuantity(quantity);
             this.quantityAv = furniture.GetQuantityRange();
             this.quantityComboBox.ItemsSource = this.quantityAv;
@@ -247,23 +252,6 @@ namespace UWG_CS3230_FurnitureRental
             this.updateTotal();
             this.searchInputTextBox.Text = "";
             this.quantityComboBox.SelectedIndex = 0;
-        }
-
-        private void handleDuplicates(RentalItem rentalItem)
-        {
-            if (this.rentalItems.Contains(rentalItem))
-            {
-                foreach (RentalItem rental in this.rentalItems)
-                {
-                    if (rental.FurnitureId == rentalItem.FurnitureId)
-                    {
-                        rental.Quantity += rentalItem.Quantity;
-                    }
-                }
-            } else
-            {
-                this.rentalItems.Add(rentalItem);
-            }
         }
 
         private void addEditedFurniture()
@@ -357,6 +345,9 @@ namespace UWG_CS3230_FurnitureRental
             this.orderTotalTextBox.Text = "";
             this.rentalPeriod = 0;
             this.ConfigureQuantities();
+            this.inventory.Clear();
+            this.inventory = fdal.GetFurnitureInventory();
+            this.furnitureListView.ItemsSource = this.inventory;
         }
 
         private void placeNewOrderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -599,6 +590,7 @@ namespace UWG_CS3230_FurnitureRental
         {
             this.updateOrderDetails();
             this.editMemberButton.Visibility = Visibility.Visible;
+            this.viewMemberRentalsButton.Visibility = Visibility.Visible;
         }
 
         private async void editMemberButton_Click(object sender, RoutedEventArgs e)
@@ -618,6 +610,10 @@ namespace UWG_CS3230_FurnitureRental
 
         private async System.Threading.Tasks.Task setupEditItemAsync()
         {
+            if (!(this.selectedRentalItem.RentalId > 0))
+            {
+                return;
+            }
             RentalItem.SelectedRentalItem = this.selectedRentalItem;
 
             ContentDialog editItemDialog = new EditItem();
@@ -631,6 +627,21 @@ namespace UWG_CS3230_FurnitureRental
             }
 
             this.refreshDisplay();
+        }
+
+        private void viewMemberRentalsButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.hideOrder();
+        }
+
+        private void displayMemberRentals()
+        {
+
+        }
+
+        private void rentalsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
