@@ -99,14 +99,28 @@ namespace UWG_CS3230_FurnitureRental.DAL
                     cmd.Parameters.Add("@memId", MySqlDbType.Int32);
                     cmd.Parameters["@memId"].Value = memberId;
                     cmd.Parameters["@memId"].Direction = ParameterDirection.Input;
-                    using MySqlDataReader reader = cmd.ExecuteReader();
-                    int idordinal = reader.GetOrdinal("id");
-                    double costordinal = reader.GetOrdinal("cost");
-                    DateTime transactiondateordinal = new DateTime(reader.GetOrdinal("transactionDate"));
 
+                    using MySqlDataReader reader = cmd.ExecuteReader();
+                    int transactionidordinal = reader.GetOrdinal("id");
+                    int costordinal = reader.GetOrdinal("cost");
+                    int transactiondateordinal = reader.GetOrdinal("transactionDate");
+                    int duedateordinal = reader.GetOrdinal("dueDate");
+                    int employeeidordinal = reader.GetOrdinal("employeeId");
+
+                    while (reader.Read())
+                    {
+                        rentalTransactions.Add( new RentalTransaction 
+                        {
+                            id = reader.GetFieldValueCheckNull<int>(transactionidordinal),
+                            cost = (double)reader.GetFieldValueCheckNull<decimal>(costordinal),
+                            transactionDate = reader.GetFieldValueCheckNull<DateTime>(transactiondateordinal),
+                            dueDate = reader.GetFieldValueCheckNull<DateTime>(duedateordinal),
+                            memberId = memberId,
+                            employeeId = reader.GetFieldValueCheckNull<int>(employeeidordinal),
+                        });
+                    }
                 }
             }
-
             return rentalTransactions;
         }
     }

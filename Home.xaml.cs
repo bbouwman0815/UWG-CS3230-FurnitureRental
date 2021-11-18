@@ -22,6 +22,7 @@ namespace UWG_CS3230_FurnitureRental
         private readonly EmployeeDAL dal = new EmployeeDAL();
         private readonly FurnitureDAL fdal = new FurnitureDAL();
         private readonly MemberDAL mdal = new MemberDAL();
+        private readonly RentalTransactionDAL rdal = new RentalTransactionDAL();
 
         private ObservableCollection<Furniture> inventory { get; set; }
         private ObservableCollection<Customer> members { get; set; }
@@ -60,9 +61,11 @@ namespace UWG_CS3230_FurnitureRental
             this.members = new ObservableCollection<Customer>();
             this.rentalItems = new ObservableCollection<RentalItem>();
             this.quantityAv = new ObservableCollection<int>();
+            this.selectedMemberTransactions = new ObservableCollection<RentalTransaction>();
             
             this.quantityComboBox.ItemsSource = this.quantityAv;
             this.selectedFurniture = new Furniture();
+            this.selectedTransaction = new RentalTransaction();
             this.selectedMember = null;
             this.selectedRentalItem = new RentalItem();
             this.selectedQuantity = 0;
@@ -163,9 +166,7 @@ namespace UWG_CS3230_FurnitureRental
                     memberId = this.selectedMember.id.Value
                 };
 
-                RentalTransactionDAL rdal = new RentalTransactionDAL();
-               
-                rdal.CreateNewRentalTransaction(rentalTransaction, new List<RentalItem>(this.rentalItems));
+                this.rdal.CreateNewRentalTransaction(rentalTransaction, new List<RentalItem>(this.rentalItems));
                 this.rentalItems.Clear();
                 this.hideOrder();
             }
@@ -632,11 +633,23 @@ namespace UWG_CS3230_FurnitureRental
         private void viewMemberRentalsButton_Click(object sender, RoutedEventArgs e)
         {
             this.hideOrder();
+            this.displayMemberRentals();
+            var selectedMemberId = this.selectedMember.id;
+            if (selectedMemberId != null)
+            {
+                this.selectedMemberTransactions = this.rdal.GetMemberTransactions((int)selectedMemberId);
+                this.rentalsListView.ItemsSource = this.selectedMemberTransactions;
+            }
         }
 
         private void displayMemberRentals()
         {
+            this.rentalTransactionsBorder.Visibility = Visibility.Visible;
+        }
 
+        private void hideMemberRentals()
+        {
+            this.rentalTransactionsBorder.Visibility = Visibility.Collapsed;
         }
 
         private void rentalsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
