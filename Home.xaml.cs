@@ -40,6 +40,7 @@ namespace UWG_CS3230_FurnitureRental
         private RentalItem selectedRentalItem { get; set; }
 
         private RentalTransaction selectedTransaction { get; set; }
+        private ObservableCollection<RentalItem> selectedTransactionItems { get; set; }
 
         private int selectedQuantity { get; set; }
 
@@ -62,6 +63,7 @@ namespace UWG_CS3230_FurnitureRental
             this.rentalItems = new ObservableCollection<RentalItem>();
             this.quantityAv = new ObservableCollection<int>();
             this.selectedMemberTransactions = new ObservableCollection<RentalTransaction>();
+            this.selectedTransactionItems = new ObservableCollection<RentalItem>();
             
             this.quantityComboBox.ItemsSource = this.quantityAv;
             this.selectedFurniture = new Furniture();
@@ -176,7 +178,7 @@ namespace UWG_CS3230_FurnitureRental
         {
             ContentDialog helpDialog = new ContentDialog
             {
-                Title = "Before you can add the item, check that the item, the price, and the quantity are selected.",
+                Title = "Before you can add the item, check that the item, the price, and the Quantity are selected.",
                 PrimaryButtonText = "Ok",
             };
 
@@ -355,6 +357,7 @@ namespace UWG_CS3230_FurnitureRental
         {
             this.displayOrder();
             this.placeNewOrderButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.rentalTransactionsBorder.Visibility = Visibility.Collapsed;
         }
 
         private void placeOrderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -611,10 +614,6 @@ namespace UWG_CS3230_FurnitureRental
 
         private async System.Threading.Tasks.Task setupEditItemAsync()
         {
-            if (!(this.selectedRentalItem.RentalId > 0))
-            {
-                return;
-            }
             RentalItem.SelectedRentalItem = this.selectedRentalItem;
 
             ContentDialog editItemDialog = new EditItem();
@@ -654,7 +653,33 @@ namespace UWG_CS3230_FurnitureRental
 
         private void rentalsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (this.selectedTransaction != null)
+            {
+                this.viewTransactionButton.Visibility = Visibility.Visible;
+                this.newReturnButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                this.viewTransactionButton.Visibility = Visibility.Collapsed;
+                this.newReturnButton.Visibility = Visibility.Collapsed;
+            }
+            
+        }
 
+        private async void newReturnButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.selectedTransaction != null)
+            {
+                ContentDialog registerDialog = new ReturnTransactionContentDialog((int)this.selectedTransaction.id);
+                await registerDialog.ShowAsync();
+                this.rentalsListView.SelectedIndex = -1;
+            }
+        }
+
+        private void viewTransactionButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.selectedTransactionItems = this.rdal.GetTransactionRentalItems((int)this.selectedTransaction.id);
+            this.transactionItemsListView.ItemsSource = this.selectedTransactionItems;
         }
     }
 }

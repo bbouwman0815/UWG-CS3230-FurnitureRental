@@ -48,12 +48,12 @@ namespace UWG_CS3230_FurnitureRental.DAL
                         fdal.UpdateAvailableFurnitureQuantity(currentRentalItem.FurnitureId, availableQuantity);
                         fdal.UpdateRentedFurnitureQuantity(currentRentalItem.FurnitureId, rentedQuantity);
 
-                        String rquery = "insert into rentalitem values(@rentalId, @furnitureId, @quantity, @daily_rental_rate);";               
+                        String rquery = "insert into rentalitem values(@rentalId, @furnitureId, @Quantity, @daily_rental_rate);";               
                         using MySqlCommand rcommand = new MySqlCommand(rquery, connection);
-                        rcommand.Transaction = transaction;              
+                        rcommand.Transaction = transaction;
                         rcommand.Parameters.Add("@rentalId", MySqlDbType.Int32).Value = currentRentalItem.RentalId;
                         rcommand.Parameters.Add("@furnitureId", MySqlDbType.Int32).Value = currentRentalItem.FurnitureId;
-                        rcommand.Parameters.Add("@quantity", MySqlDbType.Int32).Value = currentRentalItem.Quantity;
+                        rcommand.Parameters.Add("@Quantity", MySqlDbType.Int32).Value = currentRentalItem.Quantity;
                         rcommand.Parameters.Add("@daily_rental_rate", MySqlDbType.Double).Value = currentRentalItem.DailyRentalRate;               
                         rcommand.ExecuteNonQuery();
 
@@ -122,6 +122,72 @@ namespace UWG_CS3230_FurnitureRental.DAL
                 }
             }
             return rentalTransactions;
+        }
+
+        public ObservableCollection<RentalItem> GetTransactionRentalItems(int transactionId)
+        {
+            var rentalItems = new ObservableCollection<RentalItem>();
+            using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
+            {
+                connection.Open();
+                using (var cmd = new MySqlCommand("uspGetRentalItems", connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@transactionId", MySqlDbType.Int32);
+                    cmd.Parameters["@transactionId"].Value = transactionId;
+                    cmd.Parameters["@transactionId"].Direction = ParameterDirection.Input;
+
+                    using MySqlDataReader reader = cmd.ExecuteReader();
+                    int furnitureidordinal = reader.GetOrdinal("furnitureId");
+                    int quantityordinal = reader.GetOrdinal("Quantity");
+                    int dailyrateordinal = reader.GetOrdinal("daily_rental_rate");
+
+                    while (reader.Read())
+                    {
+                        rentalItems.Add(new RentalItem
+                        {
+                            FurnitureId = reader.GetFieldValueCheckNull<int>(furnitureidordinal),
+                            Quantity = reader.GetFieldValueCheckNull<int>(quantityordinal),
+                            DailyRentalRate = (double)reader.GetFieldValueCheckNull<decimal>(dailyrateordinal),
+                            RentalId = transactionId,
+                        });
+                    }
+                }
+            }
+            return rentalItems;
+        }
+
+        public ObservableCollection<RentalItem> GetRemainingRentedTransactionItems(int transactionId)
+        {
+            var rentalItems = new ObservableCollection<RentalItem>();
+            using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
+            {
+                connection.Open();
+                using (var cmd = new MySqlCommand("uspGetUnreturnedTransactionItems", connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@transactionId", MySqlDbType.Int32);
+                    cmd.Parameters["@transactionId"].Value = transactionId;
+                    cmd.Parameters["@transactionId"].Direction = ParameterDirection.Input;
+
+                    using MySqlDataReader reader = cmd.ExecuteReader();
+                    int furnitureidordinal = reader.GetOrdinal("furnitureId");
+                    int quantityordinal = reader.GetOrdinal("remainingQty");
+                    int dailyrateordinal = reader.GetOrdinal("daily_rental_rate");
+
+                    while (reader.Read())
+                    {
+                        rentalItems.Add(new RentalItem
+                        {
+                            FurnitureId = reader.GetFieldValueCheckNull<int>(furnitureidordinal),
+                            Quantity = (int)reader.GetFieldValueCheckNull<decimal>(quantityordinal),
+                            DailyRentalRate = (double)reader.GetFieldValueCheckNull<decimal>(dailyrateordinal),
+                            RentalId = transactionId,
+                        });
+                    }
+                }
+            }
+            return rentalItems;
         }
     }
 }

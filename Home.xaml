@@ -37,6 +37,18 @@
             <TextBlock x:Name="rentalsTextBlock" HorizontalAlignment="Left" Margin="23,10,0,0" Text="Rental Transactions" TextWrapping="Wrap" VerticalAlignment="Top"/>
             <ListView x:Name="rentalsListView" Margin="27,85,27,85"  ItemsSource="{x:Bind selectedMemberTransactions, Mode=TwoWay}"
                       SelectedItem="{x:Bind selectedTransaction, Mode=TwoWay}" SelectionChanged="rentalsListView_SelectionChanged"/>
+            <Button x:Name="viewTransactionButton" Content="View Transaction" Margin="316,24,0,0" VerticalAlignment="Top" Click="viewTransactionButton_Click" Visibility="Collapsed">
+                <Button.Flyout>
+                    <Flyout>
+                        <Grid>
+                            <TextBlock Text="Rented Items"/>
+                            <ListView x:Name="transactionItemsListView" Margin="27,85,27,85"  ItemsSource="{x:Bind selectedTransactionItems, Mode=TwoWay}"
+                                SelectedItem="{x:Bind selectedTransaction, Mode=TwoWay}" SelectionChanged="rentalsListView_SelectionChanged"/>
+                        </Grid>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+            <Button x:Name="newReturnButton" Content="Return Items" Margin="200,25,0,0" VerticalAlignment="Top" Click="newReturnButton_Click" Visibility="Collapsed"/>
         </Grid>
         <Grid x:Name="furniturePanel" BorderThickness="1" BorderBrush="Black" Margin="79,147,614,116" Visibility="Visible">
 
