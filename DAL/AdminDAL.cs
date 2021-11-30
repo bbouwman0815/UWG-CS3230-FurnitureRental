@@ -1,6 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,6 +79,25 @@ namespace UWG_CS3230_FurnitureRental.DAL
                 }
             }
             return "";
+        }
+
+        public DataTable AdminQuery(string query)
+        {
+            DataTable dataTable = new DataTable();
+
+            using (MySqlConnection con = new MySqlConnection(Connection.connectionString))
+            {
+                using (MySqlCommand cmd = new MySqlCommand(query, con))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    using (MySqlDataAdapter sda = new MySqlDataAdapter(cmd))
+                    {
+                        sda.Fill(dataTable);                     
+                    }
+                }
+            }
+
+            return dataTable;
         }
     }
 }

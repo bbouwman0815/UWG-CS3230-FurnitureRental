@@ -138,5 +138,10 @@ namespace UWG_CS3230_FurnitureRental
         {
             this.validateQuery();
         }
+
+        private void handleWriteQuery(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(AdminQuery));
+        }
     }
 }

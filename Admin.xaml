@@ -37,5 +37,6 @@
         <TextBlock x:Name="endDateTextBlock" HorizontalAlignment="Left" Margin="530,268,0,0" Text="Select End Date:" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBlock x:Name="startDateTextBlock" HorizontalAlignment="Left" Margin="88,266,0,0" Text="Select Start Date: " TextWrapping="Wrap" VerticalAlignment="Top"/>
         <ComboBox x:Name="transactionComboBox" Margin="466,185,0,0" Width="226" PlaceholderText="Choose Transaction Type" SelectionChanged="handleValidateSelections"/>
+        <Button x:Name="performQueryButton" Content="Write Query" Margin="944,857,0,0" VerticalAlignment="Top" Width="120" Click="handleWriteQuery"/>
     </Grid>
 </Page>
