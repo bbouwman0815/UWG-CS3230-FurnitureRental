@@ -30,7 +30,7 @@
         <TextBlock x:Name="genderLabel" HorizontalAlignment="Left" Margin="10,67,0,0" Text="Gender *" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <DatePicker x:Name="bdayDatePicker" Margin="10,142,0,0" VerticalAlignment="Top" Width="333" Grid.ColumnSpan="2"/>
         <TextBlock x:Name="bdayLabel" HorizontalAlignment="Left" Margin="10,123,0,0" Text="Birthday *" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.888,0.5" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="phoneTextBox" PlaceholderText="(123-456-7890)" Grid.Column="1" HorizontalAlignment="Left" Margin="127,86,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="145"/>
+        <TextBox x:Name="phoneTextBox" PlaceholderText="(123-456-7890)" Grid.Column="1" HorizontalAlignment="Left" Margin="127,86,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="145" BeforeTextChanging="phoneTextBox_BeforeTextChanging"/>
         <TextBlock x:Name="phoneLabel" Grid.Column="1" HorizontalAlignment="Left" Margin="127,67,0,0" Text="Phone Number *" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.957,-0.237"/>
         <TextBox x:Name="addr1TextBox" PlaceholderText="123 Sonic Ave." HorizontalAlignment="Left" Margin="10,198,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="145"/>
         <TextBlock x:Name="addr1Label" HorizontalAlignment="Left" Margin="10,179,0,0" Text="Address 1 *" TextWrapping="Wrap" VerticalAlignment="Top"/>

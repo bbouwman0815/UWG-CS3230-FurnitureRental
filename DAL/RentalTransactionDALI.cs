@@ -172,7 +172,8 @@ namespace UWG_CS3230_FurnitureRental.DAL
 
                     using MySqlDataReader reader = cmd.ExecuteReader();
                     int furnitureidordinal = reader.GetOrdinal("furnitureId");
-                    int quantityordinal = reader.GetOrdinal("remainingQty");
+                    int originalqtyordinal = reader.GetOrdinal("quantity");
+                    int returnedsumordinal = reader.GetOrdinal("returnedSum");
                     int dailyrateordinal = reader.GetOrdinal("daily_rental_rate");
 
                     while (reader.Read())
@@ -180,7 +181,7 @@ namespace UWG_CS3230_FurnitureRental.DAL
                         rentalItems.Add(new RentalItem
                         {
                             FurnitureId = reader.GetFieldValueCheckNull<int>(furnitureidordinal),
-                            Quantity = (int)reader.GetFieldValueCheckNull<decimal>(quantityordinal),
+                            Quantity = reader.GetFieldValueCheckNull<int>(originalqtyordinal) - (int)reader.GetFieldValueCheckNull<decimal>(returnedsumordinal),
                             DailyRentalRate = (double)reader.GetFieldValueCheckNull<decimal>(dailyrateordinal),
                             RentalId = transactionId,
                         });

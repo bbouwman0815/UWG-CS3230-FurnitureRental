@@ -272,5 +272,10 @@ namespace UWG_CS3230_FurnitureRental
                 this.errorTextBox.Text = "";
             }
         }
+
+        private void phoneTextBox_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
+        {
+            args.Cancel = args.NewText.Any(c => !char.IsDigit(c));
+        }
     }
 }

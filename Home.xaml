@@ -42,8 +42,7 @@
                     <Flyout>
                         <Grid>
                             <TextBlock Text="Rented Items"/>
-                            <ListView x:Name="transactionItemsListView" Margin="27,85,27,85"  ItemsSource="{x:Bind selectedTransactionItems, Mode=TwoWay}"
-                                SelectedItem="{x:Bind selectedTransaction, Mode=TwoWay}" SelectionChanged="rentalsListView_SelectionChanged"/>
+                            <ListView x:Name="transactionItemsListView" Margin="27,85,27,85"  ItemsSource="{x:Bind selectedTransactionItems, Mode=TwoWay}"/>
                         </Grid>
                     </Flyout>
                 </Button.Flyout>
