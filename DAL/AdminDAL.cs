@@ -85,18 +85,24 @@ namespace UWG_CS3230_FurnitureRental.DAL
         {
             DataTable dataTable = new DataTable();
 
-            using (MySqlConnection con = new MySqlConnection(Connection.connectionString))
+            try
             {
-                using (MySqlCommand cmd = new MySqlCommand(query, con))
+                using (MySqlConnection con = new MySqlConnection(Connection.connectionString))
                 {
-                    cmd.CommandType = CommandType.Text;
-                    using (MySqlDataAdapter sda = new MySqlDataAdapter(cmd))
+                    using (MySqlCommand cmd = new MySqlCommand(query, con))
                     {
-                        sda.Fill(dataTable);                     
+                        cmd.CommandType = CommandType.Text;
+                        using (MySqlDataAdapter sda = new MySqlDataAdapter(cmd))
+                        {
+                            sda.Fill(dataTable);
+                        }
                     }
                 }
             }
+            catch
+            {
 
+            }
             return dataTable;
         }
     }
