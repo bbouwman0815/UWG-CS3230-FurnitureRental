@@ -143,7 +143,6 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Address.cs" />
-    <Compile Include="Model\AdminDateQuery.cs" />
     <Compile Include="Model\Customer.cs" />
     <Compile Include="Model\Furniture.cs" />
     <Compile Include="Model\LoggedEmployee.cs" />

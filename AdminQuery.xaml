@@ -11,9 +11,9 @@
 
     <Grid Margin="0,0,0,73">
         <TextBlock HorizontalAlignment="Left" Margin="446,80,0,0" Text="Write a Query" TextWrapping="Wrap" VerticalAlignment="Top" Width="105" FontSize="16"/>
-        <Button x:Name="returnButton" Content="Return" Margin="45,787,0,0" VerticalAlignment="Top" Width="89" Click="handleReturn"/>
+        <Button x:Name="returnButton" Content="Return" Margin="45,816,0,0" VerticalAlignment="Top" Width="89" Click="handleReturn"/>
         <TextBox x:Name="queryTextBox" HorizontalAlignment="Left" Margin="45,163,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="176" Width="904" PlaceholderText="Enter query here"/>
-        <Button x:Name="queryButton" Content="Send" Margin="851,787,0,0" VerticalAlignment="Top" Width="98" Click="handleSendQuery"/>
+        <Button x:Name="queryButton" Content="Send" Margin="851,816,0,0" VerticalAlignment="Top" Width="98" Click="handleSendQuery"/>
 
         <Custom:DataGrid x:Name="queryDataGrid" HorizontalAlignment="Left" Height="414" Margin="45,358,0,0" VerticalAlignment="Top" Width="904"/>
 

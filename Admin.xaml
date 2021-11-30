@@ -10,26 +10,6 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Height="954" Width="1159">
     <Grid HorizontalAlignment="Left" Width="1155">
         <Button x:Name="logoutButton" Content="Logout" Margin="79,857,0,0" VerticalAlignment="Top" Width="104" Click="logoutButton_Click"/>
-        <controls:DataGrid x:Name="DateQueryGrid"
-                  ItemsSource="{x:Bind dateRows}"
-                  AutoGenerateColumns="False" Margin="88,330,75,138">
-            <controls:DataGrid.Columns>
-                <controls:DataGridTextColumn Header="Member ID"
-                                             Binding="{Binding memberID}"/>
-                <controls:DataGridTextColumn Header="Last Name"
-                                             Binding="{Binding memberLastName}"/>
-                <controls:DataGridTextColumn Header="First Name"
-                                             Binding="{Binding memberFirstName}"/>
-                <controls:DataGridTextColumn Header="Rental ID"
-                                             Binding="{Binding rentalID}"/>
-                <controls:DataGridTextColumn Header="Transaction Date"
-                                             Binding="{Binding transactionDate}"/>
-                <controls:DataGridTextColumn Header="Furniture"
-                                             Binding="{Binding furnitureDescription}"/>
-                <controls:DataGridTextColumn Header="Quantity"
-                                             Binding="{Binding rentalItemQuantity}"/>
-            </controls:DataGrid.Columns>
-        </controls:DataGrid>
         <TextBlock x:Name="AdminInfoTextBlock" HorizontalAlignment="Left" Margin="34,34,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="77" Width="240"/>
         <Button x:Name="queryButton" Content="Search" Margin="985,260,0,0" VerticalAlignment="Top" Click="handlePopulateTable" Width="95"/>
         <DatePicker x:Name="startDatePicker" Margin="206,260,0,0" VerticalAlignment="Top" Width="298" DateChanged="handleValidateSelections"/>
@@ -38,5 +18,6 @@
         <TextBlock x:Name="startDateTextBlock" HorizontalAlignment="Left" Margin="88,266,0,0" Text="Select Start Date: " TextWrapping="Wrap" VerticalAlignment="Top"/>
         <ComboBox x:Name="transactionComboBox" Margin="466,185,0,0" Width="226" PlaceholderText="Choose Transaction Type" SelectionChanged="handleValidateSelections"/>
         <Button x:Name="performQueryButton" Content="Write Query" Margin="944,857,0,0" VerticalAlignment="Top" Width="120" Click="handleWriteQuery"/>
+        <controls:DataGrid x:Name="queryDataGrid" HorizontalAlignment="Center" Height="488" Margin="0,333,0,0" VerticalAlignment="Top" Width="971"/>
     </Grid>
 </Page>

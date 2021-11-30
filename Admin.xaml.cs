@@ -8,6 +8,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
 using UWG_CS3230_FurnitureRental.DAL;
 using UWG_CS3230_FurnitureRental.Model;
+using UWG_CS3230_FurnitureRental.Utilities;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -32,8 +33,6 @@ namespace UWG_CS3230_FurnitureRental
         private readonly MemberDAL mdal = new MemberDAL();
 
         private ObservableCollection<string> transactionTypes { get; set; }
-
-        private List<AdminDateQuery> dateRows { get; set; }
 
         public Admin()
         {
@@ -94,21 +93,20 @@ namespace UWG_CS3230_FurnitureRental
         private void handlePopulateTable(object sender, RoutedEventArgs e)
         {
             AdminDAL adal = new AdminDAL();
+            DataTable table = new DataTable();
             DateTime starttime = this.startDatePicker.Date.DateTime;
             DateTime endTime = this.endDatePicker.Date.DateTime;
             var formattedStartDate = starttime.ToString("yyyy-MM-dd");
             var formattedEndDate = endTime.ToString("yyyy-MM-dd");
-            string results = "";
             if (this.transactionComboBox.SelectedValue.ToString().Equals("Rental Transaction"))
             {
-                results = adal.RentalTransactionDateQuery(formattedStartDate, formattedEndDate);
+                table = adal.RentalTransactionDateQuery(formattedStartDate, formattedEndDate);
             }
             else
             {
-                results = adal.ReturnTransactionDateQuery(formattedStartDate, formattedEndDate);
+                table = adal.ReturnTransactionDateQuery(formattedStartDate, formattedEndDate);
             }
-            this.dateRows = AdminDateQuery.convertToRows(results);
-            this.DateQueryGrid.ItemsSource = this.dateRows;
+            OrderFormatter.FillDataGrid(table, this.queryDataGrid);
         }
 
         private void handleValidateSelections(object sender, DatePickerValueChangedEventArgs e)
