@@ -3,28 +3,39 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:UWG_CS3230_FurnitureRental"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Height="954" Width="1365">
-    <Grid HorizontalAlignment="Left" Width="1355">
-        <Grid x:Name="furniturePanel" BorderThickness="1" BorderBrush="Black" Margin="79,143,730,120">
-
-            <Button x:Name="addFurnitureButton" Content="+" Margin="465,81,0,0" VerticalAlignment="Top" Width="38" FontSize="18" Click="addFurnitureButton_Click" Height="38"/>
-            <TextBox x:Name="searchInputTextBox" Text="" TextWrapping="Wrap" PlaceholderText="Search for furniture" TextChanged="HandleSearchTextChange" Margin="30,44,278,613"/>
-            <ComboBox x:Name="categoryComboBox" Margin="27,83,0,0" Width="120" Height="34" PlaceholderText="Category" ItemsSource="{x:Bind categories, Mode=TwoWay}"
-                      SelectedItem="{x:Bind selectedCategory, Mode=TwoWay}" SelectionChanged="handleFilterSelectionChanged"/>
-            <ComboBox x:Name="styleComboBox" Margin="156,82,0,0" Width="122" Height="34" PlaceholderText="Style" ItemsSource="{x:Bind styles, Mode=TwoWay}"
-                      SelectedItem="{x:Bind selectedStyle, Mode=TwoWay}" SelectionChanged="handleFilterSelectionChanged"/>
-            <ListView x:Name="furnitureListView" Margin="29,133,41,27" RequestedTheme="Default" Header="Inventory"  ItemsSource="{x:Bind inventory, Mode=TwoWay}"
-                      SelectedItem="{x:Bind selectedFurniture, Mode=TwoWay}" SelectionChanged="handleFurnitureSelectionChanged">
-            </ListView>
-            <Button x:Name="deleteFurnitureButton" Content="-" Margin="351,82,0,0" VerticalAlignment="Top" Width="38" Height="38" Click="handleRemoveFurniture"/>
-            <Button x:Name="changeQuantityButton" Content="#" Margin="307,82,0,0" VerticalAlignment="Top" Width="38" Height="38" Click="handleChangeFurnitureQuantity"/>
-            <TextBlock x:Name="AdminInfoTextBlock" HorizontalAlignment="Left" Margin="1,-115,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="77" Width="240"/>
-            <Button Content="Button" Margin="827,522,0,0" VerticalAlignment="Top" Width="0"/>
-
-        </Grid>
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Height="954" Width="1159">
+    <Grid HorizontalAlignment="Left" Width="1155">
         <Button x:Name="logoutButton" Content="Logout" Margin="79,857,0,0" VerticalAlignment="Top" Width="104" Click="logoutButton_Click"/>
+        <controls:DataGrid x:Name="DateQueryGrid"
+                  ItemsSource="{x:Bind dateRows}"
+                  AutoGenerateColumns="False" Margin="88,330,75,138">
+            <controls:DataGrid.Columns>
+                <controls:DataGridTextColumn Header="Member ID"
+                                             Binding="{Binding memberID}"/>
+                <controls:DataGridTextColumn Header="Last Name"
+                                             Binding="{Binding memberLastName}"/>
+                <controls:DataGridTextColumn Header="First Name"
+                                             Binding="{Binding memberFirstName}"/>
+                <controls:DataGridTextColumn Header="Rental ID"
+                                             Binding="{Binding rentalID}"/>
+                <controls:DataGridTextColumn Header="Transaction Date"
+                                             Binding="{Binding transactionDate}"/>
+                <controls:DataGridTextColumn Header="Furniture"
+                                             Binding="{Binding furnitureDescription}"/>
+                <controls:DataGridTextColumn Header="Quantity"
+                                             Binding="{Binding rentalItemQuantity}"/>
+            </controls:DataGrid.Columns>
+        </controls:DataGrid>
+        <TextBlock x:Name="AdminInfoTextBlock" HorizontalAlignment="Left" Margin="34,34,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="77" Width="240"/>
+        <Button x:Name="queryButton" Content="Search" Margin="985,260,0,0" VerticalAlignment="Top" Click="handlePopulateTable" Width="95"/>
+        <DatePicker x:Name="startDatePicker" Margin="206,260,0,0" VerticalAlignment="Top" Width="298" DateChanged="handleValidateSelections"/>
+        <DatePicker x:Name="endDatePicker" Margin="649,261,0,0" VerticalAlignment="Top" DateChanged="handleValidateSelections"/>
+        <TextBlock x:Name="endDateTextBlock" HorizontalAlignment="Left" Margin="530,268,0,0" Text="Select End Date:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock x:Name="startDateTextBlock" HorizontalAlignment="Left" Margin="88,266,0,0" Text="Select Start Date: " TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <ComboBox x:Name="transactionComboBox" Margin="466,185,0,0" Width="226" PlaceholderText="Choose Transaction Type" SelectionChanged="handleValidateSelections"/>
     </Grid>
 </Page>

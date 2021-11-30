@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -30,15 +31,9 @@ namespace UWG_CS3230_FurnitureRental
         private readonly FurnitureDAL fdal = new FurnitureDAL();
         private readonly MemberDAL mdal = new MemberDAL();
 
-        private ObservableCollection<Furniture> inventory { get; set; }
-        private ObservableCollection<string> styles { get; set; }
-        private ObservableCollection<string> categories { get; set; }
+        private ObservableCollection<string> transactionTypes { get; set; }
 
-        private Furniture selectedFurniture { get; set; }
-
-        private String selectedStyle { get; set; }
-
-        private String selectedCategory { get; set; }
+        private List<AdminDateQuery> dateRows { get; set; }
 
         public Admin()
         {
@@ -49,12 +44,12 @@ namespace UWG_CS3230_FurnitureRental
 
         private void initializeCollections()
         {
-            this.inventory = new ObservableCollection<Furniture>();
-            this.styles = new ObservableCollection<string>();
-            this.categories = new ObservableCollection<string>();
-            this.inventory = fdal.GetFurnitureInventory();
-            this.styles = fdal.GetStyles();
-            this.categories = fdal.GetCategories();
+            List<string> transactions = new List<string>();
+            transactions.Add("Rental Transaction");
+            transactions.Add("Return Transaction");
+            this.transactionTypes = new ObservableCollection<string>(transactions);
+            this.transactionComboBox.ItemsSource = this.transactionTypes;
+            this.queryButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 
         private async System.Threading.Tasks.Task setupAddItemAsync()
@@ -76,113 +71,6 @@ namespace UWG_CS3230_FurnitureRental
             this.AdminInfoTextBlock.Text = identification;
         }
 
-
-        private void handleChangeFurnitureQuantity(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void addFurnitureButton_Click(object sender, RoutedEventArgs e)
-        {
-            _ = setupAddItemAsync();
-        }
-
-        private void handleRemoveFurniture(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void handleFurnitureSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void handleFilterSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            this.applyFilters();
-        }
-
-        private void HandleSearchTextChange(object sender, TextChangedEventArgs e)
-        {
-            string search = this.searchInputTextBox.Text;
-            if (search == "reset")
-            {
-                this.handleResetFilters();
-                this.searchInputTextBox.Text = "";
-            }
-
-            if (Regex.IsMatch(search, @"^\d"))
-            {
-                Furniture furnitureByID = this.fdal.GetFurnitureById(Int32.Parse(search));
-                if (furnitureByID.Id != 0)
-                {
-                    this.inventory.Clear();
-                    this.inventory.Add(furnitureByID);
-       
-                    this.furnitureListView.ItemsSource = this.inventory;
-                    return;
-                }
-            }
-
-            this.inventory = this.fdal.SearchFurnitureByDescription(search);
-        
-            this.furnitureListView.ItemsSource = this.inventory;
-
-            this.applyFilters();
-        }
-
-        private void handleResetFilters()
-        {
-            this.styleComboBox.SelectedIndex = -1;
-            this.categoryComboBox.SelectedIndex = -1;
-            this.selectedFurniture = new Furniture();
-        }
-
-        private void applyFilters()
-        {
-
-            ObservableCollection<Furniture> furnitureToDisplay = new ObservableCollection<Furniture>();
-            FurnitureDAL fdal = new FurnitureDAL();
-            this.inventory = this.fdal.SearchFurnitureByDescription(this.searchInputTextBox.Text);
-            if (this.categoryComboBox.SelectedIndex > -1 && this.styleComboBox.SelectedIndex > -1)
-            {
-
-                string styleType = this.styleComboBox.SelectedValue.ToString();
-
-                string categoryType = this.categoryComboBox.SelectedValue.ToString();
-
-                foreach (var currentFurniture in this.inventory.Where(currentFurniture => currentFurniture.Category == categoryType && currentFurniture.Style == styleType))
-                {
-                    furnitureToDisplay.Add(currentFurniture);
-                }
-                this.inventory = furnitureToDisplay;
-                this.furnitureListView.ItemsSource = this.inventory;
-                return;
-            }
-            if (this.categoryComboBox.SelectedIndex > -1)
-            {
-                string categoryType = this.categoryComboBox.SelectedValue.ToString();
-                foreach (var currentFurniture in this.inventory.Where(currentFurniture => currentFurniture.Category == categoryType))
-                {
-                    furnitureToDisplay.Add(currentFurniture);
-                }
-                this.inventory = furnitureToDisplay;
-                this.furnitureListView.ItemsSource = this.inventory;
-                return;
-            }
-            if (this.styleComboBox.SelectedIndex > -1)
-            {
-                string styleType = this.styleComboBox.SelectedValue.ToString();
-                foreach (var currentFurniture in this.inventory.Where(currentFurniture => currentFurniture.Style == styleType))
-                {
-                    furnitureToDisplay.Add(currentFurniture);
-                }
-                this.inventory = furnitureToDisplay;
-                this.furnitureListView.ItemsSource = this.inventory;
-                return;
-            }
-        }
-
         private void logoutButton_Click(object sender, RoutedEventArgs e)
         {
             _ = this.setupLogoutDialogAsync();
@@ -201,6 +89,64 @@ namespace UWG_CS3230_FurnitureRental
             {
                 Frame.Navigate(typeof(MainPage));
             }
+        }
+
+        private void handlePopulateTable(object sender, RoutedEventArgs e)
+        {
+            AdminDAL adal = new AdminDAL();
+            DateTime starttime = this.startDatePicker.Date.DateTime;
+            DateTime endTime = this.endDatePicker.Date.DateTime;
+            var formattedStartDate = starttime.ToString("yyyy-MM-dd");
+            var formattedEndDate = endTime.ToString("yyyy-MM-dd");
+            string results = "";
+            if (this.transactionComboBox.SelectedValue.ToString().Equals("Rental Transaction"))
+            {
+                results = adal.RentalTransactionDateQuery(formattedStartDate, formattedEndDate);
+            }
+            else
+            {
+                results = adal.ReturnTransactionDateQuery(formattedStartDate, formattedEndDate);
+            }
+            this.dateRows = AdminDateQuery.convertToRows(results);
+            this.DateQueryGrid.ItemsSource = this.dateRows;
+        }
+
+        private void handleValidateSelections(object sender, DatePickerValueChangedEventArgs e)
+        {
+            this.validateQuery();
+        }
+
+        private void validateQuery()
+        {
+            DateTime starttime = this.startDatePicker.Date.DateTime;
+            DateTime endTime = this.endDatePicker.Date.DateTime;
+            if (this.transactionComboBox.SelectedIndex > -1)
+            {
+                this.queryButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            }
+            else
+            {
+                this.queryButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                return;
+            }
+            if (starttime == null | endTime == null)
+            {
+                this.queryButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            }
+
+            if (starttime <= endTime)
+            {
+                this.queryButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            }
+            else
+            {
+                this.queryButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            }
+        }
+
+        private void handleValidateSelections(object sender, SelectionChangedEventArgs e)
+        {
+            this.validateQuery();
         }
     }
 }

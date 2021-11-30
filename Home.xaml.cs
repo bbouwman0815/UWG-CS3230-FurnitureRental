@@ -666,13 +666,11 @@ namespace UWG_CS3230_FurnitureRental
             
         }
 
-        private async void newReturnButton_Click(object sender, RoutedEventArgs e)
+        private void newReturnButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.selectedTransaction != null)
             {
-                ContentDialog registerDialog = new ReturnTransactionContentDialog((int)this.selectedTransaction.id);
-                await registerDialog.ShowAsync();
-                this.rentalsListView.SelectedIndex = -1;
+          
             }
         }
 
