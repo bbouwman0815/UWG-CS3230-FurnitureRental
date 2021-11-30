@@ -120,28 +120,18 @@ namespace UWG_CS3230_FurnitureRental
         {
             DateTime starttime = this.startDatePicker.Date.DateTime;
             DateTime endTime = this.endDatePicker.Date.DateTime;
-            if (this.transactionComboBox.SelectedIndex > -1)
-            {
-                this.queryButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            }
-            else
-            {
-                this.queryButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                return;
-            }
-            if (starttime == null | endTime == null)
+
+            this.queryButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
+            if (starttime >= endTime)
             {
                 this.queryButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
 
-            if (starttime <= endTime)
-            {
-                this.queryButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            }
-            else
+            if (starttime == null | endTime == null | this.transactionComboBox.SelectedIndex == -1)
             {
                 this.queryButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-            }
+            }    
         }
 
         private void handleValidateSelections(object sender, SelectionChangedEventArgs e)

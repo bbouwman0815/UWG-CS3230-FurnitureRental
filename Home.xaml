@@ -58,6 +58,7 @@
             <ListView x:Name="furnitureListView" Margin="27,131,26,25" RequestedTheme="Default" Header="Inventory"  ItemsSource="{x:Bind inventory, Mode=TwoWay}"
                       SelectedItem="{x:Bind selectedFurniture, Mode=TwoWay}" SelectionChanged="handleSelectionChanged">
             </ListView>
+            <Button x:Name="resetButton" Content="x" Margin="284,32,0,0" VerticalAlignment="Top" Width="39" Height="36" Click="resetSearchAndFilters"/>
 
         </Grid>
         <Grid x:Name="memberPanel" BorderThickness="1" BorderBrush="Black" Margin="79,147,614,116" Visibility="Collapsed">

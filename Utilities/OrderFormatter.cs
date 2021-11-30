@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using UWG_CS3230_FurnitureRental.DAL;
 using UWG_CS3230_FurnitureRental.Model;
 
 namespace UWG_CS3230_FurnitureRental.Utilities
@@ -59,6 +60,37 @@ namespace UWG_CS3230_FurnitureRental.Utilities
             }
 
             return quantity;
+        }
+
+        public static string GetOrderSummary(ObservableCollection<RentalItem> rentalItems, string total, string date)
+        {
+            FurnitureDAL fdal = new FurnitureDAL();
+            string summary = Environment.NewLine;
+            summary += Environment.NewLine;
+            summary += Environment.NewLine;
+            summary += "Order Summary";
+            summary += Environment.NewLine;
+            summary += Environment.NewLine;
+            foreach (RentalItem currentRentalItem in rentalItems)
+            {
+                Furniture currentFurniture = fdal.GetFurnitureById(currentRentalItem.FurnitureId);
+                summary += currentFurniture.Style + " " + currentFurniture.Description;
+                summary += Environment.NewLine;
+                summary += "Quantity: " + currentRentalItem.Quantity;
+                summary += Environment.NewLine;
+                summary += "Daily Rental Rate: $" + currentRentalItem.DailyRentalRate;
+                summary += Environment.NewLine;
+                summary += Environment.NewLine;
+            }
+            summary += Environment.NewLine;
+            summary += total;
+            summary += Environment.NewLine;
+            summary += Environment.NewLine;
+            summary += "Furniture due by: " + date;
+            summary += Environment.NewLine;
+            summary += Environment.NewLine;
+
+            return summary;
         }
 
 
