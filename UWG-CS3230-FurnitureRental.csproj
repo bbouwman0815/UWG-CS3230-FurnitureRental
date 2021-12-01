@@ -133,6 +133,7 @@
     <Compile Include="DAL\FurnitureDALI.cs" />
     <Compile Include="DAL\MemberDAL.cs" />
     <Compile Include="DAL\RentalTransactionDALI.cs" />
+    <Compile Include="DAL\ReturnTransactionDALI.cs" />
     <Compile Include="EditItem.xaml.cs">
       <DependentUpon>EditItem.xaml</DependentUpon>
     </Compile>
@@ -148,6 +149,7 @@
     <Compile Include="Model\LoggedEmployee.cs" />
     <Compile Include="Model\RentalItem.cs" />
     <Compile Include="Model\RentalTransaction.cs" />
+    <Compile Include="Model\ReturnItem.cs" />
     <Compile Include="Model\States.cs" />
     <Compile Include="NewFurnitureContentDialog.xaml.cs">
       <DependentUpon>NewFurnitureContentDialog.xaml</DependentUpon>
@@ -155,6 +157,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterCustomer.xaml.cs">
       <DependentUpon>RegisterCustomer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ReturnTransactionContentDialog.xaml.cs">
+      <DependentUpon>ReturnTransactionContentDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Crypter.cs" />
     <Compile Include="Utilities\OrderFormatter.cs" />
@@ -206,6 +211,10 @@
     <Page Include="RegisterCustomer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ReturnTransactionContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
