@@ -13,6 +13,8 @@ namespace UWG_CS3230_FurnitureRental.Model
         public int? ReturnId { get; set; }
         public int Quantity { get; set; }
 
+        public static List<ReturnItem> itemsToBeReturned = new List<ReturnItem>();
+
         public override string ToString()
         {
             String output = "Furniture: " + FurnitureId + " Quantity: " + this.Quantity;

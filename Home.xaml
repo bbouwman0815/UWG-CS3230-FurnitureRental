@@ -24,7 +24,7 @@
         <ComboBox x:Name="quantityComboBox" Margin="454,677,0,0" Width="74" Height="38" PlaceholderText="Qty"
         />
 
-        <Grid x:Name="orderBorder" BorderThickness="1" BorderBrush="Black" Margin="617,147,76,116">
+        <Grid x:Name="orderBorder" BorderThickness="1" BorderBrush="Black" Margin="617,147,76,116" Visibility="Collapsed">
             <TextBlock x:Name="orderDueDateTextBlock" HorizontalAlignment="Left" Margin="23,10,0,0" Text="Order Due Date" TextWrapping="Wrap" VerticalAlignment="Top"/>
             <DatePicker x:Name="orderDatePicker" Margin="24,30,0,0" VerticalAlignment="Top" Width="314" DateChanged="handleDateChanged"/>
             <Button x:Name="removeFurnitureButton" Content="-" Margin="403,30,0,0" VerticalAlignment="Top" Width="42" FontSize="18" Click="removeFurnitureButton_Click"/>
@@ -33,10 +33,13 @@
                       SelectedItem="{x:Bind selectedRentalItem, Mode=TwoWay}"/>
             <TextBox x:Name="orderTotalTextBox" HorizontalAlignment="Left" Margin="210,461,0,0" Text="Order Total: " TextWrapping="Wrap" VerticalAlignment="Top" Width="205" IsReadOnly="True"/>
         </Grid>
-        <Grid x:Name="rentalTransactionsBorder" BorderThickness="1" BorderBrush="Black" Margin="617,147,76,116" Visibility="Collapsed">
+        <Grid x:Name="rentalTransactionsBorder" BorderThickness="1" BorderBrush="Black" Margin="617,147,76,116">
             <TextBlock x:Name="rentalsTextBlock" HorizontalAlignment="Left" Margin="23,10,0,0" Text="Rental Transactions" TextWrapping="Wrap" VerticalAlignment="Top"/>
-            <ListView x:Name="rentalsListView" Margin="27,85,27,85"  ItemsSource="{x:Bind selectedMemberTransactions, Mode=TwoWay}"
+            <ListView x:Name="rentalsListView" Margin="28,86,28,261"  ItemsSource="{x:Bind selectedMemberTransactions, Mode=TwoWay}"
                       SelectedItem="{x:Bind selectedTransaction, Mode=TwoWay}" SelectionChanged="rentalsListView_SelectionChanged"/>
+            <TextBlock x:Name="returnItemsTextBlock" HorizontalAlignment="Left" Margin="32,285,0,0" Text="Items to Return" TextWrapping="Wrap" VerticalAlignment="Top"/>
+            <ListView x:Name="itemsToReturnListView" Margin="31,308,31,45" ItemsSource="{x:Bind itemsToReturn, Mode=TwoWay}"
+                      SelectedItem="{x:Bind selectedItemToReturn, Mode=TwoWay}" SelectionChanged="itemsToReturnListView_SelectionChanged"/>
             <Button x:Name="viewTransactionButton" Content="View Transaction" Margin="316,24,0,0" VerticalAlignment="Top" Click="viewTransactionButton_Click" Visibility="Collapsed">
                 <Button.Flyout>
                     <Flyout>

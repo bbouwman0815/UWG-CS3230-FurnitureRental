@@ -33,6 +33,8 @@ namespace UWG_CS3230_FurnitureRental
         private readonly RentalTransactionDAL rdal = new RentalTransactionDAL();
         private readonly ReturnTransactionDAL returndal = new ReturnTransactionDAL();
 
+        public List<ReturnItem> itemsToReturn { get; set; }
+
         public ReturnTransactionContentDialog(int rentalId)
         {
             this.rentalId = rentalId;
@@ -128,7 +130,12 @@ namespace UWG_CS3230_FurnitureRental
 
         private void setupReturn()
         {
-            this.returndal.CreateNewReturnTransaction(new List<ReturnItem>(this.createReturnItems()));
+            this.itemsToReturn = this.createReturnItems();
+            var newList = new List<ReturnItem>();
+            newList.AddRange(ReturnItem.itemsToBeReturned);
+            newList.AddRange(this.itemsToReturn);
+            ReturnItem.itemsToBeReturned = newList;
+
             this.returnItems.Clear();
             this.transactionItems.Clear();
             

@@ -46,6 +46,10 @@ namespace UWG_CS3230_FurnitureRental
 
         private int rentalPeriod { get; set; }
 
+        private ObservableCollection<ReturnItem> itemsToReturn { get; set; }
+
+        private ReturnItem selectedItemToReturn { get; set; }
+
         public Home()
         {
             this.InitializeComponent();
@@ -64,12 +68,14 @@ namespace UWG_CS3230_FurnitureRental
             this.quantityAv = new ObservableCollection<int>();
             this.selectedMemberTransactions = new ObservableCollection<RentalTransaction>();
             this.selectedTransactionItems = new ObservableCollection<RentalItem>();
+            this.itemsToReturn = new ObservableCollection<ReturnItem>();
             
             this.quantityComboBox.ItemsSource = this.quantityAv;
             this.selectedFurniture = new Furniture();
             this.selectedTransaction = new RentalTransaction();
             this.selectedMember = null;
             this.selectedRentalItem = new RentalItem();
+            this.selectedItemToReturn = new ReturnItem();
             this.selectedQuantity = 0;
             this.rentalPeriod = 0;
         }
@@ -671,7 +677,12 @@ namespace UWG_CS3230_FurnitureRental
             if (this.selectedTransaction != null)
             {
                 ContentDialog registerDialog = new ReturnTransactionContentDialog((int)this.selectedTransaction.id);
-                await registerDialog.ShowAsync();
+                ContentDialogResult result = await registerDialog.ShowAsync();
+                if (result == ContentDialogResult.Secondary)
+                {
+                    this.itemsToReturn = new ObservableCollection<ReturnItem>(ReturnItem.itemsToBeReturned);
+                    this.itemsToReturnListView.ItemsSource = this.itemsToReturn;
+                }
                 this.rentalsListView.SelectedIndex = -1;
             }
         }
@@ -680,6 +691,11 @@ namespace UWG_CS3230_FurnitureRental
         {
             this.selectedTransactionItems = this.rdal.GetTransactionRentalItems((int)this.selectedTransaction.id);
             this.transactionItemsListView.ItemsSource = this.selectedTransactionItems;
+        }
+
+        private void itemsToReturnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
