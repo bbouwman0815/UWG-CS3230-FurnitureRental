@@ -190,5 +190,31 @@ namespace UWG_CS3230_FurnitureRental.DAL
             }
             return rentalItems;
         }
+
+        public int GetTransactionDateDiff(int transactionId)
+        {
+            var dateSpan = 0;
+            using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
+            {
+                connection.Open();
+                String query = "select DATEDIFF(dueDate, transactionDate) from rentalTransaction where id = @transactionId;";
+                using (var cmd = new MySqlCommand(query, connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@transactionId", MySqlDbType.Int32);
+                    cmd.Parameters["@transactionId"].Value = transactionId;
+                    cmd.Parameters["@transactionId"].Direction = ParameterDirection.Input;
+
+                    using MySqlDataReader reader = cmd.ExecuteReader();
+                    int datespanordinal = reader.GetOrdinal("dueDate");
+
+                    while (reader.Read())
+                    {
+                        dateSpan = reader.GetFieldValueCheckNull<int>(datespanordinal);
+                    }
+                }
+            }
+            return dateSpan;
+        }
     }
 }

@@ -22,15 +22,15 @@
             <TextBlock HorizontalAlignment="Left"  Text="Rented Items" TextWrapping="Wrap" VerticalAlignment="Top"/>
             <ListView x:Name="rentalItemsListView" Margin="0,32,0,0"  ItemsSource="{x:Bind transactionItems, Mode=TwoWay}"
                       SelectedItem="{x:Bind selectedRentalItem, Mode=TwoWay}" SelectionChanged="rentalItemsListView_SelectionChanged"/>
-            <Button x:Name="addItemButton"  Content="Add" Margin="354,0,0,0" VerticalAlignment="Top" Click="addItemButton_Click"/>
-            <ComboBox x:Name="addQtyComboBox" Margin="275,0,0,0" Width="74" PlaceholderText="Qty"/>
+            <Button x:Name="addItemButton"  Content="Add" Margin="354,0,0,0" VerticalAlignment="Top" Click="addItemButton_Click" IsEnabled="False"/>
+            <ComboBox x:Name="addQtyComboBox" Margin="275,0,0,0" Width="74" PlaceholderText="Qty" SelectionChanged="addQtyComboBox_SelectionChanged" IsEnabled="False"/>
         </Grid>
         <Grid Row="1">
             <TextBlock HorizontalAlignment="Left"  Text="Items to Return" TextWrapping="Wrap" VerticalAlignment="Top"/>
             <ListView x:Name="returnItemsListView" Margin="0,47,0,0"  ItemsSource="{x:Bind returnItems, Mode=TwoWay}"
                       SelectedItem="{x:Bind selectedReturnItem, Mode=TwoWay}" SelectionChanged="returnItemsListView_SelectionChanged"/>
-            <Button x:Name="removeItemButton" Content="Remove" Margin="328,0,0,0" VerticalAlignment="Top" Click="removeItemButton_Click"/>
-            <ComboBox x:Name="removeQtyComboBox" Margin="249,0,0,0" Width="74" PlaceholderText="Qty"/>
+            <Button x:Name="removeItemButton" Content="Remove" Margin="328,0,0,0" VerticalAlignment="Top" Click="removeItemButton_Click" IsEnabled="False"/>
+            <ComboBox x:Name="removeQtyComboBox" Margin="249,0,0,0" Width="74" PlaceholderText="Qty" IsEnabled="False" SelectionChanged="removeQtyComboBox_SelectionChanged"/>
         </Grid>
 
     </Grid>

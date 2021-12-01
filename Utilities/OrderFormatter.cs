@@ -17,6 +17,8 @@ namespace UWG_CS3230_FurnitureRental.Utilities
 {
     public class OrderFormatter
     {
+        private readonly RentalTransactionDAL rdal = new RentalTransactionDAL();
+
         public static string CalculateFormatOrderCost(ObservableCollection<RentalItem> items, int rentalPeriod)
         {
             NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
@@ -38,6 +40,16 @@ namespace UWG_CS3230_FurnitureRental.Utilities
                 totalCost += item.TotalRentalRate;
             }
             totalCost *= rentalPeriod;
+            return totalCost;
+        }
+
+        public double CalculateReturnCost(ObservableCollection<ReturnItem> items)
+        {
+            double totalCost = 0.0;
+            foreach (ReturnItem item in items)
+            {
+                totalCost += item.TotalOwed * this.rdal.GetTransactionDateDiff(item.RentalId);
+            }
             return totalCost;
         }
 
@@ -91,6 +103,35 @@ namespace UWG_CS3230_FurnitureRental.Utilities
             summary += Environment.NewLine;
             summary += Environment.NewLine;
             summary += "Furniture due by: " + date;
+            summary += Environment.NewLine;
+            summary += Environment.NewLine;
+
+            return summary;
+        }
+
+        public static string GetReturnSummary(ObservableCollection<ReturnItem> returnItems, string total)
+        {
+            FurnitureDAL fdal = new FurnitureDAL();
+            string summary = Environment.NewLine;
+            summary += Environment.NewLine;
+            summary += Environment.NewLine;
+            summary += "Order Summary";
+            summary += Environment.NewLine;
+            summary += Environment.NewLine;
+            foreach (ReturnItem currentRentalItem in returnItems)
+            {
+                Furniture currentFurniture = fdal.GetFurnitureById(currentRentalItem.FurnitureId);
+                summary += currentFurniture.Style + " " + currentFurniture.Description;
+                summary += Environment.NewLine;
+                summary += "Quantity: " + currentRentalItem.Quantity;
+                summary += Environment.NewLine;
+                summary += Environment.NewLine;
+            }
+            summary += Environment.NewLine;
+            summary += total;
+            summary += Environment.NewLine;
+            summary += Environment.NewLine;
+            summary += "Furniture returned on: " + DateTime.Today;
             summary += Environment.NewLine;
             summary += Environment.NewLine;
 

@@ -23,6 +23,7 @@ namespace UWG_CS3230_FurnitureRental
         private readonly FurnitureDAL fdal = new FurnitureDAL();
         private readonly MemberDAL mdal = new MemberDAL();
         private readonly RentalTransactionDAL rdal = new RentalTransactionDAL();
+        private readonly ReturnTransactionDAL returndal = new ReturnTransactionDAL();
 
         private ObservableCollection<Furniture> inventory { get; set; }
         private ObservableCollection<Customer> members { get; set; }
@@ -49,6 +50,8 @@ namespace UWG_CS3230_FurnitureRental
         private ObservableCollection<ReturnItem> itemsToReturn { get; set; }
 
         private ReturnItem selectedItemToReturn { get; set; }
+
+        public bool returnEnabled => this.itemsToReturn.Count > 0;
 
         public Home()
         {
@@ -652,11 +655,13 @@ namespace UWG_CS3230_FurnitureRental
         private void displayMemberRentals()
         {
             this.rentalTransactionsBorder.Visibility = Visibility.Visible;
+            this.placeReturnButton.Visibility = Visibility.Visible;
         }
 
         private void hideMemberRentals()
         {
             this.rentalTransactionsBorder.Visibility = Visibility.Collapsed;
+            this.placeReturnButton.Visibility = Visibility.Collapsed;
         }
 
         private void rentalsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -674,7 +679,7 @@ namespace UWG_CS3230_FurnitureRental
             
         }
 
-        private void newReturnButton_Click(object sender, RoutedEventArgs e)
+        private async void newReturnButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.selectedTransaction != null)
             {
@@ -699,11 +704,93 @@ namespace UWG_CS3230_FurnitureRental
         {
             this.handleResetFilters();
             this.searchInputTextBox.Text = "";
+            this.inventory = this.fdal.GetFurnitureInventory();
+            this.furnitureListView.ItemsSource = this.inventory;
         }
 
         private void itemsToReturnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (this.selectedItemToReturn != null)
+            {
+                this.removeReturnItemButton.Visibility = Visibility.Visible;
+                this.removeQtyComboBox.Visibility = Visibility.Visible;
+                this.removeQtyComboBox.ItemsSource = this.selectedItemToReturn.GetQuantityRange();
+            }
+            else
+            {
+                this.removeReturnItemButton.Visibility = Visibility.Collapsed;
+                this.removeQtyComboBox.Visibility = Visibility.Collapsed;
+                this.removeQtyComboBox.ItemsSource = null;
+            }
+        }
 
+        private void removeReturnItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            int qty = Int32.Parse(this.removeQtyComboBox.SelectedValue.ToString());
+            var item = ReturnItem.itemsToBeReturned.FirstOrDefault(item => item == this.selectedItemToReturn);
+            ReturnItem.itemsToBeReturned.Remove(this.selectedItemToReturn);
+            item.Quantity -= qty;
+            if (item.Quantity != 0)
+            {
+                ReturnItem.itemsToBeReturned.Add(item);
+            }
+            this.itemsToReturn = new ObservableCollection<ReturnItem>(ReturnItem.itemsToBeReturned);
+            this.itemsToReturnListView.ItemsSource = this.itemsToReturn;
+        }
+
+        private void removeQtyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.removeQtyComboBox.SelectedValue == null)
+            {
+                this.removeReturnItemButton.IsEnabled = false;
+            }
+            else
+            {
+                this.removeReturnItemButton.IsEnabled = true;
+            }
+        }
+
+        private void placeReturnButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.returnEnabled)
+            {
+                _ = this.setupConfirmReturnDialogAsync();
+            }
+            else
+            {
+                this.selectReturnsDialog();
+            }
+        }
+
+        private async System.Threading.Tasks.Task setupConfirmReturnDialogAsync()
+        {
+            String receipt = OrderFormatter.GetReturnSummary(this.itemsToReturn, this.orderTotalTextBox.Text);
+            ContentDialog confirmOrderDialog = new ContentDialog
+            {
+                Title = "Are you sure you want to place the following return?",
+                Content = receipt,
+                PrimaryButtonText = "Yes",
+                CloseButtonText = "No"
+            };
+            ContentDialogResult result = await confirmOrderDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                this.returndal.CreateNewReturnTransaction(ReturnItem.itemsToBeReturned, LoggedEmployee.CurrentLoggedEmployee.Id);
+
+                this.itemsToReturn.Clear();
+                ReturnItem.itemsToBeReturned.Clear();
+                this.hideMemberRentals();
+            }
+        }
+
+        private async void selectReturnsDialog()
+        {
+            ContentDialog helpDialog = new ContentDialog
+            {
+                Title = "Before you can place the return, check that an item has been selected for return.",
+                PrimaryButtonText = "Ok",
+            };
+            ContentDialogResult result = await helpDialog.ShowAsync();
         }
     }
 }

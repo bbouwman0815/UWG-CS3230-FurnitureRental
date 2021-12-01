@@ -11,7 +11,7 @@ namespace UWG_CS3230_FurnitureRental.DAL
 {
     public class ReturnTransactionDAL
     {
-        public int CreateNewReturnTransaction(List<ReturnItem> returnItems)
+        public int CreateNewReturnTransaction(List<ReturnItem> returnItems, int employeeId)
         {
             int transactionIdReturn = 0;
             using (MySqlConnection connection = new MySqlConnection(Connection.connectionString))
@@ -19,13 +19,14 @@ namespace UWG_CS3230_FurnitureRental.DAL
                 connection.Open();
                 MySqlTransaction transaction = connection.BeginTransaction();
 
-                String query = "insert into returntransaction values(null, @returnDate);";
+                String query = "insert into returntransaction values(null, @returnDate, @employeeId);";
 
                 try
                 {
                     using MySqlCommand command = new MySqlCommand(query, connection);
                     command.Transaction = transaction;
                     command.Parameters.Add("@returnDate", MySqlDbType.Date).Value = DateTime.Today.Date;
+                    command.Parameters.Add("@employeeId", MySqlDbType.Int32).Value = employeeId;
                     command.ExecuteNonQuery();
 
                     if (command.LastInsertedId != null) command.Parameters.Add(
@@ -36,7 +37,7 @@ namespace UWG_CS3230_FurnitureRental.DAL
                     foreach (ReturnItem currentReturnItem in returnItems)
                     {
                         currentReturnItem.ReturnId = transactionIdReturn;
-                        
+
                         String rquery = "insert into returnitem values(@rentalId, @furnitureId, @returnId, @quantity);";
                         using MySqlCommand rcommand = new MySqlCommand(rquery, connection);
                         rcommand.Transaction = transaction;

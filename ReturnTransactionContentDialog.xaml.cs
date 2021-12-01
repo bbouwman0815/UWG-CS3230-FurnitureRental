@@ -31,19 +31,33 @@ namespace UWG_CS3230_FurnitureRental
         private RentalItem selectedReturnItem { get; set; }
 
         private readonly RentalTransactionDAL rdal = new RentalTransactionDAL();
-        private readonly ReturnTransactionDAL returndal = new ReturnTransactionDAL();
+        private readonly FurnitureDAL fdal = new FurnitureDAL();
 
         public List<ReturnItem> itemsToReturn { get; set; }
 
         public ReturnTransactionContentDialog(int rentalId)
         {
-            this.rentalId = rentalId;
             this.InitializeComponent();
             this.initilizeCollections();
             this.selectedRentalItem = new RentalItem();
             this.selectedReturnItem = new RentalItem();
             this.transactionItems = this.rdal.GetRemainingRentedTransactionItems(rentalId);
+            this.checkForItemsAlreadyInReturns();
             this.rentalItemsListView.ItemsSource = this.transactionItems;
+        }
+
+        private void checkForItemsAlreadyInReturns()
+        {
+            foreach(var item in this.transactionItems)
+            {
+                foreach(var returnItem in ReturnItem.itemsToBeReturned)
+                {
+                    if (item.FurnitureId == returnItem.FurnitureId && item.RentalId == returnItem.RentalId)
+                    {
+                        item.Quantity -= returnItem.Quantity;
+                    }
+                }
+            }
         }
 
         private void initilizeCollections()
@@ -69,45 +83,92 @@ namespace UWG_CS3230_FurnitureRental
 
         private void addItemButton_Click(object sender, RoutedEventArgs e)
         {
-            int qtyRemaining = Int32.Parse(this.addQtyComboBox.SelectedValue.ToString());
-            var selectedItem = this.selectedRentalItem;
-            selectedItem.Quantity -= qtyRemaining;
-            this.returnItems.Add(this.selectedRentalItem);
-            this.transactionItems.Remove(this.selectedRentalItem);
-            if (qtyRemaining != 0)
+            int qty = Int32.Parse(this.addQtyComboBox.SelectedValue.ToString());
+
+            var added = false;
+            var newCopy = new RentalItem();
+            foreach (var item in this.returnItems)
             {
-                this.transactionItems.Add(selectedItem);
+                if (item.FurnitureId == this.selectedRentalItem.FurnitureId)
+                {
+                    item.Quantity += qty;
+                    newCopy = item;
+                    added = true;
+                }
             }
-            
-            this.addQtyComboBox.ItemsSource = null;
-            this.rentalItemsListView.SelectedIndex = -1;
+            if (added)
+            {
+                this.returnItems.Remove(newCopy);
+                this.returnItems.Add(newCopy);
+            }
+            else
+            {
+                RentalItem selectedItem = new RentalItem()
+                {
+                    RentalId = this.selectedRentalItem.RentalId,
+                    FurnitureId = this.selectedRentalItem.FurnitureId,
+                    Quantity = qty,
+                    DailyRentalRate = this.selectedRentalItem.DailyRentalRate
+                };
+                this.returnItems.Add(selectedItem);
+            }
             this.returnItemsListView.ItemsSource = this.returnItems;
+
+            this.selectedRentalItem.Quantity -= qty;
+            var selected = this.selectedRentalItem;
+            this.transactionItems.Remove(this.selectedRentalItem);
+            this.transactionItems.Add(selected);
+            if (selected.Quantity == 0)
+            {
+                this.transactionItems.Remove(selected);
+            }
             this.rentalItemsListView.ItemsSource = this.transactionItems;
             this.IsSecondaryButtonEnabled = true;
         }
 
         private void removeItemButton_Click(object sender, RoutedEventArgs e)
         {
-            int qtyRemaining = Int32.Parse(this.removeQtyComboBox.SelectedValue.ToString());
-            var selectedItem = this.selectedReturnItem;
-            this.selectedReturnItem.Quantity -= qtyRemaining;
+            int qty = Int32.Parse(this.removeQtyComboBox.SelectedValue.ToString());
 
-            this.transactionItems.Add(this.selectedReturnItem);
-            this.returnItems.Remove(this.selectedReturnItem);
-            selectedItem.Quantity -= qtyRemaining;
-            if (qtyRemaining != 0)
+            var added = false;
+            var newCopy = new RentalItem();
+            foreach (var item in this.transactionItems)
             {
-                this.returnItems.Add(selectedItem);
+                if (item.FurnitureId == this.selectedReturnItem.FurnitureId)
+                {
+                    item.Quantity += qty;
+                    newCopy = item;
+                    added = true;
+                }
             }
-
-            this.removeQtyComboBox.ItemsSource = null;
-            this.returnItemsListView.SelectedIndex = -1;
-            this.returnItemsListView.ItemsSource = this.returnItems;
+            if (added)
+            {
+                this.transactionItems.Remove(newCopy);
+                this.transactionItems.Add(newCopy);
+            }
+            else
+            {
+                RentalItem selectedItem = new RentalItem()
+                {
+                    RentalId = this.selectedReturnItem.RentalId,
+                    FurnitureId = this.selectedReturnItem.FurnitureId,
+                    Quantity = qty,
+                    DailyRentalRate = this.selectedReturnItem.DailyRentalRate
+                };
+                this.transactionItems.Add(selectedItem);
+            }
             this.rentalItemsListView.ItemsSource = this.transactionItems;
-            if (this.returnItems.Count == 0)
+
+            this.selectedReturnItem.Quantity -= qty;
+            var selected = this.selectedReturnItem;
+            this.returnItems.Remove(this.selectedReturnItem);
+            this.returnItems.Add(selected);
+            if (selected.Quantity == 0)
             {
-                this.IsSecondaryButtonEnabled = false;
+                this.returnItems.Remove(selected);
             }
+            this.returnItemsListView.ItemsSource = this.returnItems;
+            this.IsSecondaryButtonEnabled = true;
         }
 
         private void rentalItemsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -115,8 +176,14 @@ namespace UWG_CS3230_FurnitureRental
             if (this.selectedRentalItem != null)
             {
                 this.addQtyComboBox.ItemsSource = this.selectedRentalItem.GetQuantityRange();
+                this.addQtyComboBox.IsEnabled = true;
             }
-            
+            else
+            {
+                this.addQtyComboBox.ItemsSource = null;
+                this.addQtyComboBox.IsEnabled = false;
+            }
+
         }
 
         private void returnItemsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -124,8 +191,14 @@ namespace UWG_CS3230_FurnitureRental
             if (this.selectedReturnItem != null)
             {
                 this.removeQtyComboBox.ItemsSource = this.selectedReturnItem.GetQuantityRange();
+                this.removeQtyComboBox.IsEnabled = true;
             }
-            
+            else
+            {
+                this.removeQtyComboBox.ItemsSource = null;
+                this.removeQtyComboBox.IsEnabled = false;
+            }
+
         }
 
         private void setupReturn()
@@ -138,7 +211,7 @@ namespace UWG_CS3230_FurnitureRental
 
             this.returnItems.Clear();
             this.transactionItems.Clear();
-            
+
         }
 
         private List<ReturnItem> createReturnItems()
@@ -146,7 +219,8 @@ namespace UWG_CS3230_FurnitureRental
             List<ReturnItem> returns = new List<ReturnItem>();
             foreach (var item in this.returnItems)
             {
-                returns.Add(new ReturnItem {
+                returns.Add(new ReturnItem
+                {
                     RentalId = (int)item.RentalId,
                     FurnitureId = item.FurnitureId,
                     Quantity = item.Quantity
@@ -154,6 +228,30 @@ namespace UWG_CS3230_FurnitureRental
             }
 
             return returns;
+        }
+
+        private void addQtyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.addQtyComboBox.SelectedValue == null)
+            {
+                this.addItemButton.IsEnabled = false;
+            }
+            else
+            {
+                this.addItemButton.IsEnabled = true;
+            }
+        }
+
+        private void removeQtyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.removeQtyComboBox.SelectedValue == null)
+            {
+                this.removeItemButton.IsEnabled = false;
+            }
+            else
+            {
+                this.removeItemButton.IsEnabled = true;
+            }
         }
     }
 }
