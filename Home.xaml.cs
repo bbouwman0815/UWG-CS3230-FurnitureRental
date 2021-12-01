@@ -674,7 +674,7 @@ namespace UWG_CS3230_FurnitureRental
             
         }
 
-        private void newReturnButton_Click(object sender, RoutedEventArgs e)
+        private async void newReturnButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.selectedTransaction != null)
             {

@@ -21,7 +21,7 @@ namespace UWG_CS3230_FurnitureRental.DAL
             {
                 using (MySqlConnection con = new MySqlConnection(Connection.connectionString))
                 {
-                    String query = "Select m.id, m.fname, m.lname, r.id, r.transactionDate, i.quantity, f.description from member as m left outer join rentaltransaction as r on r.memberId = m.id left outer join rentalitem as i on i.rentalId = r.id left outer join furniture as f on f.id = i.furnitureId where r.id is not null and r.transactionDate >= @startDate and r.transactionDate <= @endDate;";
+                    String query = "Select m.id as memberId, m.fname as firstName, m.lname as lastName, rt.id as returnId, rt.returnDate, ri.quantity, f.description from member as m left outer join rentaltransaction as r on r.memberId = m.id left outer join returnItem as ri on ri.rentalId = r.id left outer join returntransaction as rt on rt.id = ri.returnId left outer join furniture as f on ri.furnitureId = f.id where rt.id is not null and rt.returnDate >= @startDate and rt.returnDate <= @endDate";
                     using (MySqlCommand command = new MySqlCommand(query, con))
                     {
                         command.Parameters.Add("@startDate", MySqlDbType.VarChar).Value = startDate;
