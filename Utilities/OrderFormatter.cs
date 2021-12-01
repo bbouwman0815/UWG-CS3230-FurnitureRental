@@ -1,12 +1,17 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using UWG_CS3230_FurnitureRental.DAL;
 using UWG_CS3230_FurnitureRental.Model;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Data;
 
 namespace UWG_CS3230_FurnitureRental.Utilities
 {
@@ -59,6 +64,59 @@ namespace UWG_CS3230_FurnitureRental.Utilities
             }
 
             return quantity;
+        }
+
+        public static string GetOrderSummary(ObservableCollection<RentalItem> rentalItems, string total, string date)
+        {
+            FurnitureDAL fdal = new FurnitureDAL();
+            string summary = Environment.NewLine;
+            summary += Environment.NewLine;
+            summary += Environment.NewLine;
+            summary += "Order Summary";
+            summary += Environment.NewLine;
+            summary += Environment.NewLine;
+            foreach (RentalItem currentRentalItem in rentalItems)
+            {
+                Furniture currentFurniture = fdal.GetFurnitureById(currentRentalItem.FurnitureId);
+                summary += currentFurniture.Style + " " + currentFurniture.Description;
+                summary += Environment.NewLine;
+                summary += "Quantity: " + currentRentalItem.Quantity;
+                summary += Environment.NewLine;
+                summary += "Daily Rental Rate: $" + currentRentalItem.DailyRentalRate;
+                summary += Environment.NewLine;
+                summary += Environment.NewLine;
+            }
+            summary += Environment.NewLine;
+            summary += total;
+            summary += Environment.NewLine;
+            summary += Environment.NewLine;
+            summary += "Furniture due by: " + date;
+            summary += Environment.NewLine;
+            summary += Environment.NewLine;
+
+            return summary;
+        }
+
+        public static void FillDataGrid(DataTable table, DataGrid grid)
+        {
+            grid.Columns.Clear();
+            grid.AutoGenerateColumns = false;
+            for (int i = 0; i < table.Columns.Count; i++)
+            {
+                grid.Columns.Add(new DataGridTextColumn()
+                {
+                    Header = table.Columns[i].ColumnName,
+                    Binding = new Binding { Path = new PropertyPath("[" + i.ToString() + "]") }
+                });
+            }
+
+            var collection = new ObservableCollection<object>();
+            foreach (DataRow row in table.Rows)
+            {
+                collection.Add(row.ItemArray);
+            }
+
+            grid.ItemsSource = collection;
         }
 
 

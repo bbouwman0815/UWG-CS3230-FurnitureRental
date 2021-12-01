@@ -155,9 +155,11 @@ namespace UWG_CS3230_FurnitureRental
 
         private async System.Threading.Tasks.Task setupConfirmOrderDialogAsync()
         {
+            String receipt = OrderFormatter.GetOrderSummary(this.rentalItems, this.orderTotalTextBox.Text, this.orderDatePicker.Date.DateTime.ToString());
             ContentDialog confirmOrderDialog = new ContentDialog
             {
                 Title = "Are you sure you want to place the following order?",
+                Content = receipt,
                 PrimaryButtonText = "Yes",
                 CloseButtonText = "No"
             };
@@ -672,7 +674,7 @@ namespace UWG_CS3230_FurnitureRental
             
         }
 
-        private async void newReturnButton_Click(object sender, RoutedEventArgs e)
+        private void newReturnButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.selectedTransaction != null)
             {
@@ -691,6 +693,12 @@ namespace UWG_CS3230_FurnitureRental
         {
             this.selectedTransactionItems = this.rdal.GetTransactionRentalItems((int)this.selectedTransaction.id);
             this.transactionItemsListView.ItemsSource = this.selectedTransactionItems;
+        }
+
+        private void resetSearchAndFilters(object sender, RoutedEventArgs e)
+        {
+            this.handleResetFilters();
+            this.searchInputTextBox.Text = "";
         }
 
         private void itemsToReturnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)

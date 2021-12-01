@@ -120,9 +120,13 @@
     <Compile Include="Admin.xaml.cs">
       <DependentUpon>Admin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdminQuery.xaml.cs">
+      <DependentUpon>AdminQuery.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DAL\AdminDAL.cs" />
     <Compile Include="DAL\Connection.cs" />
     <Compile Include="DAL\DataReaderHelper.cs" />
     <Compile Include="DAL\EmployeeDALl.cs" />
@@ -179,6 +183,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AdminQuery.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EditItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -203,6 +211,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid">
+      <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="MySql.Data">
       <Version>8.0.27</Version>
